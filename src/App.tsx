@@ -32,7 +32,6 @@ export default function App() {
                 <div className='App'>
                     <CssBaseline/>
                     <Box
-                        height='100vh'
                         display='flex'
                         justifyContent='center'
                         alignItems='center'

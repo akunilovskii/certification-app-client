@@ -6,6 +6,7 @@ import {routes} from '../../../routes';
 import {NavLink} from 'react-router-dom';
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {ColorModeContext} from "../../../App";
 
 export const Navbar: FC = (): ReactElement => {
@@ -27,7 +28,11 @@ export const Navbar: FC = (): ReactElement => {
             sx={{
                 width: '100%',
                 height: 'auto',
-                backgroundColor: 'secondary.main',
+                backgroundColor: 'nav.main',
+                position: 'fixed',
+                top: '0',
+                zIndex: '100',
+                color: 'nav.text',
             }}
         >
             <Container maxWidth='xl'>
@@ -76,7 +81,7 @@ export const Navbar: FC = (): ReactElement => {
                                     key={page.key}
                                     component={NavLink}
                                     to={page.path}
-                                    color='black'
+                                    color='text.primary'
                                     underline='none'
                                     variant='button'
                                 >
@@ -110,7 +115,7 @@ export const Navbar: FC = (): ReactElement => {
                                     key={page.key}
                                     component={NavLink}
                                     to={page.path}
-                                    color='black'
+                                    color='nav.text'
                                     underline='none'
                                     variant='button'
                                     sx={{fontSize: 'large', marginLeft: '2rem'}}
@@ -120,6 +125,9 @@ export const Navbar: FC = (): ReactElement => {
                             ))}
                         </Box>
                     </Box>
+                    <IconButton sx={{ml: 1}} color="inherit">
+                        <AccountCircleIcon />
+                    </IconButton>
                     <IconButton sx={{ml: 1}} onClick={colorMode.toggleColorMode} color="inherit">
                         {theme.palette.mode === 'dark' ? <Brightness7Icon/> : <Brightness4Icon/>}
                     </IconButton>

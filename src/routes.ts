@@ -1,4 +1,4 @@
-import {Home, About, Products} from './pages';
+import {Home, About, Products, DCD} from './pages';
 
 // other
 import {FC} from 'react';
@@ -33,5 +33,12 @@ export const routes: Array<Route> = [
     path: '/products',
     enabled: true,
     component: Products,
+  },
+  {
+    key: 'dev-color-design-route',
+    title: 'Color Design',
+    path: '/dcd',
+    enabled: true,
+    component: DCD,
   },
 ];
