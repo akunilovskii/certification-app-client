@@ -1,9 +1,6 @@
-import {Home, About, Products, DCD} from './pages';
-
-// other
+import {Home, About, Products, DCD, LoginSignUp} from './pages';
 import {FC} from 'react';
 
-// interface
 interface Route {
   key: string;
   title: string;
@@ -40,5 +37,12 @@ export const routes: Array<Route> = [
     path: '/dcd',
     enabled: true,
     component: DCD,
+  },
+  {
+    key: 'login-sign-up',
+    title: 'Login / SignUp',
+    path: '/login-sign-up',
+    enabled: true,
+    component: LoginSignUp,
   },
 ];
