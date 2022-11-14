@@ -8,10 +8,10 @@ export const LoginSignUp: FC<any> = (): ReactElement => {
     <>
       <Grid container spacing={4} columns={32}>
         <Grid xs={16}>
-          <Button>Login</Button>
+          <Button variant='contained' >Login</Button>
         </Grid>
         <Grid xs={16}>
-          <Button>SignUp </Button>
+          <Button variant='outlined' >SignUp </Button>
         </Grid>
       </Grid>
     </>

@@ -16,7 +16,7 @@ const DCD: FC<any> = (): ReactElement => {
         Color design for developers
       </Typography>
 
-      <ImageList sx={{width: 400, height: 400}} cols={1}>
+      <ImageList sx={{width: 600, height: 600}} cols={1}>
         <ImageListItem>
           <img src={themeDesignImage} alt='theme design' loading='lazy' />
         </ImageListItem>
@@ -123,6 +123,35 @@ const DCD: FC<any> = (): ReactElement => {
           </Button>
         </Box>
       </Paper>
+
+
+
+        <Typography variant='body1' color='text.primary'>
+            1. Background (0dp elevation surface overlay)
+        </Typography>
+        <Typography variant='body1' color='text.primary'>
+            2. Surface (with 1dp elevation surface overlay)
+        </Typography>
+        <Typography variant='body1' color='text.primary'>
+            3. Primary
+        </Typography>
+        <Typography variant='body1' color='text.primary'>
+            4. Secondary
+        </Typography>
+        <Typography variant='body1' color='text.primary'>
+            5. On background
+        </Typography>
+        <Typography variant='body1' color='text.primary'>
+            6. On Surface
+        </Typography>
+        <Typography variant='body1' color='text.primary'>
+            7. On Primary
+        </Typography>
+        <Typography variant='body1' color='text.primary'>
+            8. On Secondary
+        </Typography>
+
+
     </>
   );
 };

@@ -13,6 +13,7 @@ function Layout({children}: any) {
         justifyContent='center'
         alignItems='center'
         flexDirection='column'
+        minHeight='100vh'
       >
         <Router>
           <Navbar />
