@@ -1,6 +1,5 @@
-import {Paper, Typography} from '@material-ui/core';
-import {Box, Container, CssBaseline, Grid} from '@mui/material';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {Box, CssBaseline, Grid} from '@mui/material';
+import {BrowserRouter as Router} from 'react-router-dom';
 import {Footer, Navbar} from '../shared';
 // import {routes as appRoutes} from './routes';
 
