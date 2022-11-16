@@ -1,10 +1,8 @@
-import {Button, Grid, Paper, TextField} from '@mui/material';
-import {FC, useState} from 'react';
+import {Button, Grid, Paper, TextField, TextFieldProps } from '@mui/material';
+import {FC, useState, useRef} from 'react';
 import SideImage from '../../components/sideImage/sideImage';
 
-// import SwipeableViews from 'react-swipeable-views';
-import { useTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
+import {useTheme} from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -18,7 +16,7 @@ interface TabPanelProps {
 }
 
 function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -29,8 +27,8 @@ function TabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                <Box sx={{p: 3}}>
+                    {children}
                 </Box>
             )}
         </div>
@@ -45,8 +43,50 @@ function a11yProps(index: number) {
 }
 
 
+const LoginForm: FC<{ index: number }> = ({index}) => {
 
-const LoginForm: FC = () => {
+    const login = useRef<TextFieldProps>(null);
+    const password = useRef<TextFieldProps>(null);
+    const email = useRef<TextFieldProps>(null);
+    const newPassword = useRef<TextFieldProps>(null);
+    const rePassword = useRef<TextFieldProps>(null);
+
+    const formRows = [
+        [
+            {
+                label: 'Login',
+                type: 'text',
+                ref: login
+            },
+            {
+                label: 'Password',
+                type: 'password',
+                ref: password
+            }
+        ],
+        [
+            {
+                label: 'Email',
+                type: 'email',
+                ref: email
+            },
+            {
+                label: 'Password',
+                type: 'password',
+                ref: newPassword
+            },
+            {
+                label: 'Re-enter password',
+                type: 'password',
+                ref: rePassword
+            }
+        ]
+    ]
+
+    function onClick(index: number) {
+        formRows[index].map(el => console.log(el.ref.current?.value));
+    }
+
     return (
         <Grid
             container
@@ -55,26 +95,17 @@ const LoginForm: FC = () => {
             height='100%'
             sx={{gap: '1rem', justifyContent: 'center', padding: '1rem'}}
         >
-            <TextField
-                id='standard-error-helper-text'
-                label='Login'
-                fullWidth
-                size='small'
-            />
-            <TextField
-                id='standard-error-helper-text'
-                label='Password'
-                fullWidth
-                size='small'
-            />
-            <Button variant='contained'>Login</Button>
+            {formRows[index].map((el) => <TextField key={el.label} inputRef={el.ref} label={el.label} type={el.type} fullWidth size='small'/>)}
+
+            <Button onClick={() => onClick(index)} variant='contained'>{index?'Register':'Login'}</Button>
         </Grid>
     );
 };
 
+
 export const LoginSignUp: FC = () => {
     const [loggedIn, setLoggedIn] = useState(false);
-    const [formType, setFormType] = useState('login');
+
 
     const theme = useTheme();
     const [value, setValue] = useState(0);
@@ -82,11 +113,6 @@ export const LoginSignUp: FC = () => {
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
-
-    const handleChangeIndex = (index: number) => {
-        setValue(index);
-    };
-
 
 
     return (
@@ -101,8 +127,6 @@ export const LoginSignUp: FC = () => {
                     item
                     md={4}
                     sx={{
-                        height: '25vmax',
-                        opacity: '40%',
                         display: {xs: 'none', md: 'flex'},
                     }}
                 >
@@ -118,55 +142,21 @@ export const LoginSignUp: FC = () => {
                                 textColor="inherit"
                                 variant="fullWidth"
                                 aria-label="login signup bar"
-                                sx={{width:'100%'}}
+                                sx={{width: '100%'}}
                             >
                                 <Tab sx={{width: '100%'}} label="Login" {...a11yProps(0)} />
                                 <Tab sx={{width: '100%'}} label="SignUp" {...a11yProps(1)} />
                             </Tabs>
 
-                            {/*<Button*/}
-                            {/*    variant='outlined'*/}
-                            {/*    sx={{*/}
-                            {/*        flex: '1 0 auto',*/}
-                            {/*        backgroundColor: 'lightgray',*/}
-                            {/*        color: 'darkgray',*/}
-                            {/*        borderBottom: 'none',*/}
-                            {/*        borderRadius: '0',*/}
-                            {/*    }}*/}
-                            {/*    onClick={() => setFormType('login')}*/}
-                            {/*>*/}
-                            {/*    Login*/}
-                            {/*</Button>*/}
-                            {/*<Button*/}
-                            {/*    variant='outlined'*/}
-                            {/*    sx={{*/}
-                            {/*        flex: '1 0 auto',*/}
-                            {/*        backgroundColor: 'lightgray',*/}
-                            {/*        color: 'darkgray',*/}
-                            {/*        borderBottom: 'none',*/}
-                            {/*        borderRadius: '0',*/}
-                            {/*    }}*/}
-                            {/*    onClick={() => setFormType('signUp')}*/}
-                            {/*>*/}
-                            {/*    SignUp*/}
-                            {/*</Button>*/}
                         </Grid>
 
                         <Grid sx={{flex: '1 0 auto'}}>
-                            {/*<SwipeableViews*/}
-                            {/*    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}*/}
-                            {/*    index={value}*/}
-                            {/*    onChangeIndex={handleChangeIndex}*/}
-                            {/*>*/}
-                                <TabPanel value={value} index={0} dir={theme.direction}>
-                                    Item One
-                                </TabPanel>
-                                <TabPanel value={value} index={1} dir={theme.direction}>
-                                    Item Two
-                                </TabPanel>
-                            {/*</SwipeableViews>*/}
-                            {/*<LoginForm/>*/}
-                            {/*{formType}*/}
+                            <TabPanel value={value} index={0} dir={theme.direction}>
+                                <LoginForm index={0}/>
+                            </TabPanel>
+                            <TabPanel value={value} index={1} dir={theme.direction}>
+                                <LoginForm index={1}/>
+                            </TabPanel>
                         </Grid>
                     </Grid>
                 </Grid>

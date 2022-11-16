@@ -25,7 +25,6 @@ function Layout({children}: any) {
               alignItems: 'center',
               justifyContent: 'center',
               padding: '80px 0 20px',
-              border: '1px grey solid',
               backgroundColor: 'background.default',
             }}
           >

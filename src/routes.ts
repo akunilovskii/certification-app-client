@@ -3,7 +3,7 @@ import {FC} from 'react';
 
 interface Route {
   key: string;
-  title: string;
+  title?: string;
   path: string;
   enabled: boolean;
   component: FC<{}>;
@@ -40,7 +40,7 @@ export const routes: Array<Route> = [
   },
   {
     key: 'login-sign-up',
-    title: 'Login / SignUp',
+    // title: 'Login / SignUp',
     path: '/login-sign-up',
     enabled: true,
     component: LoginSignUp,
