@@ -1,8 +1,7 @@
-import {Box, CssBaseline} from '@mui/material';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {CssBaseline} from '@mui/material';
+import {Route, Routes} from 'react-router-dom';
 import {routes as appRoutes} from './routes';
 import './App.css';
-import {Footer, Navbar} from './components/shared';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {chooseTheme} from './theme/theme';
 import {useMemo, useState} from 'react';
@@ -26,6 +25,7 @@ export default function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <div className='App'>
+          <CssBaseline />
           <Layout>
             <Routes>
               {appRoutes.map(route => (
