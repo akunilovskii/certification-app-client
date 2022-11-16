@@ -53,9 +53,13 @@ export const LoginSignUp: FC = () => {
         </Grid>
         <Grid container item sm={8} md={8} sx={{}}>
           <Grid item container direction='column'>
-            <Grid sx={{flex: '0 0 auto'}}>
-              <Button variant='contained'>Login</Button>
-              <Button variant='contained'>SignUp</Button>
+            <Grid sx={{flex: '0 0 auto', padding: '0 1rem'}} container>
+              <Button variant='contained' sx={{flex: '1 0 auto'}}>
+                Login
+              </Button>
+              <Button variant='contained' sx={{flex: '1 0 auto'}}>
+                SignUp
+              </Button>
             </Grid>
             <Grid sx={{flex: '1 0 auto'}}>
               <LoginForm />
