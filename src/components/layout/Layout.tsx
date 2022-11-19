@@ -1,6 +1,6 @@
 import {Box, CssBaseline, Grid} from '@mui/material';
 import {BrowserRouter as Router} from 'react-router-dom';
-import {Footer, Navbar} from '../shared';
+import {Footer, Navbar} from '.';
 // import {routes as appRoutes} from './routes';
 
 function Layout({children}: any) {

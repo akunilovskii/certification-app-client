@@ -7,7 +7,7 @@ function SideImage() {
       component='img'
       height='100%'
       alt='table with a laptop'
-      image={require('../../assets/study-exam-table.jpg')}
+      image={require('../assets/study-exam-table.jpg')}
       sx={{objectFit: 'cover', objectPosition: 'left top'}}
     />
   );
