@@ -1,11 +1,12 @@
 import {Button, Grid, TextField, TextFieldProps} from '@mui/material';
-import {FC, useRef} from 'react';
+import {FC, useRef, useContext} from 'react';
 import useInput from '../hook/use-input';
 import {
   emailValidation,
   passwordValidation,
   rePasswordValidation,
 } from '../helper/validators';
+import {AuthContext} from "../context/auth-context";
 
 const LoginForm: FC<{index: number}> = ({index}) => {
   const login = useRef<TextFieldProps>(null);
@@ -27,11 +28,25 @@ const LoginForm: FC<{index: number}> = ({index}) => {
     return {formIsValid, formReset};
   };
 
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+
+  console.log({isLoggedIn});
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (index && passwordProps.value !== rePasswordProps.value) return;
     formReset();
+    setIsLoggedIn(true);
+
   };
+
+
+
+
+
+
+
+
 
   const [emailInputStates, emailProps] = useInput(emailValidation);
   const [passwordInputStates, passwordProps] = useInput(passwordValidation);
@@ -87,10 +102,6 @@ const LoginForm: FC<{index: number}> = ({index}) => {
       },
     ],
   ];
-
-  function onClick(index: number) {
-    formRows[index].map(el => console.log(el.ref.current?.value));
-  }
 
   return (
     <form onSubmit={handleSubmit}>
