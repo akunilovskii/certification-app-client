@@ -1,12 +1,12 @@
 import { Button, Grid, TextField, TextFieldProps } from '@mui/material'
-import { FC, useRef, useContext } from 'react'
+import { FC, useContext, useEffect, useRef } from 'react'
 import useInput from '../hook/use-input'
 import {
   emailValidation,
   passwordValidation,
   rePasswordValidation,
 } from '../helper/validators'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import AuthContext from '../context/auth-context'
 
 const LoginForm: FC<{ index: number }> = ({ index }) => {
@@ -15,7 +15,7 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
   const email = useRef<TextFieldProps>(null)
   const newPassword = useRef<TextFieldProps>(null)
   const rePassword = useRef<TextFieldProps>(null)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [emailInputStates, emailProps] = useInput(emailValidation)
   const [passwordInputStates, passwordProps] = useInput(passwordValidation)
   const [rePasswordInputStates, rePasswordProps] = useInput(
@@ -35,14 +35,19 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
     return { formIsValid, formReset }
   }
 
-  const { loginHandler } = useContext(AuthContext)
+  const { isLoggedIn, loginHandler } = useContext(AuthContext)
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      formReset()
+      navigate('/')
+    }
+  }, [isLoggedIn])
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
     if (index && passwordProps.value !== rePasswordProps.value) return
-    formReset();
-    loginHandler(emailProps.value);
-    navigate('/');
+    loginHandler(emailProps.value, passwordProps.value)
   }
 
   const { formIsValid, formReset } = getForm(
