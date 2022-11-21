@@ -1,15 +1,16 @@
-import {Home, About, Products, DCD, LoginSignUp} from './pages';
-import {FC} from 'react';
+import { FC } from 'react'
+import { Home, About, Products, DCD, LoginSignUp } from './pages'
 
-interface Route {
-  key: string;
-  title?: string;
-  path: string;
-  enabled: boolean;
-  component: FC<{}>;
+export interface IRoute {
+  key: string
+  title?: string
+  path: string
+  enabled: boolean
+  component: FC<{}>
+  access?: string
 }
 
-export const routes: Array<Route> = [
+export const routes: Array<IRoute> = [
   {
     key: 'home-route',
     title: 'Home',
@@ -37,12 +38,12 @@ export const routes: Array<Route> = [
     path: '/dcd',
     enabled: true,
     component: DCD,
+    access: 'private',
   },
   {
     key: 'login-sign-up',
-    // title: 'Login / SignUp',
     path: '/login-sign-up',
     enabled: true,
     component: LoginSignUp,
   },
-];
+]
