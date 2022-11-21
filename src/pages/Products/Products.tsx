@@ -1,14 +1,14 @@
-import React, {FC, ReactElement} from 'react';
-import {Box, Typography} from '@mui/material';
+import React, { FC, ReactElement } from 'react'
+import { Typography } from '@mui/material'
 
 const Products: FC<any> = (): ReactElement => {
   return (
     <>
-      <Typography variant='h3' color='text.primary'>
+      <Typography variant="h3" color="text.primary">
         Products
       </Typography>
     </>
-  );
-};
+  )
+}
 
-export default Products;
+export default Products
