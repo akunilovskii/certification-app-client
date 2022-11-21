@@ -15,9 +15,10 @@ import { NavLink } from 'react-router-dom'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import { ColorModeContext } from '../../../context/theme-context'
-import { routes } from '../../../routes'
-import AuthContext from '../../../context/auth-context'
+import { ColorModeContext } from '../../context/theme-context'
+import { routes } from '../../routes'
+import AuthContext from '../../context/auth-context'
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export const Navbar: FC = (): ReactElement => {
   const [anchorElNav, setAnchorElNav] = useState(null)
@@ -141,13 +142,14 @@ export const Navbar: FC = (): ReactElement => {
             </Box>
           </Box>
           <IconButton
-            to={'/login-sign-up'}
+            to={isLoggedIn ? '/logout' : '/login-sign-up'}
             component={NavLink}
             sx={{ ml: 1 }}
             color="inherit"
           >
-            <AccountCircleIcon />
+              {isLoggedIn ? <LogoutIcon />: <AccountCircleIcon />}
           </IconButton>
+
           <IconButton
             sx={{ ml: 1 }}
             onClick={colorMode.toggleColorMode}

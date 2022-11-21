@@ -6,6 +6,7 @@ import {
   passwordValidation,
   rePasswordValidation,
 } from '../helper/validators'
+import {useNavigate} from 'react-router-dom'
 import AuthContext from '../context/auth-context'
 
 const LoginForm: FC<{ index: number }> = ({ index }) => {
@@ -14,7 +15,7 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
   const email = useRef<TextFieldProps>(null)
   const newPassword = useRef<TextFieldProps>(null)
   const rePassword = useRef<TextFieldProps>(null)
-
+  const navigate = useNavigate();
   const [emailInputStates, emailProps] = useInput(emailValidation)
   const [passwordInputStates, passwordProps] = useInput(passwordValidation)
   const [rePasswordInputStates, rePasswordProps] = useInput(
@@ -39,8 +40,9 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
   const handleSubmit = (e: any) => {
     e.preventDefault()
     if (index && passwordProps.value !== rePasswordProps.value) return
-    formReset()
-    loginHandler(emailProps.value)
+    formReset();
+    loginHandler(emailProps.value);
+    navigate('/');
   }
 
   const { formIsValid, formReset } = getForm(

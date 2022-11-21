@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { Home, About, Products, DCD, LoginSignUp } from './pages'
+import {Logout} from "./pages/Logout/Logout";
 
 export interface IRoute {
   key: string
@@ -45,5 +46,11 @@ export const routes: Array<IRoute> = [
     path: '/login-sign-up',
     enabled: true,
     component: LoginSignUp,
+  },
+  {
+    key: 'logout',
+    path: '/logout',
+    enabled: true,
+    component: Logout,
   },
 ]
