@@ -1,7 +1,7 @@
-import Home from './Home/Home';
-import About from './About/About';
-import Products from './Products/Products';
-import DCD from './DevColorDesign/DCD';
-import {LoginSignUp} from './LoginSignUp/LoginSignUp';
+import Home from './Home/Home'
+import About from './About/About'
+import Tests from './Tests/Tests'
+import DCD from './DevColorDesign/DCD'
+import { LoginSignUp } from './LoginSignUp/LoginSignUp'
 
-export {About, Home, Products, DCD, LoginSignUp};
+export { Home, About, Tests, DCD, LoginSignUp }
