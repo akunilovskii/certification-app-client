@@ -1,6 +1,6 @@
 import { FC } from 'react'
-import { Home, About, Products, DCD, LoginSignUp } from './pages'
-import {Logout} from "./pages/Logout/Logout";
+import { Home, About, Tests, DCD, LoginSignUp } from './pages'
+import { Logout } from './pages/Logout/Logout'
 
 export interface IRoute {
   key: string
@@ -27,11 +27,12 @@ export const routes: Array<IRoute> = [
     component: About,
   },
   {
-    key: 'products-route',
-    title: 'Products',
-    path: '/products',
+    key: 'tests-route',
+    title: 'Tests',
+    path: '/tests',
     enabled: true,
-    component: Products,
+    component: Tests,
+    access: 'private',
   },
   {
     key: 'dev-color-design-route',
