@@ -1,11 +1,11 @@
 interface IAnswer {
-  id: number
+  id: string
   text: string | number
   correct: boolean
 }
 
 export interface ITaxonomy {
-  id: number
+  id: string
   discipline: string
   level: string
   subject: string
@@ -13,75 +13,101 @@ export interface ITaxonomy {
 }
 
 export interface ITests {
-  id: number
+  id: string
   test: ITest[]
 }
 
 export interface ITest {
-  id: number
+  id: string
   question: string
   answers: IAnswer[]
 }
 
 export const tests = [
   {
-    id: 1,
+    id: 'd1',
     discipline: 'Mathematics',
-    level: 'Grade 3',
-    subject: 'Geometry',
+    level: 'Grade 1',
+    subject: 'Algebra G1',
     tests: [
       {
-        id: 10,
-        title: 'First test',
+        id: 't1',
+        title: 'Addition Test 1',
         test: [
           {
-            id: 100,
-            question: '2 x 2',
+            id: 'q1',
+            question: '2 + 2',
             answers: [
               {
-                id: 1000,
+                id: 'a1',
                 text: 3,
                 correct: false,
               },
               {
-                id: 2000,
+                id: 'a2',
                 text: 1,
                 correct: false,
               },
               {
-                id: 3000,
+                id: 'a3',
                 text: 5,
                 correct: false,
               },
               {
-                id: 4000,
+                id: 'a4',
                 text: 4,
                 correct: true,
               },
             ],
           },
           {
-            id: 200,
-            question: '4 x 2',
+            id: 'q2',
+            question: '4 + 2',
             answers: [
               {
-                id: 10001,
+                id: 'a1',
                 text: 9,
                 correct: false,
               },
               {
-                id: 2001,
+                id: 'a2',
                 text: 8,
                 correct: false,
               },
               {
-                id: 3001,
+                id: 'a3',
                 text: 5,
                 correct: false,
               },
               {
-                id: 4001,
-                text: 4,
+                id: 'a4',
+                text: 6,
+                correct: true,
+              },
+            ],
+          },
+          {
+            id: 'q3',
+            question: '4 + 8',
+            answers: [
+              {
+                id: 'a1',
+                text: 6,
+                correct: false,
+              },
+              {
+                id: 'a2',
+                text: 7,
+                correct: false,
+              },
+              {
+                id: 'a3',
+                text: 15,
+                correct: false,
+              },
+              {
+                id: 'a4',
+                text: 12,
                 correct: true,
               },
             ],
@@ -89,57 +115,167 @@ export const tests = [
         ],
       },
       {
-        id: 20,
-        title: 'Second test',
+        id: 't2',
+        title: 'Multiplication Test 1',
         test: [
           {
-            id: 102,
-            question: '345 x 768',
+            id: 'q1',
+            question: '2 * 2',
             answers: [
               {
-                id: 1003,
-                text: 123412341,
+                id: 'a1',
+                text: 8,
                 correct: false,
               },
               {
-                id: 2003,
-                text: 245735685,
+                id: 'a2',
+                text: 3,
                 correct: false,
               },
               {
-                id: 3003,
-                text: 974665434,
+                id: 'a3',
+                text: 6,
                 correct: false,
               },
               {
-                id: 4003,
-                text: 198734687,
+                id: 'a4',
+                text: 4,
                 correct: true,
               },
             ],
           },
           {
-            id: 201,
-            question: '3 x 5',
+            id: 'q2',
+            question: '4 * 2',
             answers: [
               {
-                id: 1004,
-                text: 10,
-                correct: false,
-              },
-              {
-                id: 2004,
+                id: 'a1',
                 text: 9,
                 correct: false,
               },
               {
-                id: 3004,
-                text: 13,
+                id: 'a2',
+                text: 6,
                 correct: false,
               },
               {
-                id: 4004,
+                id: 'a3',
+                text: 5,
+                correct: false,
+              },
+              {
+                id: 'a4',
+                text: 8,
+                correct: true,
+              },
+            ],
+          },
+          {
+            id: 'q3',
+            question: '4 * 4',
+            answers: [
+              {
+                id: 'a1',
+                text: 18,
+                correct: false,
+              },
+              {
+                id: 'a2',
+                text: 12,
+                correct: false,
+              },
+              {
+                id: 'a3',
                 text: 15,
+                correct: false,
+              },
+              {
+                id: 'a4',
+                text: 16,
+                correct: true,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 't3',
+        title: 'Division Test 1',
+        test: [
+          {
+            id: 'q1',
+            question: '2 / 2',
+            answers: [
+              {
+                id: 'a1',
+                text: 3,
+                correct: false,
+              },
+              {
+                id: 'a2',
+                text: 2,
+                correct: false,
+              },
+              {
+                id: 'a3',
+                text: 4,
+                correct: false,
+              },
+              {
+                id: 'a4',
+                text: 1,
+                correct: true,
+              },
+            ],
+          },
+          {
+            id: 'q2',
+            question: '4 / 2',
+            answers: [
+              {
+                id: 'a1',
+                text: 4,
+                correct: false,
+              },
+              {
+                id: 'a2',
+                text: 1,
+                correct: false,
+              },
+              {
+                id: 'a3',
+                text: 8,
+                correct: false,
+              },
+              {
+                id: 'a4',
+                text: 2,
+                correct: true,
+              },
+            ],
+          },
+          {
+            id: 'q3',
+            question: '4 / 4',
+            answers: [
+              {
+                id: 'a1',
+                text: 2,
+                correct: false,
+              },
+              {
+                id: 'a2',
+                text: 4,
+                correct: false,
+              },
+              {
+                id: 'a3',
+                text: 3,
+                correct: false,
+              },
+              {
+                id: 'a4',
+                text: 1,
                 correct: true,
               },
             ],
@@ -149,121 +285,155 @@ export const tests = [
     ],
   },
   {
-    id: 2,
+    id: 'd2',
     discipline: 'Chemistry',
-    level: 'Grade 4',
+    level: 'Grade 3',
     subject: 'Organic',
     tests: [
       {
-        id: 30,
-        title: 'Third test',
+        id: 't1',
+        title: 'Elements Test 1',
         test: [
           {
-            id: 101,
-            question: '2 x 2',
+            id: 'q1',
+            question: 'Oxygen',
             answers: [
               {
-                id: 1005,
-                text: 3,
+                id: 'a1',
+                text: 'S2',
                 correct: false,
               },
               {
-                id: 2005,
+                id: 'O3',
                 text: 1,
                 correct: false,
               },
               {
-                id: 3005,
+                id: 'H2',
                 text: 5,
                 correct: false,
               },
               {
-                id: 4005,
+                id: 'O2',
                 text: 4,
                 correct: true,
               },
             ],
           },
           {
-            id: 202,
-            question: '4 x 2',
+            id: 'q2',
+            question: 'Water',
             answers: [
               {
-                id: 1006,
+                id: 'HO2',
                 text: 9,
                 correct: false,
               },
               {
-                id: 2006,
+                id: 'OH2',
                 text: 8,
                 correct: false,
               },
               {
-                id: 3006,
+                id: 'O2H',
                 text: 5,
                 correct: false,
               },
               {
-                id: 4006,
-                text: 4,
+                id: 'H20',
+                text: 6,
                 correct: true,
               },
             ],
           },
         ],
       },
+    ],
+  },
+  {
+    id: 'd1',
+    discipline: 'Mathematics',
+    level: 'Grade 2',
+    subject: 'Geometry G1',
+    tests: [
       {
-        id: 40,
-        title: 'Fourth test',
+        id: 't1',
+        title: 'Number of angles in shapes',
         test: [
           {
-            id: 107,
-            question: '345 x 768',
+            id: 'q1',
+            question: 'How many angles does Triangle have',
             answers: [
               {
-                id: 1007,
-                text: 123412341,
+                id: 'a1',
+                text: 2,
                 correct: false,
               },
               {
-                id: 2007,
-                text: 245735685,
+                id: 'a2',
+                text: 4,
                 correct: false,
               },
               {
-                id: 3007,
-                text: 974665434,
+                id: 'a3',
+                text: 5,
                 correct: false,
               },
               {
-                id: 4007,
-                text: 198734687,
+                id: 'a4',
+                text: 3,
                 correct: true,
               },
             ],
           },
           {
-            id: 207,
-            question: '3 x 5',
+            id: 'q2',
+            question: 'How many angles does Circle have',
             answers: [
               {
-                id: 1008,
-                text: 10,
+                id: 'a1',
+                text: 3,
                 correct: false,
               },
               {
-                id: 2008,
-                text: 9,
+                id: 'a2',
+                text: 2,
                 correct: false,
               },
               {
-                id: 3008,
-                text: 13,
+                id: 'a3',
+                text: 1,
                 correct: false,
               },
               {
-                id: 4008,
-                text: 15,
+                id: 'a4',
+                text: 0,
+                correct: true,
+              },
+            ],
+          },
+          {
+            id: 'q3',
+            question: 'How many angles does Rectangle have',
+            answers: [
+              {
+                id: 'a1',
+                text: 2,
+                correct: false,
+              },
+              {
+                id: 'a2',
+                text: 3,
+                correct: false,
+              },
+              {
+                id: 'a3',
+                text: 5,
+                correct: false,
+              },
+              {
+                id: 'a4',
+                text: 4,
                 correct: true,
               },
             ],
