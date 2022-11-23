@@ -291,7 +291,7 @@ export const tests = [
     subject: 'Organic',
     tests: [
       {
-        id: 't1',
+        id: 't4',
         title: 'Elements Test 1',
         test: [
           {
@@ -354,10 +354,10 @@ export const tests = [
     id: 'd3',
     discipline: 'Mathematics',
     level: 'Grade 2',
-    subject: 'Geometry G1',
+    subject: 'Geometry G2',
     tests: [
       {
-        id: 't1',
+        id: 't5',
         title: 'Number of angles in shapes',
         test: [
           {
