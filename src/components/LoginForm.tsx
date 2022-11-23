@@ -1,5 +1,5 @@
 import { Button, Grid, TextField, TextFieldProps } from '@mui/material'
-import { FC, useContext, useEffect, useRef } from 'react'
+import { FC, useCallback, useContext, useEffect, useRef } from 'react'
 import useInput from '../hook/use-input'
 import {
   emailValidation,
@@ -10,8 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import AuthContext from '../context/auth-context'
 
 const LoginForm: FC<{ index: number }> = ({ index }) => {
-  const login = useRef<TextFieldProps>(null)
-  const password = useRef<TextFieldProps>(null)
+  const { isLoggedIn, loginHandler } = useContext(AuthContext)
   const email = useRef<TextFieldProps>(null)
   const newPassword = useRef<TextFieldProps>(null)
   const rePassword = useRef<TextFieldProps>(null)
@@ -22,6 +21,14 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
     rePasswordValidation,
     passwordProps.value
   )
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      formReset()
+      navigate('/')
+    }
+  }, [isLoggedIn])
+
   const getForm = (...inputStates: any) => {
     const formIsValid = inputStates.reduce(
       (prev: any, curr: any) => prev && curr.isValid,
@@ -32,21 +39,12 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
         inputState.reset()
       }
     }
+
     return { formIsValid, formReset }
   }
 
-  const { isLoggedIn, loginHandler } = useContext(AuthContext)
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      formReset()
-      navigate('/')
-    }
-  }, [isLoggedIn])
-
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    if (index && passwordProps.value !== rePasswordProps.value) return
     loginHandler(emailProps.value, passwordProps.value)
   }
 
@@ -57,45 +55,28 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
   )
 
   const formRows = [
-    [
-      {
-        label: 'Login',
-        type: 'email',
-        ref: login,
-        validation: emailValidation,
-        props: { ...emailProps },
-      },
-      {
-        label: 'Password',
-        type: 'password',
-        ref: password,
-        validation: passwordValidation,
-        props: { ...passwordProps },
-      },
-    ],
-    [
-      {
-        label: 'Email',
-        type: 'email',
-        ref: email,
-        validation: emailValidation,
-        props: { ...emailProps },
-      },
-      {
-        label: 'Password',
-        type: 'password',
-        ref: newPassword,
-        validation: passwordValidation,
-        props: { ...passwordProps },
-      },
-      {
-        label: 'Re-enter password',
-        type: 'password',
-        ref: rePassword,
-        validation: passwordValidation,
-        props: { ...rePasswordProps },
-      },
-    ],
+    {
+      label: 'Email',
+      type: 'email',
+      ref: email,
+      validation: emailValidation,
+      props: { ...emailProps },
+    },
+    {
+      label: 'Password',
+      type: 'password',
+      ref: newPassword,
+      validation: passwordValidation,
+      props: { ...passwordProps },
+    },
+    {
+      label: 'Re-enter password',
+      type: 'password',
+      ref: rePassword,
+      validation: passwordValidation,
+      props: { ...rePasswordProps },
+      index: 1,
+    },
   ]
 
   return (
@@ -107,17 +88,19 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
         height="100%"
         sx={{ gap: '1rem', justifyContent: 'center', padding: '1rem' }}
       >
-        {formRows[index].map((el) => (
-          <TextField
-            key={el.label}
-            inputRef={el.ref}
-            label={el.label}
-            type={el.type}
-            fullWidth
-            size="small"
-            {...el.props}
-          />
-        ))}
+        {formRows
+          .filter((el) => (index ? true : el.index !== 1))
+          .map((el) => (
+            <TextField
+              key={el.label}
+              inputRef={el.ref}
+              label={el.label}
+              type={el.type}
+              fullWidth
+              size="small"
+              {...el.props}
+            />
+          ))}
 
         <Button type="submit" variant="contained" disabled={!formIsValid}>
           {index ? 'Register' : 'Login'}
