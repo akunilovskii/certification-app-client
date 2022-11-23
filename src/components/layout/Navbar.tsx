@@ -18,7 +18,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { ColorModeContext } from '../../context/theme-context'
 import { routes } from '../../routes'
 import AuthContext from '../../context/auth-context'
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from '@mui/icons-material/Logout'
 
 export const Navbar: FC = (): ReactElement => {
   const [anchorElNav, setAnchorElNav] = useState(null)
@@ -141,14 +141,27 @@ export const Navbar: FC = (): ReactElement => {
                 ))}
             </Box>
           </Box>
-          <IconButton
-            to={isLoggedIn ? '/logout' : '/login-sign-up'}
-            component={NavLink}
-            sx={{ ml: 1 }}
-            color="inherit"
-          >
-              {isLoggedIn ? <LogoutIcon />: <AccountCircleIcon />}
-          </IconButton>
+          {!isLoggedIn && (
+            <IconButton
+              to={'/login-sign-up'}
+              component={NavLink}
+              sx={{ ml: 1 }}
+              color="inherit"
+            >
+              <AccountCircleIcon />
+            </IconButton>
+          )}
+          {isLoggedIn && (
+            <IconButton
+              // onClick={handleLogout}
+              to={'/logout'}
+              component={NavLink}
+              sx={{ ml: 1 }}
+              color="inherit"
+            >
+              <LogoutIcon />
+            </IconButton>
+          )}
 
           <IconButton
             sx={{ ml: 1 }}

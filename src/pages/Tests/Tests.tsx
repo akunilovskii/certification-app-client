@@ -1,12 +1,4 @@
-import {
-  FC,
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-  useMemo,
-  useState,
-} from 'react'
+import { FC, ReactElement, useState } from 'react'
 import {
   FormControl,
   Grid,
@@ -16,7 +8,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from '@mui/material'
-import { ITests } from '../../store/tests-store'
+
 import { tests } from '../../store/tests-store'
 
 const Tests: FC<any> = (): ReactElement => {
@@ -35,16 +27,19 @@ const Tests: FC<any> = (): ReactElement => {
 
   const testsList = tests.reduce((acc, el) => {
     if (
-      el.discipline === discipline &&
-      el.level === level &&
-      el.subject === subject
+      discipline
+        ? el.discipline === discipline
+        : true && level
+        ? el.level === level
+        : true && subject
+        ? el.subject === subject
+        : true
     ) {
-      acc = [...el.tests]
+      acc = [...acc, ...el.tests]
     }
     return acc
   }, [] as any)
 
-  console.log(testsList)
   const [test, setTest] = useState('')
 
   const handleTestChange = (event: SelectChangeEvent) => {

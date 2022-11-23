@@ -31,9 +31,6 @@ export default function App() {
 
   const theme = useMemo(() => createTheme({ ...chooseTheme(mode) }), [mode])
 
-  console.log(
-    appRoutes.filter((el) => (isLoggedIn ? el : el.access !== 'private'))
-  )
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
