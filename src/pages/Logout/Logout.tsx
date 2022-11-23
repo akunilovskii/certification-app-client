@@ -1,12 +1,16 @@
 import { Grid, Paper, Typography } from '@mui/material'
-import React, { FC, useContext } from 'react'
+import React, {FC, useContext, useEffect} from 'react'
 import SideImage from '../../components/SideImage'
 import AuthContext from '../../context/auth-context'
 
 export const Logout: FC = () => {
   const { logoutHandler } = useContext(AuthContext)
 
-  logoutHandler()
+  useEffect(()=>{
+      logoutHandler()
+  },[])
+
+
 
   return (
     <Paper sx={{ height: '100%', width: '50%' }}>
