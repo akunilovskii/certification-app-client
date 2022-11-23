@@ -12,19 +12,16 @@ export const AuthContextProvider = ({ children }) => {
     'mike@mail.com': '123',
     'alex@mail.com': '123',
   }
-
   useEffect(() => {
     if (localStorage.getItem('isLoggedIn')) setIsLoggedIn(true)
-    console.log(localStorage.getItem('isLoggedIn'))
   }, [])
 
   const checkUser = (login, password) => {
-    console.log(login, password, password === users[login]);
     return password === users[login]
   }
 
   const loginHandler = (login, password) => {
-    const checkUserResult = checkUser(login, password);
+    const checkUserResult = checkUser(login, password)
     if (checkUserResult) {
       localStorage.setItem('isLoggedIn', login)
       setIsLoggedIn(true)
@@ -34,6 +31,7 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.removeItem('isLoggedIn')
     setIsLoggedIn(false)
   }
+
   const authState = { isLoggedIn, users, loginHandler, logoutHandler }
 
   return (

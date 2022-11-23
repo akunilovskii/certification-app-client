@@ -5,6 +5,7 @@ import AuthContext from '../../context/auth-context'
 
 export const Logout: FC = () => {
   const { logoutHandler } = useContext(AuthContext)
+
   logoutHandler()
 
   return (
