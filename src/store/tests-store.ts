@@ -287,7 +287,7 @@ export const tests = [
   {
     id: 'd2',
     discipline: 'Chemistry',
-    level: 'Grade 3',
+    level: 'Grade 1',
     subject: 'Organic',
     tests: [
       {
