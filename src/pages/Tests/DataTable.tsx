@@ -7,21 +7,24 @@ import {Button} from "@mui/material";
 export default function DataTable(props: any) {
     const testsList = props.testsList
 
-    const [test, setTest] = useState({})
+    const [selectedTest, setSelectedTest] = useState({})
+
     const handleClick = (event: any, cellValues: any) => {
-        console.log(cellValues)
+        setSelectedTest(testsList.filter((el:any)=> el.id === cellValues.id)[0].test);
+        console.log('Selected Test: ', selectedTest);
     }
     const columns: GridColDef[] = [
         {field: 'id', headerName: 'ID', width: 90},
-        {field: 'title', headerName: 'Test title', width: 400},
+        {field: 'title', headerName: 'Test title', flex: 1},
         {
             field: 'difficulty',
             headerName: 'Difficulty',
-            width: 135,
+            flex: 0.2,
             renderCell: (params) => {
                 return (
                     <Chip
                         size="small"
+                        variant="outlined"
                         label={params.row.difficulty}
                         color={
                             params.row.difficulty === 'easy'
@@ -41,13 +44,12 @@ export default function DataTable(props: any) {
             field: 'startTest',
             headerName: '',
             sortable: false,
-            // width: 140,
 
             renderCell: (cellValues) => {
                 return (
                     <Button
                         color="primary"
-                        variant="contained"
+                        variant="outlined"
                         onClick={(event)=>handleClick(event, cellValues)}
                     >
                         Start
@@ -65,7 +67,7 @@ export default function DataTable(props: any) {
     }))
 
     return (
-        <div style={{height: '70vh', width: '100%', marginTop: 20}}>
+        <div style={{height: '635px', width: '100%', marginTop: 20}}>
             <DataGrid
                 rows={rows}
                 columns={columns}

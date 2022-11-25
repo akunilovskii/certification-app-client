@@ -1,17 +1,17 @@
 import { FC, ReactElement, useState } from 'react'
 import {
+  Button,
   FormControl,
   Grid,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
-  Typography,
 } from '@mui/material'
 
 import { ITaxonomy, tests } from '../../store/tests-store'
 import DataTable from "./DataTable";
-import CustomizedTable from "./CustomizedTable";
+import * as React from "react";
 
 const Tests: FC<any> = (): ReactElement => {
   const [discipline, setDiscipline] = useState('')
@@ -46,16 +46,11 @@ const Tests: FC<any> = (): ReactElement => {
     }, [] as any)
   }
 
-  const [test, setTest] = useState('')
-
-  const handleTestChange = (event: SelectChangeEvent) => {
-    setTest(event.target.value)
+  const resetFilters = () => {
+    setDiscipline('');
+    setLevel('');
+    setSubject('');
   }
-
-  const startTest = () => {
-
-  }
-
 
   const testsList = setItemsList(
         tests,
@@ -71,9 +66,6 @@ const Tests: FC<any> = (): ReactElement => {
 
   return (
     <>
-      {/*<Typography variant="h5" color="text.primary">*/}
-      {/*  {`Tests - ${discipline} - ${level}`}*/}
-      {/*</Typography>*/}
       <Grid container item md={8} xs={12} justifyContent="center">
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
           <InputLabel id="discipline-label">Discipline</InputLabel>
@@ -154,7 +146,16 @@ const Tests: FC<any> = (): ReactElement => {
           </Select>
         </FormControl>
 
-        {/*<CustomizedTable testsList={testsList}/>*/}
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 120, justifyContent: 'flex-end' }}>
+          <Button
+              color="primary"
+              variant="outlined"
+              size="small"
+              onClick={()=>resetFilters()}
+          >
+            Reset filters
+          </Button>
+        </FormControl>
 
         <DataTable testsList={testsList}/>
 
