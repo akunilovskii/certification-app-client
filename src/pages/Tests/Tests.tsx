@@ -10,22 +10,13 @@ import {
 } from '@mui/material'
 
 import { ITaxonomy, tests } from '../../store/tests-store'
-import DataTable from "./DataTable";
-import * as React from "react";
+import DataTable from './DataTable'
+import useFilter from '../../hook/use-filter'
 
 const Tests: FC<any> = (): ReactElement => {
-  const [discipline, setDiscipline] = useState('')
-  const handleDisciplineChange = (event: SelectChangeEvent) => {
-    setDiscipline(event.target.value)
-  }
-  const [level, setLevel] = useState('')
-  const handleLevelChange = (event: SelectChangeEvent) => {
-    setLevel(event.target.value)
-  }
-  const [subject, setSubject] = useState('')
-  const handleSubjectChange = (event: SelectChangeEvent) => {
-    setSubject(event.target.value)
-  }
+  const [disciplineProps, resetDiscipline] = useFilter('')
+  const [levelProps, resetLevel] = useFilter('')
+  const [subjectProps, resetSubject] = useFilter('')
 
   const testAllConditions = (el: any, conditions: {}) => {
     return Object.entries(conditions).reduce((acc, cond) => {
@@ -47,22 +38,26 @@ const Tests: FC<any> = (): ReactElement => {
   }
 
   const resetFilters = () => {
-    setDiscipline('');
-    setLevel('');
-    setSubject('');
+    // @ts-ignore
+    resetDiscipline()
+    // @ts-ignore
+    resetLevel('')
+    // @ts-ignore
+    resetSubject('')
   }
 
   const testsList = setItemsList(
-        tests,
-        {
-          discipline: discipline,
-          level: level,
-          subject: subject,
-        },
+    tests,
+    {
+      // @ts-ignore
+      discipline: disciplineProps.value,
+      // @ts-ignore
+      level: levelProps.value,
+      // @ts-ignore
+      subject: subjectProps.value,
+    },
     'tests'
-).flatMap((el: any) =>
-  el.value.map((res: any) => res)
-  )
+  ).flatMap((el: any) => el.value.map((res: any) => res))
 
   return (
     <>
@@ -72,8 +67,7 @@ const Tests: FC<any> = (): ReactElement => {
           <Select
             labelId="discipline-label"
             id="discipline"
-            value={discipline}
-            onChange={handleDisciplineChange}
+            {...disciplineProps}
             label="Discipline"
           >
             <MenuItem value="">
@@ -82,8 +76,10 @@ const Tests: FC<any> = (): ReactElement => {
             {setItemsList(
               tests,
               {
-                level: level,
-                subject: subject,
+                // @ts-ignore
+                level: levelProps.value,
+                // @ts-ignore
+                subject: subjectProps.value,
               },
               'discipline'
             ).map((el: any) => (
@@ -98,8 +94,7 @@ const Tests: FC<any> = (): ReactElement => {
           <Select
             labelId="level-label"
             id="level"
-            value={level}
-            onChange={handleLevelChange}
+            {...levelProps}
             label="Level"
           >
             <MenuItem value="">
@@ -108,8 +103,10 @@ const Tests: FC<any> = (): ReactElement => {
             {setItemsList(
               tests,
               {
-                discipline: discipline,
-                subject: subject,
+                // @ts-ignore
+                discipline: disciplineProps.value,
+                // @ts-ignore
+                subject: subjectProps.value,
               },
               'level'
             ).map((el: any) => (
@@ -124,8 +121,7 @@ const Tests: FC<any> = (): ReactElement => {
           <Select
             labelId="subject-label"
             id="subject"
-            value={subject}
-            onChange={handleSubjectChange}
+            {...subjectProps}
             label="Subject"
           >
             <MenuItem value="">
@@ -134,8 +130,10 @@ const Tests: FC<any> = (): ReactElement => {
             {setItemsList(
               tests,
               {
-                discipline: discipline,
-                level: level,
+                // @ts-ignore
+                discipline: disciplineProps.value,
+                // @ts-ignore
+                level: levelProps.value,
               },
               'subject'
             ).map((el: any) => (
@@ -146,19 +144,21 @@ const Tests: FC<any> = (): ReactElement => {
           </Select>
         </FormControl>
 
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120, justifyContent: 'flex-end' }}>
+        <FormControl
+          variant="standard"
+          sx={{ m: 1, minWidth: 120, justifyContent: 'flex-end' }}
+        >
           <Button
-              color="primary"
-              variant="outlined"
-              size="small"
-              onClick={()=>resetFilters()}
+            color="primary"
+            variant="outlined"
+            size="small"
+            onClick={() => resetFilters()}
           >
             Reset filters
           </Button>
         </FormControl>
 
-        <DataTable testsList={testsList}/>
-
+        <DataTable testsList={testsList} />
       </Grid>
     </>
   )
