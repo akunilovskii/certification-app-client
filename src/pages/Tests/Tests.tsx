@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState } from 'react'
+import { FC, ReactElement, useContext } from 'react'
 import {
   Button,
   FormControl,
@@ -6,36 +6,17 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
 } from '@mui/material'
 
-import { ITaxonomy, tests } from '../../store/tests-store'
 import DataTable from './DataTable'
 import useFilter from '../../hook/use-filter'
+import DataContext from '../../context/data-context'
 
 const Tests: FC<any> = (): ReactElement => {
   const [disciplineProps, resetDiscipline] = useFilter('')
   const [levelProps, resetLevel] = useFilter('')
   const [subjectProps, resetSubject] = useFilter('')
-
-  const testAllConditions = (el: any, conditions: {}) => {
-    return Object.entries(conditions).reduce((acc, cond) => {
-      return acc && (cond[1] !== '' ? el[cond[0]] === cond[1] : true)
-    }, true)
-  }
-
-  const setItemsList = (tests: ITaxonomy[], conditions: {}, output: string) => {
-    return tests.reduce((acc, el) => {
-      if (testAllConditions(el, conditions)) {
-        // @ts-ignore
-        acc = [...acc, { id: el.id, value: el[output] }]
-      }
-      return acc.filter(
-        (a: any, i: any, self: any) =>
-          self.findIndex((s: any) => a.value === s.value) === i
-      )
-    }, [] as any)
-  }
+  const { setItemsList } = useContext(DataContext)
 
   const resetFilters = () => {
     // @ts-ignore
@@ -47,7 +28,6 @@ const Tests: FC<any> = (): ReactElement => {
   }
 
   const testsList = setItemsList(
-    tests,
     {
       // @ts-ignore
       discipline: disciplineProps.value,
@@ -74,7 +54,6 @@ const Tests: FC<any> = (): ReactElement => {
               <em>All disciplines</em>
             </MenuItem>
             {setItemsList(
-              tests,
               {
                 // @ts-ignore
                 level: levelProps.value,
@@ -101,7 +80,6 @@ const Tests: FC<any> = (): ReactElement => {
               <em>All levels</em>
             </MenuItem>
             {setItemsList(
-              tests,
               {
                 // @ts-ignore
                 discipline: disciplineProps.value,
@@ -128,7 +106,6 @@ const Tests: FC<any> = (): ReactElement => {
               <em>All subjects</em>
             </MenuItem>
             {setItemsList(
-              tests,
               {
                 // @ts-ignore
                 discipline: disciplineProps.value,

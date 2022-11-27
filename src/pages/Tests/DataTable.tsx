@@ -3,18 +3,32 @@ import { useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Chip from '@mui/material/Chip'
 import { Button } from '@mui/material'
+import ModalWindow from '../../components/ModalWindow'
+import { ITests } from '../../store/tests-store'
 
 export default function DataTable(props: any) {
   const testsList = props.testsList
-
-  const [selectedTest, setSelectedTest] = useState({})
-
-  const handleClick = (event: any, cellValues: any) => {
-    setSelectedTest(
-      testsList.filter((el: any) => el.id === cellValues.id)[0].test
-    )
-    console.log('Selected Test: ', selectedTest)
+  const emptyTest = {
+    id: '',
+    title: '',
+    difficulty: '',
+    duration: 0,
+    test: [],
   }
+  const [selectedTest, setSelectedTest] = useState<ITests>(emptyTest)
+  const [modalOpen, setModalOpen] = useState(false)
+
+  console.log('Selected Test: ', selectedTest)
+  const handleClick = (event: any, cellValues: any) => {
+    setSelectedTest(testsList.filter((el: any) => el.id === cellValues.id)[0])
+    setModalOpen(true)
+  }
+
+  const onClose = () => {
+    setModalOpen(false)
+    console.log('onClose')
+  }
+
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },
     { field: 'title', headerName: 'Test title', flex: 1 },
@@ -39,7 +53,7 @@ export default function DataTable(props: any) {
         )
       },
     },
-    { field: 'timeLimit', headerName: 'Time limit', width: 135 },
+    { field: 'duration', headerName: 'Duration', width: 135 },
     { field: 'questions', headerName: 'Questions', width: 135 },
 
     {
@@ -50,8 +64,8 @@ export default function DataTable(props: any) {
       renderCell: (cellValues) => {
         return (
           <Button
-            color="primary"
-            variant="outlined"
+            sx={{ color: 'testButton.main' }}
+            // variant="outlined"
             onClick={(event) => handleClick(event, cellValues)}
           >
             Start
@@ -65,7 +79,7 @@ export default function DataTable(props: any) {
     id: el.id,
     title: el.title,
     difficulty: el.difficulty,
-    timeLimit: `${el.timeLimit} minutes`,
+    duration: `${el.duration} minutes`,
     questions: el.test.length,
   }))
 
@@ -76,8 +90,14 @@ export default function DataTable(props: any) {
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[10]}
-        // checkboxSelection
       />
+      {
+        <ModalWindow
+          selectedTest={selectedTest}
+          open={modalOpen}
+          onClose={onClose}
+        />
+      }
     </div>
   )
 }
