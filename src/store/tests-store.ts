@@ -15,8 +15,8 @@ export interface ITaxonomy {
 export interface ITests {
   id: string
   title: string
-  difficulty: string,
-  timeLimit: number,
+  difficulty: string
+  duration: number
   test: ITest[]
 }
 
@@ -37,7 +37,7 @@ export const tests = [
         id: 't1',
         title: 'Addition Test 1',
         difficulty: 'easy',
-        timeLimit: 30,
+        duration: 30,
         test: [
           {
             id: 'q1',
@@ -123,7 +123,7 @@ export const tests = [
         id: 't2',
         title: 'Multiplication Test 1',
         difficulty: 'easy',
-        timeLimit: 30,
+        duration: 30,
         test: [
           {
             id: 'q1',
@@ -209,7 +209,7 @@ export const tests = [
         id: 't3',
         title: 'Division Test 1',
         difficulty: 'easy',
-        timeLimit: 25,
+        duration: 25,
         test: [
           {
             id: 'q1',
@@ -295,7 +295,7 @@ export const tests = [
         id: 't6',
         title: 'Subtraction Test 1',
         difficulty: 'easy',
-        timeLimit: 20,
+        duration: 20,
         test: [
           {
             id: 'q1',
@@ -389,7 +389,7 @@ export const tests = [
         id: 't4',
         title: 'Elements Test 1',
         difficulty: 'easy',
-        timeLimit: 40,
+        duration: 40,
         test: [
           {
             id: 'q1',
@@ -457,7 +457,7 @@ export const tests = [
         id: 't5',
         title: 'Number of angles in shapes',
         difficulty: 'easy',
-        timeLimit: 10,
+        duration: 10,
         test: [
           {
             id: 'q1',
@@ -551,7 +551,7 @@ export const tests = [
         id: 't7',
         title: 'Addition Test 1',
         difficulty: 'medium',
-        timeLimit: 30,
+        duration: 30,
         test: [
           {
             id: 'q1',
@@ -637,7 +637,7 @@ export const tests = [
         id: 't8',
         title: 'Multiplication Test 1',
         difficulty: 'medium',
-        timeLimit: 20,
+        duration: 20,
         test: [
           {
             id: 'q1',
@@ -775,7 +775,7 @@ export const tests = [
         id: 't9',
         title: 'Division Test 1',
         difficulty: 'hard',
-        timeLimit: 5,
+        duration: 5,
         test: [
           {
             id: 'q1',
@@ -861,7 +861,7 @@ export const tests = [
         id: 't10',
         title: 'Subtraction Test 1',
         difficulty: 'easy',
-        timeLimit: 20,
+        duration: 20,
         test: [
           {
             id: 'q1',
@@ -981,7 +981,7 @@ export const tests = [
         id: 't11',
         title: 'Addition Test 2',
         difficulty: 'easy',
-        timeLimit: 20,
+        duration: 20,
         test: [
           {
             id: 'q1',
@@ -1041,7 +1041,7 @@ export const tests = [
         id: 't12',
         title: 'Multiplication Test 2',
         difficulty: 'easy',
-        timeLimit: 10,
+        duration: 10,
         test: [
           {
             id: 'q1',
@@ -1127,7 +1127,7 @@ export const tests = [
         id: 't13',
         title: 'Division Test 2',
         difficulty: 'easy',
-        timeLimit: 15,
+        duration: 15,
         test: [
           {
             id: 'q1',
@@ -1187,7 +1187,7 @@ export const tests = [
         id: 't14',
         title: 'Subtraction Test 2',
         difficulty: 'easy',
-        timeLimit: 10,
+        duration: 10,
         test: [
           {
             id: 'q1',
