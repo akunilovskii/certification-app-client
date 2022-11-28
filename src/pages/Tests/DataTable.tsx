@@ -1,11 +1,11 @@
 import * as React from 'react'
-import {useContext, useState} from 'react'
+import { useContext, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Chip from '@mui/material/Chip'
 import { Button } from '@mui/material'
 import ModalWindow from '../../components/ModalWindow'
-import {useNavigate} from "react-router-dom";
-import DataContext from "../../context/data-context";
+import { useNavigate } from 'react-router-dom'
+import DataContext from '../../context/data-context'
 
 export default function DataTable(props: any) {
   const testsList = props.testsList
@@ -18,9 +18,9 @@ export default function DataTable(props: any) {
     setModalOpen(true)
   }
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const onClose = (result: boolean) => {
-    setModalOpen(false);
+    setModalOpen(false)
     if (result) {
       navigate('/tests/test')
     }
