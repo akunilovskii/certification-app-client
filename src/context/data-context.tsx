@@ -1,8 +1,16 @@
-import { createContext, ReactNode } from 'react'
-import { tests } from '../store/tests-store'
+import {createContext, ReactNode, useState} from 'react'
+import {ITests, ITest, tests} from '../store/tests-store'
 
 const DataContext = createContext({
   setItemsList: (conditions: {}, output: string): String[] => [],
+  selectedTest: {
+    id: '',
+    title: '',
+    difficulty: '',
+    duration: 0,
+    test: [{id: '', question: '', answers: [{id:'', text:'', correct: false}]}],
+  },
+  setSelectedTest: (value: ITest) => {}
 })
 
 interface Props {
@@ -15,6 +23,15 @@ export const DataContextProvider = ({ children }: Props) => {
       return acc && (cond[1] !== '' ? el[cond[0]] === cond[1] : true)
     }, true)
   }
+
+  const emptyTest = {
+    id: '',
+    title: '',
+    difficulty: '',
+    duration: 0,
+    test: [{id: '', question: '', answers: [{id:'', text:'', correct: false}]}],
+  }
+  const [selectedTest, setSelectedTest] = useState<ITests>(emptyTest)
 
   const setItemsList = (conditions: {}, output: string) => {
     console.log('Map items')
@@ -30,24 +47,10 @@ export const DataContextProvider = ({ children }: Props) => {
     }, [] as any)
   }
 
-  // const testsList = setItemsList(
-  //   tests,
-  //   {
-  //     // @ts-ignore
-  //     discipline: disciplineProps.value,
-  //     // @ts-ignore
-  //     level: levelProps.value,
-  //     // @ts-ignore
-  //     subject: subjectProps.value,
-  //   },
-  //   'tests'
-  // ).flatMap((el: any) => el.value.map((res: any) => res))
+  const dataState = { setItemsList, selectedTest, setSelectedTest }
 
-  const dataState = { setItemsList }
-
-  return (
-    <DataContext.Provider value={dataState}>{children}</DataContext.Provider>
-  )
+  // @ts-ignore
+  return (<DataContext.Provider value={dataState}>{children}</DataContext.Provider>)
 }
 
 export default DataContext

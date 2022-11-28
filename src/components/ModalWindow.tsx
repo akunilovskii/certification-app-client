@@ -1,22 +1,18 @@
 import React from 'react'
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from '@mui/material'
 import { ITests } from '../store/tests-store'
 
 interface Props {
   selectedTest: ITests
   open: boolean
-  onClose: () => void
+  onClose: (result: boolean) => void
 }
 
 function ModalWindow({ selectedTest, open, onClose }: Props) {
@@ -24,45 +20,31 @@ function ModalWindow({ selectedTest, open, onClose }: Props) {
     <div>
       <Dialog
         open={open}
-        onClose={onClose}
+        onClose={() => onClose(false)}
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">
           {selectedTest.title}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {/* <Typography>{selectedTest.title}</Typography> */}
-            <Typography>Duration: {selectedTest.duration} minutes</Typography>
-            <Typography>Difficulty: "{selectedTest.difficulty}"</Typography>
-          </DialogContentText>
+          <Typography variant="body1">
+            Duration: {selectedTest.duration} minutes
+          </Typography>
+          <Typography variant="body1">
+            Difficulty: "{selectedTest.difficulty}"
+          </Typography>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={onClose}>
+          <Button autoFocus onClick={() => onClose(false)}>
             Cancel
           </Button>
-          <Button onClick={onClose} autoFocus>
+          <Button onClick={() => onClose(true)} autoFocus>
             Start
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   )
-  // return (
-  // <Dialog
-  //   open={open}
-  //   onClose={onClose}
-  //   aria-labelledby="modal-modal-title"
-  //   aria-describedby="modal-modal-description"
-  // >
-  //   <Box sx={{ margin: 'auto' }}>
-  //     <Typography>{selectedTest.title}</Typography>
-  //     <Typography>{selectedTest.duration}</Typography>
-  //     <Typography>{selectedTest.difficulty}</Typography>
-  //   </Box>
-  // </Dialog>
-
-  // )
 }
 
 export default ModalWindow

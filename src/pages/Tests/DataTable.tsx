@@ -1,32 +1,29 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Chip from '@mui/material/Chip'
 import { Button } from '@mui/material'
 import ModalWindow from '../../components/ModalWindow'
-import { ITests } from '../../store/tests-store'
+import { useNavigate } from 'react-router-dom'
+import DataContext from '../../context/data-context'
 
 export default function DataTable(props: any) {
   const testsList = props.testsList
-  const emptyTest = {
-    id: '',
-    title: '',
-    difficulty: '',
-    duration: 0,
-    test: [],
-  }
-  const [selectedTest, setSelectedTest] = useState<ITests>(emptyTest)
+
+  const { selectedTest, setSelectedTest } = useContext(DataContext)
   const [modalOpen, setModalOpen] = useState(false)
 
-  console.log('Selected Test: ', selectedTest)
   const handleClick = (event: any, cellValues: any) => {
     setSelectedTest(testsList.filter((el: any) => el.id === cellValues.id)[0])
     setModalOpen(true)
   }
 
-  const onClose = () => {
+  const navigate = useNavigate()
+  const onClose = (result: boolean) => {
     setModalOpen(false)
-    console.log('onClose')
+    if (result) {
+      navigate('/tests/test')
+    }
   }
 
   const columns: GridColDef[] = [
