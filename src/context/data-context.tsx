@@ -1,5 +1,5 @@
-import {createContext, ReactNode, useState} from 'react'
-import {ITests, ITest, tests} from '../store/tests-store'
+import { createContext, ReactNode, useState } from 'react'
+import { ITests, ITest, tests } from '../store/tests-store'
 
 const DataContext = createContext({
   setItemsList: (conditions: {}, output: string): String[] => [],
@@ -8,9 +8,16 @@ const DataContext = createContext({
     title: '',
     difficulty: '',
     duration: 0,
-    test: [{id: '', question: '', answers: [{id:'', text:'', correct: false}]}],
+    test: [
+      {
+        id: '',
+        question: '',
+        selected: [],
+        answers: [{ id: '', text: '', correct: false }],
+      },
+    ],
   },
-  setSelectedTest: (value: ITest) => {}
+  setSelectedTest: (value: ITest) => {},
 })
 
 interface Props {
@@ -29,7 +36,14 @@ export const DataContextProvider = ({ children }: Props) => {
     title: '',
     difficulty: '',
     duration: 0,
-    test: [{id: '', question: '', answers: [{id:'', text:'', correct: false}]}],
+    test: [
+      {
+        id: '',
+        question: '',
+        selected: [],
+        answers: [{ id: '', text: '', correct: false }],
+      },
+    ],
   }
   const [selectedTest, setSelectedTest] = useState<ITests>(emptyTest)
 
@@ -49,8 +63,10 @@ export const DataContextProvider = ({ children }: Props) => {
 
   const dataState = { setItemsList, selectedTest, setSelectedTest }
 
-  // @ts-ignore
-  return (<DataContext.Provider value={dataState}>{children}</DataContext.Provider>)
+  return (
+    // @ts-ignore
+    <DataContext.Provider value={dataState}>{children}</DataContext.Provider>
+  )
 }
 
 export default DataContext

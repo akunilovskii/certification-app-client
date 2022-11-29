@@ -27,12 +27,31 @@ export default function DataTable(props: any) {
   }
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'title', headerName: 'Test title', flex: 1 },
+    {
+      field: 'id',
+      headerName: 'ID',
+      hide: true,
+    },
+    {
+      field: 'number',
+      headerName: '№',
+      width: 90,
+      headerAlign: 'center',
+      align: 'center',
+    },
+    {
+      field: 'title',
+      headerName: 'Test title',
+      flex: 1,
+      headerAlign: 'center',
+      align: 'center',
+    },
     {
       field: 'difficulty',
       headerName: 'Difficulty',
-      flex: 0.2,
+      headerAlign: 'center',
+      align: 'center',
+      flex: 0.35,
       renderCell: (params) => {
         return (
           <Chip
@@ -50,20 +69,35 @@ export default function DataTable(props: any) {
         )
       },
     },
-    { field: 'duration', headerName: 'Duration', width: 135 },
-    { field: 'questions', headerName: 'Questions', width: 135 },
+    {
+      field: 'duration',
+      headerName: 'Duration',
+      flex: 0.3,
+      headerAlign: 'center',
+      align: 'center',
+    },
+    {
+      field: 'questions',
+      headerName: 'Questions',
+      flex: 0.3,
+      headerAlign: 'center',
+      align: 'center',
+    },
 
     {
       field: 'startTest',
       headerName: '',
       sortable: false,
+      headerAlign: 'center',
+      align: 'center',
 
       renderCell: (cellValues) => {
         return (
           <Button
             sx={{ color: 'testButton.main' }}
-            // variant="outlined"
-            onClick={(event) => handleClick(event, cellValues)}
+            onClick={(event) => {
+              handleClick(event, cellValues)
+            }}
           >
             Start
           </Button>
@@ -72,11 +106,12 @@ export default function DataTable(props: any) {
     },
   ]
 
-  const rows = testsList.map((el: any) => ({
+  const rows = testsList.map((el: any, i: number) => ({
     id: el.id,
+    number: i + 1,
     title: el.title,
     difficulty: el.difficulty,
-    duration: `${el.duration} minutes`,
+    duration: `${el.duration} min.`,
     questions: el.test.length,
   }))
 
