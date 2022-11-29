@@ -5,41 +5,55 @@ import {
   FormLabel,
   List,
   ListItem,
-  ListItemButton,
   Pagination,
   Radio,
   RadioGroup,
   Stack,
   Typography,
 } from '@mui/material'
-import React, { useContext, useState } from 'react'
-import { useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DataContext from '../../context/data-context'
-import { ITest } from '../../store/tests-store'
+import {ITest, ITests} from '../../store/tests-store'
+import TestResult from '../../components/TestResult'
 
 function Test() {
   const navigate = useNavigate()
   const { selectedTest } = useContext(DataContext)
   const [questionIndex, setQuestionIndex] = useState(1)
-  useEffect(() => {
-    console.log('render')
-  }, [questionIndex])
-  const [answers, setAnswers] = useState<ITest[]>([...selectedTest.test])
+  useEffect(() => {}, [questionIndex])
+
+  const randomiseAnswers = (selectedTest: ITests):ITest[] => {
+    const result = [...selectedTest.test].map(el=>({...el}))
+
+    return result;
+  }
+
+  const [answers, setAnswers] = useState<ITest[]>(randomiseAnswers(selectedTest));
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const elValue = +(event.target as HTMLInputElement).value
     const newAnswers: ITest[] = [...answers]
     newAnswers[questionIndex - 1].selected = [elValue]
-    console.log(newAnswers)
     setAnswers(newAnswers)
   }
+  console.log('Render TEST, selected test: ', selectedTest);
 
-  const onClickHandlerNew = (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
+  const checkIfAllSelected = (): boolean => {
+    return answers.reduce(
+      (acc: boolean, el: ITest) => acc && el.selected.length !== 0,
+      true
+    )
+  }
+
+  const onClickHandler = (event: React.ChangeEvent<unknown>, value: number) => {
     setQuestionIndex(value)
   }
+
+  const [showTestResult, setShowTestResult] = useState(false)
+  const finishHandle = (): void => {
+    setShowTestResult(!showTestResult);
+  }
+
   useEffect(() => {
     if (selectedTest.id === '') navigate('/tests')
   }, [])
@@ -59,7 +73,6 @@ function Test() {
               aria-labelledby="answers-radio-buttons-group"
               name={selectedTest.test[questionIndex - 1].question}
               onChange={onChangeHandler}
-              // defaultValue=""
               value={
                 answers[questionIndex - 1].selected.length
                   ? answers[questionIndex - 1].selected[0]
@@ -84,7 +97,7 @@ function Test() {
         <Pagination
           count={selectedTest.test.length}
           page={questionIndex}
-          onChange={onClickHandlerNew}
+          onChange={onClickHandler}
           siblingCount={0}
           variant="outlined"
           color="primary"
@@ -92,9 +105,16 @@ function Test() {
           size="large"
         />
       </Stack>
-      <Button fullWidth={false} variant="contained" color="primary">
+      <Button
+        fullWidth={false}
+        variant="contained"
+        color="primary"
+        disabled={!checkIfAllSelected()}
+        onClick={() => finishHandle()}
+      >
         Finish
       </Button>
+      {showTestResult ? <TestResult answers={answers} open={showTestResult} onClose={()=>setShowTestResult(false)}/> : null}
     </>
   )
 }
