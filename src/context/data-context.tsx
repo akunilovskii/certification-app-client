@@ -48,7 +48,6 @@ export const DataContextProvider = ({ children }: Props) => {
   const [selectedTest, setSelectedTest] = useState<ITests>(emptyTest)
 
   const setItemsList = (conditions: {}, output: string) => {
-    console.log('Map items')
     return tests.reduce((acc, el) => {
       if (testAllConditions(el, conditions)) {
         // @ts-ignore

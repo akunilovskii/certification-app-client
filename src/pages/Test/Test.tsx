@@ -81,7 +81,7 @@ function Test() {
             >
               <List>
                 {selectedTest.test[questionIndex - 1].answers.map((el, i) => (
-                  <ListItem disablePadding button>
+                  <ListItem disablePadding button key={el.id}>
                     <FormControlLabel
                       value={i}
                       control={<Radio />}
