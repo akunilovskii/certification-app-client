@@ -14,7 +14,7 @@ import {
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import DataContext from '../../context/data-context'
-import {ITest, ITests} from '../../store/tests-store'
+import { ITests, IQuestion } from '../../store/tests-store'
 import TestResult from '../../components/TestResult'
 
 function Test() {
@@ -23,24 +23,42 @@ function Test() {
   const [questionIndex, setQuestionIndex] = useState(1)
   useEffect(() => {}, [questionIndex])
 
-  const randomiseAnswers = (selectedTest: ITests):ITest[] => {
-    const result = [...selectedTest.test].map(el=>({...el}))
-
+  const randomizeArray = (array: any):any => {
+    const result = [];
+    while (array.length > 1) {
+      let index = Math.floor(Math.random() * array.length);
+      result.push(...array.splice(index, 1));
+    }
+    result.push(...array);
+    console.log('RandomizeArray result: ', result);
     return result;
   }
 
-  const [answers, setAnswers] = useState<ITest[]>(randomiseAnswers(selectedTest));
+  const randomizeTest = (testCopy: IQuestion[]):IQuestion[] => {
+    const result = testCopy.map((el)=> {return {...el, answers: randomizeArray(el.answers)}
+    });
+    console.log('RandomizeTest result: ', result);
+    return result;
+  }
+
+  const testCopy = [...selectedTest.questions].map(el=>({...el}))
+const randomizedTestResult = randomizeTest(testCopy);
+  console.log('--------- randomizedTestResult: ', randomizedTestResult);
+  const [test, setTest] = useState<IQuestion[]>(randomizedTestResult);
+  console.log('TEST: ', test);
+  // const [test, setTest] = useState<IQuestion[]>(selectedTest.questions);
+
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const elValue = +(event.target as HTMLInputElement).value
-    const newAnswers: ITest[] = [...answers]
-    newAnswers[questionIndex - 1].selected = [elValue]
-    setAnswers(newAnswers)
+    const newTest: IQuestion[] = [...test]
+    newTest[questionIndex - 1].selected = [elValue]
+    setTest(newTest)
   }
-  console.log('Render TEST, selected test: ', selectedTest);
+  console.log('Render TEST, selected test: ', test);
 
   const checkIfAllSelected = (): boolean => {
-    return answers.reduce(
-      (acc: boolean, el: ITest) => acc && el.selected.length !== 0,
+    return test.reduce(
+      (acc: boolean, el: IQuestion) => acc && el.selected.length !== 0,
       true
     )
   }
@@ -66,21 +84,21 @@ function Test() {
           <Stack spacing={4}>
             <FormLabel id="demo-radio-buttons-group-label">
               <Typography variant="h4">
-                Question: {selectedTest.test[questionIndex - 1].question}
+                Question: {selectedTest.questions[questionIndex - 1].question}
               </Typography>
             </FormLabel>
             <RadioGroup
               aria-labelledby="answers-radio-buttons-group"
-              name={selectedTest.test[questionIndex - 1].question}
+              name={selectedTest.questions[questionIndex - 1].question}
               onChange={onChangeHandler}
               value={
-                answers[questionIndex - 1].selected.length
-                  ? answers[questionIndex - 1].selected[0]
+                test[questionIndex - 1].selected.length
+                  ? test[questionIndex - 1].selected[0]
                   : ''
               }
             >
               <List>
-                {selectedTest.test[questionIndex - 1].answers.map((el, i) => (
+                {selectedTest.questions[questionIndex - 1].answers.map((el, i) => (
                   <ListItem disablePadding button key={el.id}>
                     <FormControlLabel
                       value={i}
@@ -95,7 +113,7 @@ function Test() {
           </Stack>
         </FormControl>
         <Pagination
-          count={selectedTest.test.length}
+          count={selectedTest.questions.length}
           page={questionIndex}
           onChange={onClickHandler}
           siblingCount={0}
@@ -114,7 +132,7 @@ function Test() {
       >
         Finish
       </Button>
-      {showTestResult ? <TestResult answers={answers} open={showTestResult} onClose={()=>setShowTestResult(false)}/> : null}
+      {showTestResult ? <TestResult answers={test} open={showTestResult} onClose={()=>setShowTestResult(false)}/> : null}
     </>
   )
 }

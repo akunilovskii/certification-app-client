@@ -1,9 +1,9 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "@mui/material";
 import React from "react";
-import {ITest} from "../store/tests-store";
+import {IQuestion} from "../store/tests-store";
 
 interface Props {
-    answers: ITest[]
+    answers: IQuestion[]
     open: boolean
     onClose: () => void
 }

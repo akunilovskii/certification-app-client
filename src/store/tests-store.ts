@@ -1,4 +1,4 @@
-interface IAnswer {
+export interface IAnswer {
   id: string
   text: string | number
   correct: boolean
@@ -17,10 +17,10 @@ export interface ITests {
   title: string
   difficulty: string
   duration: number
-  test: ITest[]
+  questions: IQuestion[]
 }
 
-export interface ITest {
+export interface IQuestion {
   id: string
   selected: number[]
   question: string
@@ -39,7 +39,7 @@ export const tests = [
         title: 'Addition Test 1',
         difficulty: 'easy',
         duration: 30,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -128,7 +128,7 @@ export const tests = [
         title: 'Multiplication Test 1',
         difficulty: 'easy',
         duration: 30,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -217,7 +217,7 @@ export const tests = [
         title: 'Division Test 1',
         difficulty: 'easy',
         duration: 25,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -306,7 +306,7 @@ export const tests = [
         title: 'Subtraction Test 1',
         difficulty: 'easy',
         duration: 20,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -403,7 +403,7 @@ export const tests = [
         title: 'Elements Test 1',
         difficulty: 'easy',
         duration: 40,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -473,7 +473,7 @@ export const tests = [
         title: 'Number of angles in shapes',
         difficulty: 'easy',
         duration: 10,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -570,7 +570,7 @@ export const tests = [
         title: 'Addition Test 1',
         difficulty: 'medium',
         duration: 30,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -659,7 +659,7 @@ export const tests = [
         title: 'Multiplication Test 1',
         difficulty: 'medium',
         duration: 20,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -802,7 +802,7 @@ export const tests = [
         title: 'Division Test 1',
         difficulty: 'hard',
         duration: 5,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -891,7 +891,7 @@ export const tests = [
         title: 'Subtraction Test 1',
         difficulty: 'easy',
         duration: 20,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -1015,7 +1015,7 @@ export const tests = [
         title: 'Addition Test 2',
         difficulty: 'easy',
         duration: 20,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -1077,7 +1077,7 @@ export const tests = [
         title: 'Multiplication Test 2',
         difficulty: 'easy',
         duration: 10,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -1166,7 +1166,7 @@ export const tests = [
         title: 'Division Test 2',
         difficulty: 'easy',
         duration: 15,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],
@@ -1228,7 +1228,7 @@ export const tests = [
         title: 'Subtraction Test 2',
         difficulty: 'easy',
         duration: 10,
-        test: [
+        questions: [
           {
             id: 'q1',
             selected: [],

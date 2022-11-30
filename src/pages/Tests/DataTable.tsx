@@ -112,7 +112,7 @@ export default function DataTable(props: any) {
     title: el.title,
     difficulty: el.difficulty,
     duration: `${el.duration} min.`,
-    questions: el.test.length,
+    questions: el.questions.length,
   }))
 
   return (

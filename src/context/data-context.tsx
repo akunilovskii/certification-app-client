@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from 'react'
-import { ITests, ITest, tests } from '../store/tests-store'
+import { ITests, IQuestion, tests } from '../store/tests-store'
 
 const DataContext = createContext({
   setItemsList: (conditions: {}, output: string): String[] => [],
@@ -8,7 +8,7 @@ const DataContext = createContext({
     title: '',
     difficulty: '',
     duration: 0,
-    test: [
+    questions: [
       {
         id: '',
         question: '',
@@ -17,7 +17,7 @@ const DataContext = createContext({
       },
     ],
   },
-  setSelectedTest: (value: ITest) => {},
+  setSelectedTest: (value: IQuestion) => {},
 })
 
 interface Props {
@@ -36,7 +36,7 @@ export const DataContextProvider = ({ children }: Props) => {
     title: '',
     difficulty: '',
     duration: 0,
-    test: [
+    questions: [
       {
         id: '',
         question: '',
