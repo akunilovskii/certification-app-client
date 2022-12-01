@@ -1,9 +1,3 @@
-export interface IAnswer {
-  id: string
-  text: string | number
-  correct: boolean
-}
-
 export interface ITaxonomy {
   id: string
   discipline: string
@@ -27,7 +21,13 @@ export interface IQuestion {
   answers: IAnswer[]
 }
 
-export const tests = [
+export interface IAnswer {
+  id: string
+  text: string | number
+  correct: boolean
+}
+
+export const tests: ITaxonomy[] = [
   {
     id: 'd1',
     discipline: 'Mathematics',

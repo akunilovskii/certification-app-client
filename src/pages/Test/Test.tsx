@@ -11,10 +11,16 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import React, { useContext, useEffect, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useNavigate } from 'react-router-dom'
 import DataContext from '../../context/data-context'
-import { ITests, IQuestion } from '../../store/tests-store'
+import { IQuestion } from '../../store/tests-store'
 import TestResult from '../../components/TestResult'
 
 function Test() {
@@ -23,30 +29,37 @@ function Test() {
   const [questionIndex, setQuestionIndex] = useState(1)
   useEffect(() => {}, [questionIndex])
 
-  const randomizeArray = (array: any):any => {
-    const result = [];
+  const randomizeArray = useCallback((array: any): any => {
+    const result = []
     while (array.length > 1) {
-      let index = Math.floor(Math.random() * array.length);
-      result.push(...array.splice(index, 1));
+      let index = Math.floor(Math.random() * array.length)
+      result.push(...array.splice(index, 1))
     }
-    result.push(...array);
-    console.log('RandomizeArray result: ', result);
-    return result;
-  }
+    result.push(...array)
+    return result
+  }, [])
 
-  const randomizeTest = (testCopy: IQuestion[]):IQuestion[] => {
-    const result = testCopy.map((el)=> {return {...el, answers: randomizeArray(el.answers)}
-    });
-    console.log('RandomizeTest result: ', result);
-    return result;
-  }
+  const randomizeTest = useCallback(
+    (testCopy: IQuestion[]): IQuestion[] => {
+      const result = testCopy.map((el) => {
+        return { ...el, answers: randomizeArray(el.answers) }
+      })
+      const result2 = randomizeArray(structuredClone(result))
+      return result2
+    },
+    [randomizeArray]
+  )
 
-  const testCopy = [...selectedTest.questions].map(el=>({...el}))
-const randomizedTestResult = randomizeTest(testCopy);
-  console.log('--------- randomizedTestResult: ', randomizedTestResult);
-  const [test, setTest] = useState<IQuestion[]>(randomizedTestResult);
-  console.log('TEST: ', test);
-  // const [test, setTest] = useState<IQuestion[]>(selectedTest.questions);
+  const testCopy = useMemo(
+    () => structuredClone(selectedTest.questions),
+    [selectedTest.questions]
+  )
+
+  const randomizedTestResult = useMemo(
+    () => randomizeTest(testCopy),
+    [randomizeTest, testCopy]
+  )
+  const [test, setTest] = useState<IQuestion[]>(randomizedTestResult)
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const elValue = +(event.target as HTMLInputElement).value
@@ -54,7 +67,6 @@ const randomizedTestResult = randomizeTest(testCopy);
     newTest[questionIndex - 1].selected = [elValue]
     setTest(newTest)
   }
-  console.log('Render TEST, selected test: ', test);
 
   const checkIfAllSelected = (): boolean => {
     return test.reduce(
@@ -69,7 +81,7 @@ const randomizedTestResult = randomizeTest(testCopy);
 
   const [showTestResult, setShowTestResult] = useState(false)
   const finishHandle = (): void => {
-    setShowTestResult(!showTestResult);
+    setShowTestResult(!showTestResult)
   }
 
   useEffect(() => {
@@ -84,12 +96,12 @@ const randomizedTestResult = randomizeTest(testCopy);
           <Stack spacing={4}>
             <FormLabel id="demo-radio-buttons-group-label">
               <Typography variant="h4">
-                Question: {selectedTest.questions[questionIndex - 1].question}
+                Question: {test[questionIndex - 1].question}
               </Typography>
             </FormLabel>
             <RadioGroup
               aria-labelledby="answers-radio-buttons-group"
-              name={selectedTest.questions[questionIndex - 1].question}
+              name={test[questionIndex - 1].question}
               onChange={onChangeHandler}
               value={
                 test[questionIndex - 1].selected.length
@@ -98,7 +110,7 @@ const randomizedTestResult = randomizeTest(testCopy);
               }
             >
               <List>
-                {selectedTest.questions[questionIndex - 1].answers.map((el, i) => (
+                {test[questionIndex - 1].answers.map((el, i) => (
                   <ListItem disablePadding button key={el.id}>
                     <FormControlLabel
                       value={i}
@@ -132,7 +144,13 @@ const randomizedTestResult = randomizeTest(testCopy);
       >
         Finish
       </Button>
-      {showTestResult ? <TestResult answers={test} open={showTestResult} onClose={()=>setShowTestResult(false)}/> : null}
+      {showTestResult ? (
+        <TestResult
+          answers={test}
+          open={showTestResult}
+          onClose={() => setShowTestResult(false)}
+        />
+      ) : null}
     </>
   )
 }

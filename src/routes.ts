@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import {Home, About, Tests, DCD, LoginSignUp, Test} from './pages'
+import { Home, About, Tests, DCD, LoginSignUp, Test, CreateTest } from './pages'
 import { Logout } from './pages/Logout/Logout'
 
 export interface IRoute {
@@ -43,6 +43,14 @@ export const routes: Array<IRoute> = [
     access: 'private',
   },
   {
+    key: 'create-test-route',
+    title: 'Create Test',
+    path: '/createtest',
+    enabled: true,
+    component: CreateTest,
+    access: 'private',
+  },
+  {
     key: 'test-route',
     title: '',
     path: '/tests/test',
@@ -51,13 +59,13 @@ export const routes: Array<IRoute> = [
     access: 'private',
   },
   {
-    key: 'login-sign-up',
+    key: 'login-sign-up-route',
     path: '/login-sign-up',
     enabled: true,
     component: LoginSignUp,
   },
   {
-    key: 'logout',
+    key: 'logout-route',
     path: '/logout',
     enabled: true,
     component: Logout,
