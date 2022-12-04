@@ -61,7 +61,7 @@ export default function DataTable(props: any) {
             color={
               params.row.difficulty === 'easy'
                 ? 'success'
-                : params.row.difficulty === 'medium'
+                : params.row.difficulty === 'standard'
                 ? 'warning'
                 : 'error'
             }

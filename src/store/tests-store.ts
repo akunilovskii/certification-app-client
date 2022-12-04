@@ -568,7 +568,7 @@ export const tests: ITaxonomy[] = [
       {
         id: 't7',
         title: 'Addition Test 1',
-        difficulty: 'medium',
+        difficulty: 'standard',
         duration: 30,
         questions: [
           {
@@ -657,7 +657,7 @@ export const tests: ITaxonomy[] = [
       {
         id: 't8',
         title: 'Multiplication Test 1',
-        difficulty: 'medium',
+        difficulty: 'standard',
         duration: 20,
         questions: [
           {
