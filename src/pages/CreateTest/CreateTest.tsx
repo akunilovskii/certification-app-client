@@ -22,10 +22,11 @@ const CreateTest: FC<any> = (): ReactElement => {
   const [titleProps, resetTitle] = useFilter('')
   const [difficultyProps, resetDifficulty] = useFilter('')
   const [durationProps, resetDuration] = useFilter(0)
+  const [questions, setQuestions] = useState([])
 
   const {setItemsList} = useContext(DataContext)
 
-  const createTest = () => {
+  const createOrSaveTest = () => {
     // create empty test
     const emptyTest = {
       //@ts-ignore
@@ -34,11 +35,12 @@ const CreateTest: FC<any> = (): ReactElement => {
       difficulty: difficultyProps.value,
       //@ts-ignore
       duration: durationProps.value,
-      questions: [{question: 'Q1', answers: []},{question: 'Q2', answers: []}],
+      questions: !testID ? [] : questions,
     }
 
+    console.log('Questions: ', questions);
     const requestOptions = {
-      method: 'POST',
+      method: testID ? 'PUT' : 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         data: {
@@ -52,11 +54,14 @@ const CreateTest: FC<any> = (): ReactElement => {
         },
       }),
     }
-    fetch('http://localhost:5000/tests/create', requestOptions)
+
+    fetch(`http://localhost:5000/tests/${testID ? testID : 'create'}`, requestOptions)
         .then((response) => response.json())
         .then((data) => {
           console.log('Data from createEmptyTest response: ', data);
-          setTestID(data._id);
+          if(!testID) setTestID(data._id);
+          // @ts-ignore
+          setQuestions(data.questions);
         })
 
   }
@@ -179,29 +184,30 @@ const CreateTest: FC<any> = (): ReactElement => {
             variant="standard"
             sx={{m: 1, minWidth: 120, justifyContent: 'flex-end'}}
         >
-          <Button
-              color="primary"
-              variant="outlined"
-              size="small"
-              disabled={
-                // @ts-ignore
-                  disciplineProps.value === '' ||
-                  // @ts-ignore
-                  levelProps.value === '' ||
-                  // @ts-ignore
-                  subjectProps.value === '' ||
-                  // @ts-ignore
-                  titleProps.value === '' ||
-                  // @ts-ignore
-                  difficultyProps.value === ''
-              }
-              onClick={() => createTest()}
-          >
-            Create test
-          </Button>
+
         </FormControl>
 
-        {testID && <QuestionsForm />}
+        {testID && <QuestionsForm questions={questions} setQuestions={setQuestions}/>}
+        <Button
+            color="primary"
+            variant="outlined"
+            size="small"
+            disabled={
+              // @ts-ignore
+                disciplineProps.value === '' ||
+                // @ts-ignore
+                levelProps.value === '' ||
+                // @ts-ignore
+                subjectProps.value === '' ||
+                // @ts-ignore
+                titleProps.value === '' ||
+                // @ts-ignore
+                difficultyProps.value === ''
+            }
+            onClick={() => createOrSaveTest()}
+        >
+          {!testID ? 'Create test' : 'Save test'}
+        </Button>
       </>
   )
 }
