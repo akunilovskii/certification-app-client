@@ -36,7 +36,9 @@ const CreateTest: FC<any> = (): ReactElement => {
       questions: !testID ? [] : questions,
     }
 
-    console.log('Questions: ', questions)
+    const requestURL = `http://localhost:5000/tests/${
+      testID ? testID : 'create'
+    }`
     const requestOptions = {
       method: testID ? 'PUT' : 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -53,10 +55,7 @@ const CreateTest: FC<any> = (): ReactElement => {
       }),
     }
 
-    fetch(
-      `http://localhost:5000/tests/${testID ? testID : 'create'}`,
-      requestOptions
-    )
+    fetch(requestURL, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log(
