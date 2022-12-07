@@ -8,7 +8,7 @@ import {
   Select,
   TextField,
 } from '@mui/material'
-import useFilter from '../../hook/use-filter'
+import useFilter, { IProps } from '../../hook/use-filter'
 import DataContext from '../../context/data-context'
 import DataTable from '../Tests/DataTable'
 
@@ -24,15 +24,11 @@ const CreateTest: FC<any> = (): ReactElement => {
 
   const { setItemsList } = useContext(DataContext)
 
-  const createOrSaveTest = () => {
-    // create empty test
+  const createTest = () => {
     const emptyTest = {
-      //@ts-ignore
-      title: titleProps.value,
-      //@ts-ignore
-      difficulty: difficultyProps.value,
-      //@ts-ignore
-      duration: durationProps.value,
+      title: (titleProps as IProps).value,
+      difficulty: (difficultyProps as IProps).value,
+      duration: (durationProps as IProps).value,
     }
 
     const requestURL = `http://localhost:5000/tests/create`
@@ -42,11 +38,11 @@ const CreateTest: FC<any> = (): ReactElement => {
       body: JSON.stringify({
         data: {
           //@ts-ignore
-          discipline: disciplineProps.value,
+          discipline: (disciplineProps as IProps).value,
           //@ts-ignore
-          subject: subjectProps.value,
+          subject: (subjectProps as IProps).value,
           //@ts-ignore
-          level: levelProps.value,
+          level: (levelProps as IProps).value,
           test: emptyTest,
         },
       }),
@@ -56,7 +52,7 @@ const CreateTest: FC<any> = (): ReactElement => {
       .then((response) => response.json())
       .then((data) => {
         console.log(`Data from create'}Test response: `, data)
-        // @ts-ignore
+
         setQuestions(data.payload.questions)
       })
   }
@@ -77,10 +73,9 @@ const CreateTest: FC<any> = (): ReactElement => {
             </MenuItem>
             {setItemsList(
               {
-                // @ts-ignore
-                level: levelProps.value,
-                // @ts-ignore
-                subject: subjectProps.value,
+                level: (levelProps as IProps).value,
+
+                subject: (subjectProps as IProps).value,
               },
               'discipline'
             ).map((el: any) => (
@@ -103,10 +98,9 @@ const CreateTest: FC<any> = (): ReactElement => {
             </MenuItem>
             {setItemsList(
               {
-                // @ts-ignore
-                discipline: disciplineProps.value,
-                // @ts-ignore
-                subject: subjectProps.value,
+                discipline: (disciplineProps as IProps).value,
+
+                subject: (subjectProps as IProps).value,
               },
               'level'
             ).map((el: any) => (
@@ -129,10 +123,9 @@ const CreateTest: FC<any> = (): ReactElement => {
             </MenuItem>
             {setItemsList(
               {
-                // @ts-ignore
-                discipline: disciplineProps.value,
-                // @ts-ignore
-                level: levelProps.value,
+                discipline: (disciplineProps as IProps).value,
+
+                level: (levelProps as IProps).value,
               },
               'subject'
             ).map((el: any) => (
@@ -182,18 +175,13 @@ const CreateTest: FC<any> = (): ReactElement => {
         variant="outlined"
         size="small"
         disabled={
-          // @ts-ignore
-          disciplineProps.value === '' ||
-          // @ts-ignore
-          levelProps.value === '' ||
-          // @ts-ignore
-          subjectProps.value === '' ||
-          // @ts-ignore
-          titleProps.value === '' ||
-          // @ts-ignore
-          difficultyProps.value === ''
+          (disciplineProps as IProps).value === '' ||
+          (levelProps as IProps).value === '' ||
+          (subjectProps as IProps).value === '' ||
+          (titleProps as IProps).value === '' ||
+          (difficultyProps as IProps).value === ''
         }
-        onClick={() => createOrSaveTest()}
+        onClick={() => createTest()}
       >
         {'Create test'}
       </Button>

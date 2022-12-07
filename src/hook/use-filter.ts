@@ -1,6 +1,11 @@
 import { SelectChangeEvent } from '@mui/material'
 import React, { useState } from 'react'
 
+export interface IProps {
+  value: string
+  onChange: () => void
+}
+
 export function useFilter(initialValue: any) {
   const [value, setValue] = useState(initialValue)
   const onChange = (e: React.SyntheticEvent | SelectChangeEvent<any>) => {
@@ -10,7 +15,7 @@ export function useFilter(initialValue: any) {
   function reset(): any {
     setValue(initialValue)
   }
-  return [props, reset]
+  return [props as IProps, reset]
 }
 
 export default useFilter
