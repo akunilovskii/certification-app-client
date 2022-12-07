@@ -10,18 +10,16 @@ import {
 } from '@mui/material'
 import useFilter from '../../hook/use-filter'
 import DataContext from '../../context/data-context'
-import { tests } from '../../store/tests-store'
 import QuestionsForm from '../../components/QuestionsForm'
 
 const CreateTest: FC<any> = (): ReactElement => {
   const [testID, setTestID] = useState(null)
-  console.log(testID)
-  const [disciplineProps, resetDiscipline] = useFilter('')
-  const [levelProps, resetLevel] = useFilter('')
-  const [subjectProps, resetSubject] = useFilter('')
-  const [titleProps, resetTitle] = useFilter('')
-  const [difficultyProps, resetDifficulty] = useFilter('')
-  const [durationProps, resetDuration] = useFilter(0)
+  const [disciplineProps] = useFilter('')
+  const [levelProps] = useFilter('')
+  const [subjectProps] = useFilter('')
+  const [titleProps] = useFilter('')
+  const [difficultyProps] = useFilter('')
+  const [durationProps] = useFilter(0)
   const [questions, setQuestions] = useState([])
 
   const { setItemsList } = useContext(DataContext)
@@ -65,9 +63,9 @@ const CreateTest: FC<any> = (): ReactElement => {
           `Data from ${testID ? 'update' : 'create'}Test response: `,
           data
         )
-        if (!testID) setTestID(data._id)
+        if (!testID) setTestID(data.payload._id)
         // @ts-ignore
-        setQuestions(data.questions)
+        setQuestions(data.payload.questions)
       })
   }
 
