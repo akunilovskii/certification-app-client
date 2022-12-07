@@ -10,10 +10,10 @@ import {
 } from '@mui/material'
 import useFilter from '../../hook/use-filter'
 import DataContext from '../../context/data-context'
-import QuestionsForm from '../../components/QuestionsForm'
+import DataTable from '../Tests/DataTable'
 
 const CreateTest: FC<any> = (): ReactElement => {
-  const [testID, setTestID] = useState(null)
+  const [testsList, setTestList] = useState(null)
   const [disciplineProps] = useFilter('')
   const [levelProps] = useFilter('')
   const [subjectProps] = useFilter('')
@@ -33,14 +33,11 @@ const CreateTest: FC<any> = (): ReactElement => {
       difficulty: difficultyProps.value,
       //@ts-ignore
       duration: durationProps.value,
-      questions: !testID ? [] : questions,
     }
 
-    const requestURL = `http://localhost:5000/tests/${
-      testID ? testID : 'create'
-    }`
+    const requestURL = `http://localhost:5000/tests/create`
     const requestOptions = {
-      method: testID ? 'PUT' : 'POST',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         data: {
@@ -58,11 +55,7 @@ const CreateTest: FC<any> = (): ReactElement => {
     fetch(requestURL, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log(
-          `Data from ${testID ? 'update' : 'create'}Test response: `,
-          data
-        )
-        if (!testID) setTestID(data.payload._id)
+        console.log(`Data from create'}Test response: `, data)
         // @ts-ignore
         setQuestions(data.payload.questions)
       })
@@ -153,7 +146,6 @@ const CreateTest: FC<any> = (): ReactElement => {
           <TextField
             label="Test title"
             type="text"
-            // fullWidth
             size="small"
             {...titleProps}
           />
@@ -174,22 +166,17 @@ const CreateTest: FC<any> = (): ReactElement => {
           <TextField
             label="Duration"
             type="text"
-            // fullWidth
             size="small"
             {...durationProps}
           />
         </FormControl>
 
-        {/*<DataTable testsList={testsList} />*/}
+        {/* <DataTable testsList={testsList} /> */}
       </Grid>
       <FormControl
         variant="standard"
         sx={{ m: 1, minWidth: 120, justifyContent: 'flex-end' }}
       ></FormControl>
-
-      {testID && (
-        <QuestionsForm questions={questions} setQuestions={setQuestions} />
-      )}
       <Button
         color="primary"
         variant="outlined"
@@ -208,7 +195,7 @@ const CreateTest: FC<any> = (): ReactElement => {
         }
         onClick={() => createOrSaveTest()}
       >
-        {!testID ? 'Create test' : 'Save test'}
+        {'Create test'}
       </Button>
     </>
   )
