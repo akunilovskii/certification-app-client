@@ -1,9 +1,10 @@
-import {FC, ReactElement, useContext, useState} from 'react'
+import React, {FC, ReactElement, useCallback, useContext, useEffect, useState} from 'react'
 import {Button, Grid,} from '@mui/material'
 import useFilter, {IProps} from '../../hook/use-filter'
 import DataContext from '../../context/data-context'
 import TestFormFields from "../../components/TestFormFields";
 import {ITests} from "../../store/tests-store";
+import TestsList from "../../components/TestsList";
 
 
 const CreateTest: FC<any> = (): ReactElement => {
@@ -27,9 +28,32 @@ const CreateTest: FC<any> = (): ReactElement => {
             .then((data) => {
                 console.log(`Data from createTest response: `, data)
 
-                setQuestions(data.payload.questions)
+                setQuestions(data.payload.questions);
+                getTests();
             })
     }
+
+    const getTests = useCallback(() => {
+        const requestURL = `http://localhost:5000/tests/`
+        const requestOptions = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+        }
+
+        fetch(requestURL, requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(`'Get data result: `, data.payload)
+
+                setTestList(data.payload)
+            })
+    },[])
+
+    useEffect(()=>{
+        getTests();
+    },[])
+
+
 
     return (
         <>
@@ -147,7 +171,7 @@ const CreateTest: FC<any> = (): ReactElement => {
                 {/*></FormControl>*/}
 
                 <TestFormFields action={createTest}/>
-
+                <TestsList testsList={testsList}/>
 
             </>
             )
