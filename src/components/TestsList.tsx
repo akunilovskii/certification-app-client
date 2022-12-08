@@ -4,24 +4,12 @@ import { useContext, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Chip from '@mui/material/Chip'
 import { Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import EditIcon from '@mui/icons-material/Edit'
 
 const TestsList: FC<any> = (props: any): ReactElement => {
     const testsList = props.testsList
     console.log('TestList inside component: ', testsList)
     if (!testsList) return <></>;
-    // const handleClick = (event: any, cellValues: any) => {
-    //     setSelectedTest(testsList.filter((el: any) => el.id === cellValues.id)[0])
-    //     setModalOpen(true)
-    // }
-    //
-    // const navigate = useNavigate()
-    // const onClose = (result: boolean) => {
-    //     setModalOpen(false)
-    //     if (result) {
-    //         navigate('/tests/test')
-    //     }
-    // }
 
     const columns: GridColDef[] = [
         {
@@ -111,13 +99,14 @@ const TestsList: FC<any> = (props: any): ReactElement => {
 
             renderCell: (cellValues) => {
                 return (
+
                     <Button
                         sx={{ color: 'testButton.main' }}
                         // onClick={(event) => {
                         //     handleClick(event, cellValues)
                         // }}
                     >
-                        Start
+                        <EditIcon onClick={()=>props.editTest(cellValues.id)}/>
                     </Button>
                 )
             },
@@ -126,9 +115,9 @@ const TestsList: FC<any> = (props: any): ReactElement => {
 
     const rows = testsList.map((el: any, i: number) => ({
         id: el._id,
-        discipline: el.discipline,
-        level: el.level,
-        subject: el.subject,
+        discipline: el.discipline.name,
+        level: el.level.name,
+        subject: el.subject.name,
         number: i + 1,
         title: el.title,
         difficulty: el.difficulty,
@@ -144,13 +133,6 @@ const TestsList: FC<any> = (props: any): ReactElement => {
                 pageSize={10}
                 rowsPerPageOptions={[10]}
             />
-            {/*{*/}
-            {/*    <ModalWindow*/}
-            {/*        selectedTest={selectedTest}*/}
-            {/*        open={modalOpen}*/}
-            {/*        onClose={onClose}*/}
-            {/*    />*/}
-            {/*}*/}
         </div>
     )
 }

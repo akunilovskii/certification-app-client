@@ -1,180 +1,113 @@
-import React, {FC, ReactElement, useCallback, useContext, useEffect, useState} from 'react'
-import {Button, Grid,} from '@mui/material'
-import useFilter, {IProps} from '../../hook/use-filter'
-import DataContext from '../../context/data-context'
-import TestFormFields from "../../components/TestFormFields";
-import {ITests} from "../../store/tests-store";
-import TestsList from "../../components/TestsList";
+import React, {
+  FC,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
+import { Grid } from '@mui/material'
+import TestFormFields from '../../components/TestFormFields'
+import { ITests } from '../../store/tests-store'
+import TestsList from '../../components/TestsList'
+import EditTest from '../../components/EditTest.'
+import {IProps} from "../../hook/use-filter";
 
+const initialTest = {
+  discipline: '',
+  subject: '',
+  level: '',
+  title: '',
+    difficulty: '',
+    duration: 0,
+}
 
 const CreateTest: FC<any> = (): ReactElement => {
-    const [testsList, setTestList] = useState(null)
+  const [testsList, setTestList] = useState(null)
+  const [testId, setTestId] = useState('')
+  const [selectedTest, setSelectedTest ] = useState(initialTest)
+  const [questions, setQuestions] = useState([])
 
-    const [questions, setQuestions] = useState([])
-
-    const createTest = (test: ITests) => {
-        console.log('Test: ', test);
-        const requestURL = `http://localhost:5000/tests/create`
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                data: test,
-            }),
-        }
-
-        fetch(requestURL, requestOptions)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(`Data from createTest response: `, data)
-
-                setQuestions(data.payload.questions);
-                getTests();
-            })
+  const editTest = (id: string) => {
+    setTestId(id)
+  }
+  const createTest = (test: ITests) => {
+    console.log('Test: ', test)
+    const requestURL = `http://localhost:5000/tests/create`
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: test,
+      }),
     }
 
-    const getTests = useCallback(() => {
-        const requestURL = `http://localhost:5000/tests/`
-        const requestOptions = {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json'},
-        }
+    fetch(requestURL, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(`Data from createTest response: `, data)
 
-        fetch(requestURL, requestOptions)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(`'Get data result: `, data.payload)
+        // setQuestions(data.payload.questions)
+        getTests()
+      })
+  }
 
-                setTestList(data.payload)
-            })
-    },[])
+  const getTests = useCallback(() => {
+    const requestURL = `http://localhost:5000/tests/`
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    }
 
-    useEffect(()=>{
-        getTests();
-    },[])
+    fetch(requestURL, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(`'Get data result: `, data.payload)
 
+        setTestList(data.payload)
+      })
+  }, [])
 
+  const getTestById = useCallback(async (testId: string) => {
+    const requestURL = `http://localhost:5000/tests/${testId}`
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    }
 
-    return (
-        <>
-            <Grid container item md={8} xs={12} justifyContent="center">
-                {/*  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>*/}
-                {/*    <InputLabel id="discipline-label">Discipline</InputLabel>*/}
-                {/*    <Select*/}
-                {/*      labelId="discipline-label"*/}
-                {/*      id="discipline"*/}
-                {/*      {...disciplineProps}*/}
-                {/*      label="Discipline"*/}
-                {/*    >*/}
-                {/*      <MenuItem value="">*/}
-                {/*        <em>All disciplines</em>*/}
-                {/*      </MenuItem>*/}
-                {/*      {setItemsList(*/}
-                {/*        {*/}
-                {/*          level: (levelProps as IProps).value,*/}
+    fetch(requestURL, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(`Data from getTestById response: `, data)
+        setSelectedTest(data.payload);
+        console.log('-----', selectedTest);
+      })
+  }, [])
 
-                {/*          subject: (subjectProps as IProps).value,*/}
-                {/*        },*/}
-                {/*        'discipline'*/}
-                {/*      ).map((el: any) => (*/}
-                {/*        <MenuItem key={el.id} value={el.value}>*/}
-                {/*          {el.value}*/}
-                {/*        </MenuItem>*/}
-                {/*      ))}*/}
-                {/*    </Select>*/}
-                {/*  </FormControl>*/}
-                {/*  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>*/}
-                {/*    <InputLabel id="level-label">Level</InputLabel>*/}
-                {/*    <Select*/}
-                {/*      labelId="level-label"*/}
-                {/*      id="level"*/}
-                {/*      {...levelProps}*/}
-                {/*      label="Level"*/}
-                {/*    >*/}
-                {/*      <MenuItem value="">*/}
-                {/*        <em>All levels</em>*/}
-                {/*      </MenuItem>*/}
-                {/*      {setItemsList(*/}
-                {/*        {*/}
-                {/*          discipline: (disciplineProps as IProps).value,*/}
+  useEffect(() => {
+    getTests()
+  }, [])
 
-                {/*          subject: (subjectProps as IProps).value,*/}
-                {/*        },*/}
-                {/*        'level'*/}
-                {/*      ).map((el: any) => (*/}
-                {/*        <MenuItem key={el.id} value={el.value}>*/}
-                {/*          {el.value}*/}
-                {/*        </MenuItem>*/}
-                {/*      ))}*/}
-                {/*    </Select>*/}
-                {/*  </FormControl>*/}
-                {/*  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>*/}
-                {/*    <InputLabel id="subject-label">Subject</InputLabel>*/}
-                {/*    <Select*/}
-                {/*      labelId="subject-label"*/}
-                {/*      id="subject"*/}
-                {/*      {...subjectProps}*/}
-                {/*      label="Subject"*/}
-                {/*    >*/}
-                {/*      <MenuItem value="">*/}
-                {/*        <em>All subjects</em>*/}
-                {/*      </MenuItem>*/}
-                {/*      {setItemsList(*/}
-                {/*        {*/}
-                {/*          discipline: (disciplineProps as IProps).value,*/}
+  useEffect(() => {
+    if (testId) {
+      getTestById(testId)
+    }
+  }, [testId])
 
-                {/*          level: (levelProps as IProps).value,*/}
-                {/*        },*/}
-                {/*        'subject'*/}
-                {/*      ).map((el: any) => (*/}
-                {/*        <MenuItem key={el.id} value={el.value}>*/}
-                {/*          {el.value}*/}
-                {/*        </MenuItem>*/}
-                {/*      ))}*/}
-                {/*    </Select>*/}
-                {/*  </FormControl>*/}
-                {/*  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>*/}
-                {/*    <TextField*/}
-                {/*      label="Test title"*/}
-                {/*      type="text"*/}
-                {/*      size="small"*/}
-                {/*      {...titleProps}*/}
-                {/*    />*/}
-                {/*  </FormControl>*/}
-                {/*  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>*/}
-                {/*    <Select*/}
-                {/*      labelId="subject-difficulty"*/}
-                {/*      id="difficulty"*/}
-                {/*      {...difficultyProps}*/}
-                {/*      label="Difficulty"*/}
-                {/*    >*/}
-                {/*      <MenuItem value="easy">Easy</MenuItem>*/}
-                {/*      <MenuItem value="standard">Standard</MenuItem>*/}
-                {/*      <MenuItem value="hard">Hard</MenuItem>*/}
-                {/*    </Select>*/}
-                {/*  </FormControl>*/}
-                {/*  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>*/}
-                {/*    <TextField*/}
-                {/*      label="Duration"*/}
-                {/*      type="text"*/}
-                {/*      size="small"*/}
-                {/*      {...durationProps}*/}
-                {/*    />*/}
-                {/*  </FormControl>*/}
+  return (
+    <>
+      <Grid container item md={8} xs={12} justifyContent="center">
+        <TestFormFields action={createTest} values={selectedTest} />
+      </Grid>
 
-                {/*  /!* <DataTable testsList={testsList} /> *!/*/}
-                </Grid>
+      {testId ? <></> : <TestsList testsList={testsList} editTest={editTest} />}
 
-                {/*<FormControl*/}
-                {/*  variant="standard"*/}
-                {/*  sx={{ m: 1, minWidth: 120, justifyContent: 'flex-end' }}*/}
-                {/*></FormControl>*/}
+      {testId ? (
+        <EditTest testId={testId} clearTestId={() => setTestId('')} />
+      ) : (
+        <></>
+      )}
+    </>
+  )
+}
 
-                <TestFormFields action={createTest}/>
-                <TestsList testsList={testsList}/>
-
-            </>
-            )
-            }
-
-            export default CreateTest
+export default CreateTest

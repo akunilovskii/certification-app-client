@@ -1,4 +1,4 @@
-import {FC, ReactElement, useContext} from 'react'
+import {FC, ReactElement, useContext, useEffect} from 'react'
 import {
     Button,
     FormControl,
@@ -10,15 +10,24 @@ import {
 import useFilter, {IProps} from '../hook/use-filter'
 import DataContext from '../context/data-context'
 
-const TestFormFields: FC<any> = ({action, initialValues}): ReactElement => {
+const TestFormFields: FC<any> = ({action, values}): ReactElement => {
     const [disciplineProps, resetDiscipline] = useFilter('')
     const [levelProps, resetLevel] = useFilter('')
     const [subjectProps, resetSubject] = useFilter('')
     const [titleProps, resetTitle] = useFilter('')
     const [difficultyProps, resetDifficulty] = useFilter('')
-    const [durationProps, resetDuration] = useFilter(0)
+    const [durationProps, resetDuration] = useFilter('')
     const {setItemsList} = useContext(DataContext)
 
+    console.log('initial values: ', values);
+    useEffect(()=>{
+        [disciplineProps] = useFilter(values.discipline.name);
+        levelProps.onChange(initialValues.level.name)
+        subjectProps.onChange(initialValues.subject.name)
+        titleProps.onChange(initialValues.title)
+        difficultyProps.onChange(initialValues.difficulty)
+        durationProps.onChange(initialValues.duration)
+    },[values])
     const actionHandler = () => {
         action({
             discipline: (disciplineProps as IProps).value,
