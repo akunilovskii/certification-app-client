@@ -19,7 +19,6 @@ const TestFormFields: FC<any> = ({ action, values }): ReactElement => {
   const [durationProps, resetDuration, setDuration] = useFilter(0)
   const { setItemsList, tests } = useContext(DataContext)
 
-  console.log('initial values: ', values)
   useEffect(() => {
     //@ts-ignore
     setDiscipline(values.discipline.name)

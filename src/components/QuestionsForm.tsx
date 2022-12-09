@@ -17,7 +17,6 @@ const QuestionsForm: FC<any> = ({ questions, setQuestions }): ReactElement => {
     // SAVE
   }
 
-  console.log('Questions: ', questions)
   return (
     <div>
       <div>

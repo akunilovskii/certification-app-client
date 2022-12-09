@@ -32,7 +32,7 @@ interface Props {
 export const DataContextProvider = ({ children }: Props) => {
   const testAllConditions = (el: any, conditions: {}) => {
     return Object.entries(conditions).reduce((acc, cond) => {
-      return acc && (cond[1] !== '' ? el[cond[0]] === cond[1] : true)
+      return acc && (cond[1] !== '' ? el[cond[0]].name === cond[1] : true)
     }, true)
   }
 
@@ -58,10 +58,14 @@ export const DataContextProvider = ({ children }: Props) => {
     testsArray: ITest[]
   ) => {
     return testsArray.reduce((acc, el) => {
+
+      //send el and conditions to testAllConditions function
       if (testAllConditions(el, conditions)) {
         // @ts-ignore
-        acc = [...acc, { id: el.id, value: el[output] }]
+        acc = [...acc, { id: el[output]._id, value: el[output].name }]
       }
+
+      //returns unique values
       return acc.filter(
         (a: any, i: any, self: any) =>
           self.findIndex((s: any) => a.value === s.value) === i

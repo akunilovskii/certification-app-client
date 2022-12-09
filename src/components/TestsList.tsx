@@ -12,7 +12,6 @@ import AuthContext from '../context/auth-context'
 const TestsList: FC<any> = ({ editTest, testsList }): ReactElement => {
   const { user } = useContext(AuthContext)
 
-  console.log('TestList inside component: ', testsList)
   if (!testsList) return <></>
 
   const columns: GridColDef[] = [

@@ -36,7 +36,6 @@ const CreateTest: FC<any> = (): ReactElement => {
     setTestId(id)
   }
   const createTest = (test: ITest) => {
-    console.log('Test: ', test)
     const requestURL = `http://localhost:5000/tests/create`
     const requestOptions = {
       method: 'POST',
@@ -49,14 +48,12 @@ const CreateTest: FC<any> = (): ReactElement => {
     fetch(requestURL, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log(`Data from createTest response: `, data)
 
         // setQuestions(data.payload.questions)
         // getTests()
       })
   }
   const saveTest = (test: ITest) => {
-    console.log('Test: ', test)
     const requestURL = `http://localhost:5000/tests/create`
     const requestOptions = {
       method: 'POST',
@@ -69,8 +66,6 @@ const CreateTest: FC<any> = (): ReactElement => {
     fetch(requestURL, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log(`Data from createTest response: `, data)
-
         // setQuestions(data.payload.questions)
         // getTests()
       })
@@ -86,7 +81,6 @@ const CreateTest: FC<any> = (): ReactElement => {
     fetch(requestURL, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log(`'Get data result: `, data.payload)
 
         setTestList(data.payload)
       })
@@ -102,9 +96,7 @@ const CreateTest: FC<any> = (): ReactElement => {
     fetch(requestURL, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log(`Data from getTestById response: `, data)
         setSelectedTest(data.payload)
-        console.log('-----', selectedTest)
       })
   }, [])
 
