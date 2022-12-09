@@ -10,7 +10,7 @@ import Layout from './components/layout/Layout'
 import AuthContext from './context/auth-context'
 
 export default function App() {
-  const { isLoggedIn } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
   const themeMode = localStorage.getItem('themeMode')
   const [mode, setMode] = useState<'light' | 'dark'>(
     themeMode === 'light' ? 'light' : 'dark'
@@ -39,7 +39,9 @@ export default function App() {
           <Layout>
             <Routes>
               {appRoutes
-                .filter((el) => (isLoggedIn ? el : el.access !== 'private'))
+                .filter((el) =>
+                  user.isLoggedIn ? el : el.access !== 'private'
+                )
                 .map((route) => (
                   <Route
                     key={route.key}

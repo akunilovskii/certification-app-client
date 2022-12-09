@@ -1,16 +1,21 @@
 import { Grid, Paper, Typography } from '@mui/material'
-import React, {FC, useContext, useEffect} from 'react'
+import React, { FC, useContext, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import SideImage from '../../components/SideImage'
 import AuthContext from '../../context/auth-context'
 
 export const Logout: FC = () => {
   const { logoutHandler } = useContext(AuthContext)
+  const navigate = useNavigate()
 
-  useEffect(()=>{
-      logoutHandler()
-  },[])
-
-
+  useEffect(() => {
+    logoutHandler()
+    //@ts-ignore
+    const timeout1 = setTimeout(() => {
+      navigate('/')
+    }, 2000)
+    return () => clearTimeout(timeout1)
+  }, [])
 
   return (
     <Paper sx={{ height: '100%', width: '50%' }}>

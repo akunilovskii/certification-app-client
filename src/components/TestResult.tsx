@@ -16,7 +16,7 @@ function TestResult({ answers, open, onClose }: Props) {
         (acc, el) => acc + (el.answers[el.selected[0]].correct ? 1 : 0),
         0
     )
-    console.log(answers);
+
     return (
         <div>
             <Dialog

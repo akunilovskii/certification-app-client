@@ -1,8 +1,12 @@
 import { createContext, ReactNode, useState } from 'react'
-import { ITests, IQuestion, tests } from '../store/tests-store'
+import { ITest, IQuestion, tests } from '../store/tests-store'
 
 const DataContext = createContext({
-  setItemsList: (conditions: {}, output: string): String[] => [],
+  setItemsList: (
+    conditions: {},
+    output: string,
+    testsArray: ITest[]
+  ): String[] => [],
   selectedTest: {
     id: '',
     title: '',
@@ -18,6 +22,7 @@ const DataContext = createContext({
     ],
   },
   setSelectedTest: (value: IQuestion) => {},
+  tests: [],
 })
 
 interface Props {
@@ -27,7 +32,7 @@ interface Props {
 export const DataContextProvider = ({ children }: Props) => {
   const testAllConditions = (el: any, conditions: {}) => {
     return Object.entries(conditions).reduce((acc, cond) => {
-      return acc && (cond[1] !== '' ? el[cond[0]] === cond[1] : true)
+      return acc && (cond[1] !== '' ? el[cond[0]].name === cond[1] : true)
     }, true)
   }
 
@@ -45,14 +50,22 @@ export const DataContextProvider = ({ children }: Props) => {
       },
     ],
   }
-  const [selectedTest, setSelectedTest] = useState<ITests>(emptyTest)
+  const [selectedTest, setSelectedTest] = useState<ITest>(emptyTest)
 
-  const setItemsList = (conditions: {}, output: string) => {
-    return tests.reduce((acc, el) => {
+  const setItemsList = (
+    conditions: {},
+    output: string,
+    testsArray: ITest[]
+  ) => {
+    return testsArray.reduce((acc, el) => {
+
+      //send el and conditions to testAllConditions function
       if (testAllConditions(el, conditions)) {
         // @ts-ignore
-        acc = [...acc, { id: el.id, value: el[output] }]
+        acc = [...acc, { id: el[output]._id, value: el[output].name }]
       }
+
+      //returns unique values
       return acc.filter(
         (a: any, i: any, self: any) =>
           self.findIndex((s: any) => a.value === s.value) === i
@@ -60,7 +73,7 @@ export const DataContextProvider = ({ children }: Props) => {
     }, [] as any)
   }
 
-  const dataState = { setItemsList, selectedTest, setSelectedTest }
+  const dataState = { tests, setItemsList, selectedTest, setSelectedTest }
 
   return (
     // @ts-ignore

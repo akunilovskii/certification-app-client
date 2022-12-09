@@ -22,7 +22,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 
 export const Navbar: FC = (): ReactElement => {
   const [anchorElNav, setAnchorElNav] = useState(null)
-  const { isLoggedIn } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
   const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget)
@@ -89,7 +89,9 @@ export const Navbar: FC = (): ReactElement => {
               }}
             >
               {routes
-                .filter((el) => (isLoggedIn ? el : el.access !== 'private'))
+                .filter((el) =>
+                  user.isLoggedIn ? el : el.access !== 'private'
+                )
                 .map((page) => (
                   <Link
                     key={page.key}
@@ -125,7 +127,9 @@ export const Navbar: FC = (): ReactElement => {
               }}
             >
               {routes
-                .filter((el) => (isLoggedIn ? el : el.access !== 'private'))
+                .filter((el) =>
+                  user.isLoggedIn ? el : el.access !== 'private'
+                )
                 .map((page) => (
                   <Link
                     key={page.key}
@@ -141,7 +145,7 @@ export const Navbar: FC = (): ReactElement => {
                 ))}
             </Box>
           </Box>
-          {!isLoggedIn && (
+          {!user.isLoggedIn && (
             <IconButton
               to={'/login-sign-up'}
               component={NavLink}
@@ -151,7 +155,7 @@ export const Navbar: FC = (): ReactElement => {
               <AccountCircleIcon />
             </IconButton>
           )}
-          {isLoggedIn && (
+          {user.isLoggedIn && (
             <IconButton
               // onClick={handleLogout}
               to={'/logout'}

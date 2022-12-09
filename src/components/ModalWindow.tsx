@@ -7,10 +7,10 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material'
-import { ITests } from '../store/tests-store'
+import { ITest } from '../store/tests-store'
 
 interface Props {
-  selectedTest: ITests
+  selectedTest: ITest
   open: boolean
   onClose: (result: boolean) => void
 }
