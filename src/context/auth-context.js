@@ -1,38 +1,43 @@
 import { createContext, useEffect, useState } from 'react'
 
 const AuthContext = createContext({
-  isLoggedIn: false,
+  user: { isLoggedIn: false, role: '' },
   loginHandler: (login, password) => {},
   logoutHandler: () => {},
 })
 
 export const AuthContextProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [user, setUser] = useState({ isLoggedIn: false, role: '' })
   const users = {
-    'mike@mail.com': '123',
-    'alex@mail.com': '123',
+    'user@mail.com': {
+      role: 'user',
+      password: '123',
+    },
+    'admin@mail.com': {
+      role: 'admin',
+      password: '123',
+    },
   }
   useEffect(() => {
-    if (localStorage.getItem('isLoggedIn')) setIsLoggedIn(true)
+    const login = localStorage.getItem('isLoggedIn')
+    if (!!login) setUser({ isLoggedIn: true, role: users[login].role })
   }, [])
 
-  const checkUser = (login, password) => {
-    return password === users[login]
-  }
+  const checkUser = (login, password) => password === users[login].password
 
   const loginHandler = (login, password) => {
     const checkUserResult = checkUser(login, password)
     if (checkUserResult) {
       localStorage.setItem('isLoggedIn', login)
-      setIsLoggedIn(true)
+      setUser({ isLoggedIn: true, role: users[login].role })
     }
   }
   const logoutHandler = () => {
     localStorage.removeItem('isLoggedIn')
-    setIsLoggedIn(false)
+    setUser({ isLoggedIn: false, role: '' })
   }
 
-  const authState = { isLoggedIn, loginHandler, logoutHandler }
+  const authState = { user, loginHandler, logoutHandler }
 
   return (
     <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>

@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import AuthContext from '../context/auth-context'
 
 const LoginForm: FC<{ index: number }> = ({ index }) => {
-  const { isLoggedIn, loginHandler } = useContext(AuthContext)
+  const { user, loginHandler } = useContext(AuthContext)
   const email = useRef<TextFieldProps>(null)
   const newPassword = useRef<TextFieldProps>(null)
   const rePassword = useRef<TextFieldProps>(null)
@@ -23,11 +23,11 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
   )
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (user.isLoggedIn) {
       formReset()
       navigate('/')
     }
-  }, [isLoggedIn])
+  }, [user.isLoggedIn])
 
   const getForm = (...inputStates: any) => {
     const formIsValid = inputStates.reduce(

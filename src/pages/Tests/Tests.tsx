@@ -1,4 +1,11 @@
-import { FC, ReactElement, useContext } from 'react'
+import {
+  FC,
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import {
   Button,
   FormControl,
@@ -11,8 +18,11 @@ import {
 import DataTable from './DataTable'
 import useFilter from '../../hook/use-filter'
 import DataContext from '../../context/data-context'
+import TestsList from '../../components/TestsList'
 
 const Tests: FC<any> = (): ReactElement => {
+  const [testsList, setTestList] = useState([])
+  const [filteredTest, setFilteredTests] = useState()
   const [disciplineProps, resetDiscipline] = useFilter('')
   const [levelProps, resetLevel] = useFilter('')
   const [subjectProps, resetSubject] = useFilter('')
@@ -27,17 +37,36 @@ const Tests: FC<any> = (): ReactElement => {
     resetSubject('')
   }
 
-  const testsList = setItemsList(
-    {
-      // @ts-ignore
-      discipline: disciplineProps.value,
-      // @ts-ignore
-      level: levelProps.value,
-      // @ts-ignore
-      subject: subjectProps.value,
-    },
-    'tests'
-  ).flatMap((el: any) => el.value.map((res: any) => res))
+  const getTests = useCallback(() => {
+    const requestURL = `http://localhost:5000/tests/`
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    }
+
+    fetch(requestURL, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(`'Get data result: `, data.payload)
+
+        setTestList(data.payload)
+      })
+  }, [])
+  useEffect(() => {
+    getTests()
+  }, [])
+
+  // const testsList = setItemsList(
+  //   {
+  //     // @ts-ignore
+  //     discipline: disciplineProps.value,
+  //     // @ts-ignore
+  //     level: levelProps.value,
+  //     // @ts-ignore
+  //     subject: subjectProps.value,
+  //   },
+  //   'tests'
+  // ).flatMap((el: any) => el.value.map((res: any) => res))
 
   return (
     <>
@@ -60,7 +89,8 @@ const Tests: FC<any> = (): ReactElement => {
                 // @ts-ignore
                 subject: subjectProps.value,
               },
-              'discipline'
+              'discipline',
+              testsList
             ).map((el: any) => (
               <MenuItem key={el.id} value={el.value}>
                 {el.value}
@@ -86,7 +116,8 @@ const Tests: FC<any> = (): ReactElement => {
                 // @ts-ignore
                 subject: subjectProps.value,
               },
-              'level'
+              'level',
+              testsList
             ).map((el: any) => (
               <MenuItem key={el.id} value={el.value}>
                 {el.value}
@@ -112,7 +143,8 @@ const Tests: FC<any> = (): ReactElement => {
                 // @ts-ignore
                 level: levelProps.value,
               },
-              'subject'
+              'subject',
+              testsList
             ).map((el: any) => (
               <MenuItem key={el.id} value={el.value}>
                 {el.value}
@@ -135,7 +167,8 @@ const Tests: FC<any> = (): ReactElement => {
           </Button>
         </FormControl>
 
-        <DataTable testsList={testsList} />
+        {/* <DataTable testsList={testsList} /> */}
+        <TestsList testsList={testsList} />
       </Grid>
     </>
   )

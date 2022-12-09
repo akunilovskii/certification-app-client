@@ -3,10 +3,10 @@ export interface ITaxonomy {
   discipline: string
   level: string
   subject: string
-  tests: ITests[]
+  tests: ITest[]
 }
 
-export interface ITests {
+export interface ITest {
   id: string
   title: string
   difficulty: string

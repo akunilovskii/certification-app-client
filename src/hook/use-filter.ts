@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 export interface IProps {
   value: string
-  onChange: () => void
+  onChange: (e: React.SyntheticEvent | SelectChangeEvent<any>) => void
 }
 
 export function useFilter(initialValue: any) {
@@ -15,7 +15,8 @@ export function useFilter(initialValue: any) {
   function reset(): any {
     setValue(initialValue)
   }
-  return [props as IProps, reset]
+
+  return [props as IProps, reset, setValue]
 }
 
 export default useFilter
