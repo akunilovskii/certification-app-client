@@ -9,7 +9,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import AuthContext from '../context/auth-context'
 
-const TestsList: FC<any> = ({ editTest, testsList }): ReactElement => {
+const TestsList: FC<any> = ({ testsList }): ReactElement => {
   const { user } = useContext(AuthContext)
 
   if (!testsList) return <></>

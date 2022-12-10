@@ -1,5 +1,6 @@
-import React, {FC, ReactElement, useEffect} from 'react'
+import React, {FC, ReactElement, useContext, useEffect} from 'react'
 import {
+    Box,
     Button,
     FormControl,
     InputLabel,
@@ -7,16 +8,17 @@ import {
     Select,
 } from '@mui/material'
 import useFilter, {IProps} from '../../../hook/use-filter'
+import DataContext from "../../../context/data-context";
 
 const TestsFilterFields: FC<any> = ({
-                                        setItemsList,
+                                        editMode,
                                         testsList,
                                         setFilterTestsConditions,
                                     }): ReactElement => {
     const [disciplineProps, resetDiscipline] = useFilter('')
     const [levelProps, resetLevel] = useFilter('')
     const [subjectProps, resetSubject] = useFilter('')
-
+    const { setItemsList } = useContext(DataContext)
     const resetFilters = () => {
         // @ts-ignore
         resetDiscipline()
@@ -40,8 +42,8 @@ const TestsFilterFields: FC<any> = ({
     ])
 
     return (
-        <>
-            <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
+        <Box display="flex" flexDirection="row">
+            <FormControl variant="standard" sx={{m: 1, minWidth: 120, marginBottom: 0}}>
                 <InputLabel id="discipline-label">Discipline</InputLabel>
                 <Select
                     labelId="discipline-label"
@@ -55,9 +57,9 @@ const TestsFilterFields: FC<any> = ({
                     {setItemsList(
                         {
                             // @ts-ignore
-                            level: levelProps.value,
+                            level: editMode ? '' : levelProps.value,
                             // @ts-ignore
-                            subject: subjectProps.value,
+                            subject: editMode ? '' : subjectProps.value,
                         },
                         'discipline',
                         testsList
@@ -68,7 +70,7 @@ const TestsFilterFields: FC<any> = ({
                     ))}
                 </Select>
             </FormControl>
-            <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
+            <FormControl variant="standard" sx={{m: 1, minWidth: 120, marginBottom: 0}}>
                 <InputLabel id="level-label">Level</InputLabel>
                 <Select labelId="level-label" id="level" {...levelProps} label="Level">
                     <MenuItem value="">
@@ -77,9 +79,9 @@ const TestsFilterFields: FC<any> = ({
                     {setItemsList(
                         {
                             // @ts-ignore
-                            discipline: disciplineProps.value,
+                            discipline: editMode ? '' : disciplineProps.value,
                             // @ts-ignore
-                            subject: subjectProps.value,
+                            subject: editMode ? '' : subjectProps.value,
                         },
                         'level',
                         testsList
@@ -90,7 +92,7 @@ const TestsFilterFields: FC<any> = ({
                     ))}
                 </Select>
             </FormControl>
-            <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
+            <FormControl variant="standard" sx={{m: 1, minWidth: 120, marginBottom: 0}}>
                 <InputLabel id="subject-label">Subject</InputLabel>
                 <Select
                     labelId="subject-label"
@@ -104,9 +106,9 @@ const TestsFilterFields: FC<any> = ({
                     {setItemsList(
                         {
                             // @ts-ignore
-                            discipline: disciplineProps.value,
+                            discipline: editMode ? '' : disciplineProps.value,
                             // @ts-ignore
-                            level: levelProps.value,
+                            level: editMode ? '' : levelProps.value,
                         },
                         'subject',
                         testsList
@@ -120,7 +122,7 @@ const TestsFilterFields: FC<any> = ({
 
             <FormControl
                 variant="standard"
-                sx={{m: 1, minWidth: 120, justifyContent: 'flex-end'}}
+                sx={{m: 1, minWidth: 120, justifyContent: 'flex-end', marginBottom: 0}}
             >
                 <Button
                     color="primary"
@@ -131,7 +133,7 @@ const TestsFilterFields: FC<any> = ({
                     Reset filters
                 </Button>
             </FormControl>
-        </>
+        </Box>
     )
 }
 

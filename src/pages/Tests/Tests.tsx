@@ -6,10 +6,12 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Grid } from '@mui/material'
+import { Box, Button, Grid } from '@mui/material'
 import DataContext from '../../context/data-context'
 import TestsList from '../../components/TestsList'
 import TestsFilterFields from './components/TestsFilterFields'
+import EditTest from './components/EditTest'
+import AuthContext from '../../context/auth-context'
 
 const Tests: FC<any> = (): ReactElement => {
   const [testsList, setTestList] = useState([])
@@ -19,7 +21,13 @@ const Tests: FC<any> = (): ReactElement => {
     subject: '',
   })
 
+  const [editMode, setEditMode] = useState(false)
+  const actionHandler = (mode: string) => {
+    mode === 'open' ? setEditMode(true) : setEditMode(false)
+  }
+
   const { setItemsList } = useContext(DataContext)
+  const { user } = useContext(AuthContext)
 
   const getTests = useCallback(() => {
     const requestURL = `http://localhost:5000/tests/`
@@ -53,15 +61,37 @@ const Tests: FC<any> = (): ReactElement => {
 
   return (
     <>
-      <Grid container item md={8} xs={12} justifyContent="center">
-        <TestsFilterFields
-          setItemsList={setItemsList}
-          testsList={testsList}
-          setFilterTestsConditions={setFilterTestsConditions}
-        />
-
-        <TestsList testsList={filteredTestsList} />
-      </Grid>
+      {editMode ? (
+        <EditTest editMode={editMode} testsList={testsList} actionHandler={actionHandler} setFilterTestsConditions={setFilterTestsConditions}/>
+      ) : (
+        <Grid container item md={8} xs={12} justifyContent="center">
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+            width="100%"
+            alignItems="flex-end"
+          >
+            <TestsFilterFields
+              testsList={testsList}
+              setFilterTestsConditions={setFilterTestsConditions}
+            />
+            {user.role === 'admin' ? (
+              <Button
+                color="primary"
+                variant="outlined"
+                size="small"
+                onClick={() => actionHandler('open')}
+              >
+                Create test
+              </Button>
+            ) : (
+              <></>
+            )}
+          </Box>
+          <TestsList testsList={filteredTestsList} />
+        </Grid>
+      )}
     </>
   )
 }

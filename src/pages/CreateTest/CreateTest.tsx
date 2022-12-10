@@ -9,7 +9,7 @@ import { Grid } from '@mui/material'
 import TestFormFields from '../../components/TestFormFields'
 import { ITest } from '../../store/tests-store'
 import TestsList from '../../components/TestsList'
-import EditTest from '../../components/EditTest'
+import EditTest from '../Tests/components/EditTest'
 import { IProps } from '../../hook/use-filter'
 
 const initialTest = {
