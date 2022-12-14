@@ -5,6 +5,7 @@ import {createTest, updateTest} from '../../../utils/requests'
 import { checkForEmptyFields } from '../../../utils/validators'
 import { useDebouncer } from '../../../hook/use-debouncer'
 import TestFields from './TestFields'
+import QuestionsForm from "../../../components/QuestionsForm";
 
 const EditTest: FC<any> = ({
   editMode,
@@ -15,7 +16,6 @@ const EditTest: FC<any> = ({
 }): ReactElement => {
   const { testValues } = useContext(DataContext)
   const debouncedTestValues = useDebouncer(testValues)
-
 
   const testUpdateHandler = useCallback(() => {
     if (editMode === 'create') {
@@ -38,7 +38,7 @@ const EditTest: FC<any> = ({
           editMode={editMode}
           selectedTest={selectedTest}
         />
-        {/* <QuestionsForm /> */}
+         <QuestionsForm />
         <Box
           display="flex"
           flexDirection="row"
