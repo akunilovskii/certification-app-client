@@ -7,66 +7,54 @@ import {
   Select,
   TextField,
 } from '@mui/material'
-import useFilter, { IProps } from '../hook/use-filter'
+import useFilter from '../hook/use-filter'
 import DataContext from '../context/data-context'
 
 const TestFormFields: FC<any> = ({ action, values }): ReactElement => {
-  const [disciplineProps, resetDiscipline, setDiscipline] = useFilter('')
-  const [levelProps, resetLevel, setLevel] = useFilter('')
-  const [subjectProps, resetSubject, setSubject] = useFilter('')
-  const [titleProps, resetTitle, setTitle] = useFilter('')
-  const [difficultyProps, resetDifficulty, setDifficulty] = useFilter('')
-  const [durationProps, resetDuration, setDuration] = useFilter(0)
+  const disciplineProps = useFilter('')
+  const levelProps = useFilter('')
+  const subjectProps = useFilter('')
+  const titleProps = useFilter('')
+  const difficultyProps = useFilter('')
+  const durationProps = useFilter(0)
   const { setItemsList, tests } = useContext(DataContext)
 
   useEffect(() => {
-    //@ts-ignore
-    setDiscipline(values.discipline.name)
-    //@ts-ignore
-    setLevel(values.level.name)
-    //@ts-ignore
-    setSubject(values.subject.name)
-    //@ts-ignore
-    setTitle(values.title)
-    //@ts-ignore
-    setDifficulty(values.difficulty)
-    //@ts-ignore
-    setDuration(values.duration)
+    disciplineProps.setValue(values.discipline.name)
+    levelProps.setValue(values.level.name)
+    subjectProps.setValue(values.subject.name)
+    titleProps.setValue(values.title)
+    difficultyProps.setValue(values.difficulty)
+    durationProps.setValue(values.duration)
   }, [values])
   const actionHandler = () => {
     action({
-      discipline: (disciplineProps as IProps).value,
-      subject: (subjectProps as IProps).value,
-      level: (levelProps as IProps).value,
+      discipline: disciplineProps.props.value,
+      subject: subjectProps.props.value,
+      level: levelProps.props.value,
       test: {
-        title: (titleProps as IProps).value,
-        difficulty: (difficultyProps as IProps).value,
-        duration: (durationProps as IProps).value,
+        title: titleProps.props.value,
+        difficulty: difficultyProps.props.value,
+        duration: durationProps.props.value,
         questions: [],
       },
     })
-    // @ts-ignore
-    resetDiscipline()
-    // @ts-ignore
-    resetLevel()
-    // @ts-ignore
-    resetSubject()
-    // @ts-ignore
-    resetTitle()
-    // @ts-ignore
-    resetDifficulty()
-    // @ts-ignore
-    resetDuration()
+    disciplineProps.reset()
+    levelProps.reset()
+    subjectProps.reset()
+    titleProps.reset()
+    difficultyProps.reset()
+    durationProps.reset()
   }
 
   return (
     <>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+      <FormControl variant="standard" sx={{ m: '0.5rem', minWidth: 120 }}>
         <InputLabel id="discipline-label">Discipline</InputLabel>
         <Select
           labelId="discipline-label"
           id="discipline"
-          {...disciplineProps}
+          {...disciplineProps.props}
           label="Discipline"
         >
           <MenuItem value="">
@@ -87,9 +75,14 @@ const TestFormFields: FC<any> = ({ action, values }): ReactElement => {
           ))}
         </Select>
       </FormControl>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+      <FormControl variant="standard" sx={{ m: '0.5rem', minWidth: 120 }}>
         <InputLabel id="level-label">Level</InputLabel>
-        <Select labelId="level-label" id="level" {...levelProps} label="Level">
+        <Select
+          labelId="level-label"
+          id="level"
+          {...levelProps.props}
+          label="Level"
+        >
           <MenuItem value="">
             <em>All levels</em>
           </MenuItem>
@@ -108,12 +101,12 @@ const TestFormFields: FC<any> = ({ action, values }): ReactElement => {
           ))}
         </Select>
       </FormControl>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+      <FormControl variant="standard" sx={{ m: '0.5rem', minWidth: 120 }}>
         <InputLabel id="subject-label">Subject</InputLabel>
         <Select
           labelId="subject-label"
           id="subject"
-          {...subjectProps}
+          {...subjectProps.props}
           label="Subject"
         >
           <MenuItem value="">
@@ -134,19 +127,19 @@ const TestFormFields: FC<any> = ({ action, values }): ReactElement => {
           ))}
         </Select>
       </FormControl>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+      <FormControl variant="standard" sx={{ m: '0.5rem', minWidth: 120 }}>
         <TextField
           label="Test title"
           type="text"
           size="small"
-          {...titleProps}
+          {...titleProps.props}
         />
       </FormControl>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+      <FormControl variant="standard" sx={{ m: '0.5rem', minWidth: 120 }}>
         <Select
           labelId="subject-difficulty"
           id="difficulty"
-          {...difficultyProps}
+          {...difficultyProps.props}
           label="Difficulty"
         >
           <MenuItem value="easy">Easy</MenuItem>
@@ -154,12 +147,12 @@ const TestFormFields: FC<any> = ({ action, values }): ReactElement => {
           <MenuItem value="hard">Hard</MenuItem>
         </Select>
       </FormControl>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+      <FormControl variant="standard" sx={{ m: '0.5rem', minWidth: 120 }}>
         <TextField
           label="Duration"
           type="text"
           size="small"
-          {...durationProps}
+          {...durationProps.props}
         />
       </FormControl>
       <Button
@@ -167,11 +160,11 @@ const TestFormFields: FC<any> = ({ action, values }): ReactElement => {
         variant="outlined"
         size="small"
         disabled={
-          (disciplineProps as IProps).value === '' ||
-          (levelProps as IProps).value === '' ||
-          (subjectProps as IProps).value === '' ||
-          (titleProps as IProps).value === '' ||
-          (difficultyProps as IProps).value === ''
+          disciplineProps.props.value === '' ||
+          levelProps.props.value === '' ||
+          subjectProps.props.value === '' ||
+          titleProps.props.value === '' ||
+          difficultyProps.props.value === ''
         }
         onClick={actionHandler}
       >

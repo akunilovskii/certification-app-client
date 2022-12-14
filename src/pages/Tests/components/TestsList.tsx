@@ -1,15 +1,18 @@
 import { FC, ReactElement } from 'react'
-import * as React from 'react'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Chip from '@mui/material/Chip'
 import { IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import AuthContext from '../context/auth-context'
+import AuthContext from '../../../context/auth-context'
 
-const TestsList: FC<any> = ({ testsList }): ReactElement => {
+const TestsList: FC<any> = ({
+  testsList,
+  deleteHandler,
+  actionHandler,
+}): ReactElement => {
   const { user } = useContext(AuthContext)
 
   if (!testsList) return <></>
@@ -104,9 +107,9 @@ const TestsList: FC<any> = ({ testsList }): ReactElement => {
         return (
           <>
             <IconButton
-              aria-label="delete"
+              aria-label="start"
               size="small"
-            //   onClick={() => editTest(cellValues.id)}
+              //   onClick={() => editTest(cellValues.id)}
             >
               <PlayCircleOutlineIcon />
             </IconButton>
@@ -114,16 +117,16 @@ const TestsList: FC<any> = ({ testsList }): ReactElement => {
             {user.role === 'admin' ? (
               <>
                 <IconButton
-                  aria-label="delete"
+                  aria-label="edit"
                   size="small"
-                //   onClick={() => editTest(cellValues.id)}
+                  onClick={() => actionHandler(cellValues.id)}
                 >
                   <EditIcon fontSize="small" />
                 </IconButton>
                 <IconButton
                   aria-label="delete"
                   size="small"
-                //   onClick={() => editTest(cellValues.id)}
+                  onClick={() => deleteHandler(cellValues.row.id)}
                 >
                   <DeleteOutlineIcon />
                 </IconButton>
@@ -146,7 +149,7 @@ const TestsList: FC<any> = ({ testsList }): ReactElement => {
     title: el.title,
     difficulty: el.difficulty,
     duration: `${el.duration} min.`,
-    questions: el.questions.length,
+    questions: el.questions?.length,
   }))
 
   return (

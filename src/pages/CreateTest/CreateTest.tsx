@@ -8,9 +8,10 @@ import React, {
 import { Grid } from '@mui/material'
 import TestFormFields from '../../components/TestFormFields'
 import { ITest } from '../../store/tests-store'
-import TestsList from '../../components/TestsList'
+import TestsList from '../Tests/components/TestsList'
 import EditTest from '../Tests/components/EditTest'
 import { IProps } from '../../hook/use-filter'
+import { createTest } from '../../utils/requests'
 
 const initialTest = {
   discipline: '',
@@ -35,24 +36,7 @@ const CreateTest: FC<any> = (): ReactElement => {
   const editTest = (id: string) => {
     setTestId(id)
   }
-  const createTest = (test: ITest) => {
-    const requestURL = `http://localhost:5000/tests/create`
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        data: test,
-      }),
-    }
 
-    fetch(requestURL, requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-
-        // setQuestions(data.payload.questions)
-        // getTests()
-      })
-  }
   const saveTest = (test: ITest) => {
     const requestURL = `http://localhost:5000/tests/create`
     const requestOptions = {
@@ -81,7 +65,6 @@ const CreateTest: FC<any> = (): ReactElement => {
     fetch(requestURL, requestOptions)
       .then((response) => response.json())
       .then((data) => {
-
         setTestList(data.payload)
       })
   }, [])
