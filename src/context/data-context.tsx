@@ -1,11 +1,11 @@
 import { createContext, ReactNode, useState } from 'react'
-import { ITest, IQuestion, tests } from '../store/tests-store'
+import { ITest, IQuestion, tests, NewITest } from '../store/tests-store'
 
 const DataContext = createContext({
   setItemsList: (
     conditions: {},
     output: string,
-    testsArray: ITest[]
+    testsArray: NewITest[]
   ): String[] => [],
   selectedTest: {
     id: '',
@@ -23,6 +23,8 @@ const DataContext = createContext({
   },
   setSelectedTest: (value: IQuestion) => {},
   tests: [],
+  testValues: {} as NewITest,
+  setTestValues: (value: NewITest) => {},
 })
 
 interface Props {
@@ -30,6 +32,16 @@ interface Props {
 }
 
 export const DataContextProvider = ({ children }: Props) => {
+  const [testValues, setTestValues] = useState<NewITest>({
+    discipline: '',
+    level: '',
+    subject: '',
+    title: '',
+    difficulty: '',
+    duration: 0,
+    questions: [],
+  })
+
   const testAllConditions = (el: any, conditions: {}) => {
     return Object.entries(conditions).reduce((acc, cond) => {
       return acc && (cond[1] !== '' ? el[cond[0]].name === cond[1] : true)
@@ -58,7 +70,6 @@ export const DataContextProvider = ({ children }: Props) => {
     testsArray: ITest[]
   ) => {
     return testsArray.reduce((acc, el) => {
-
       //send el and conditions to testAllConditions function
       if (testAllConditions(el, conditions)) {
         // @ts-ignore
@@ -73,7 +84,14 @@ export const DataContextProvider = ({ children }: Props) => {
     }, [] as any)
   }
 
-  const dataState = { tests, setItemsList, selectedTest, setSelectedTest }
+  const dataState = {
+    tests,
+    setItemsList,
+    selectedTest,
+    setSelectedTest,
+    testValues,
+    setTestValues,
+  }
 
   return (
     // @ts-ignore

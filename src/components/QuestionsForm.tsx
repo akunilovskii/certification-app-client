@@ -4,16 +4,14 @@ import useFilter, { IProps } from '../hook/use-filter'
 import AnswersForm from './AnswersForm'
 
 const QuestionsForm: FC<any> = ({ questions, setQuestions }): ReactElement => {
-  const [questionProps, resetQuestion] = useFilter('')
+  const questionProps = useFilter('')
   const [answers, setAnswers] = useState([])
   const addToTest = () => {
-    //@ts-ignore
     setQuestions((prev: []) => [
       ...prev,
-      { question: (questionProps as IProps).value, answers: answers },
+      { question: questionProps.props.value, answers: answers },
     ])
-    // @ts-ignore
-    resetQuestion()
+    questionProps.reset()
     // SAVE
   }
 

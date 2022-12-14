@@ -5,7 +5,7 @@ import {
   emailValidation,
   passwordValidation,
   rePasswordValidation,
-} from '../helper/validators'
+} from '../utils/validators'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../context/auth-context'
 

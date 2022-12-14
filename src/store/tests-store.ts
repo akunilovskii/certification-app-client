@@ -6,6 +6,15 @@ export interface ITaxonomy {
   tests: ITest[]
 }
 
+export interface NewITest {
+  discipline?: string
+  subject?: string
+  level?: string
+  title?: string
+  difficulty?: string
+  duration?: string | number
+  [key: string]: any
+}
 export interface ITest {
   id: string
   title: string
