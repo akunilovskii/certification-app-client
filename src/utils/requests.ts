@@ -18,6 +18,24 @@ export const createTest = (test: NewITest) => {
     })
 }
 
+export const updateTest = (testId: string, test: NewITest) => {
+  const requestURL = `http://localhost:5000/tests/${testId}`
+  const requestOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      data: test,
+    }),
+  }
+
+  fetch(requestURL, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        // setQuestions(data.payload.questions)
+        // getTests()
+      })
+}
+
 export const getTests = () => {
   const requestURL = `http://localhost:5000/tests/`
   const requestOptions = {

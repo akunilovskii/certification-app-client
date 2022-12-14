@@ -7,6 +7,7 @@ export interface ITaxonomy {
 }
 
 export interface NewITest {
+  id?: string
   discipline?: string
   subject?: string
   level?: string

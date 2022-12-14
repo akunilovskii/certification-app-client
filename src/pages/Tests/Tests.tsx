@@ -11,18 +11,36 @@ import TestFields from './components/TestFields'
 const Tests: FC<any> = () => {
   const [testsList, setTestList] = useState([])
   const [editMode, setEditMode] = useState('')
-  const [showCreateEdit, setShowCreateEdit] = useState(false)
+  // const [showCreateEdit, setShowCreateEdit] = useState(false)
   const { selectedTest, setSelectedTest } = useContext(DataContext)
   const [isDeleted, setIsDeleted] = useState(false)
 
   const actionHandler = (mode: string, id?: string) => {
-    if (mode === 'create') setShowCreateEdit(true)
+    if (mode === 'create') {
+      setEditMode('create')
+      // setShowCreateEdit(true)
+    }
     if (mode === 'edit' && id) {
-      setShowCreateEdit(true)
-      const testToEdit = testsList.filter((el: NewITest) => el._id === id)[0]
+      // setShowCreateEdit(true)
+      setEditMode('edit')
+      // const testToEdit = testsList.filter((el: NewITest) => el._id === id)[0]
+      const testFilterResult: any = testsList.filter(
+        (el: NewITest) => el._id === id
+      )[0]
+      const testToEdit = {
+        ...testFilterResult,
+        discipline: testFilterResult.discipline.name,
+        level: testFilterResult.level.name,
+        subject: testFilterResult.subject.name,
+        // title: testFilterResult.title,
+        // difficulty: testFilterResult.difficulty,
+        // duration: testFilterResult.duration,
+      }
+
       setSelectedTest(testToEdit)
     }
-    if (mode === 'close') setShowCreateEdit(false)
+    // if (mode === 'close') setShowCreateEdit(false)
+    if (mode === 'close') setEditMode('')
   }
 
   const deleteHandler = (id: string) => {
@@ -39,10 +57,10 @@ const Tests: FC<any> = () => {
   }
 
   useEffect(() => {
-    if (!showCreateEdit) {
+    if (!editMode) {
       getTestsFromDatabase()
     }
-  }, [showCreateEdit])
+  }, [editMode])
 
   useEffect(() => {
     if (isDeleted) {
@@ -62,10 +80,13 @@ const Tests: FC<any> = () => {
 
   return (
     <>
-      {showCreateEdit ? (
+      {editMode ? (
         <EditTest
-          showCreateEdit={showCreateEdit}
-          setShowCreateEdit={setShowCreateEdit}
+          // showCreateEdit={showCreateEdit}
+          // setShowCreateEdit={setShowCreateEdit}
+
+          editMode={editMode}
+          setEditMode={setEditMode}
           testsList={testsList}
           actionHandler={actionHandler}
           setTestValues={setTestValues}

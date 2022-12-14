@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   FormControl,
-  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -17,22 +16,26 @@ import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded'
 
 interface ITestFields {
   testsList: NewITest[]
-  showCreateEdit?: string
+  // showCreateEdit?: string
+  editMode?: string
   selectedTest?: NewITest
 }
 
 function TestFields({
   testsList,
-  showCreateEdit,
+  editMode,
   selectedTest,
 }: ITestFields): ReactElement {
-  const disciplineProps = useFilter('')
-  const levelProps = useFilter('')
-  const subjectProps = useFilter('')
-  const titleProps = useFilter('')
-  const difficultyProps = useFilter('')
-  const durationProps = useFilter('', true, validateNumberInput)
+  const disciplineProps = useFilter(editMode=== 'edit' ? selectedTest?.discipline : '')
+  const levelProps = useFilter(editMode=== 'edit' ? selectedTest?.level : '')
+  const subjectProps = useFilter(editMode=== 'edit' ? selectedTest?.subject : '')
+  const titleProps = useFilter(editMode=== 'edit' ? selectedTest?.title : '')
+  const difficultyProps = useFilter(editMode=== 'edit' ? selectedTest?.difficulty : '')
+  const durationProps = useFilter(editMode=== 'edit' ? selectedTest?.duration : '', true, validateNumberInput)
   const { setTestValues, setItemsList } = useContext(DataContext)
+
+  console.log('editMode: ', editMode)
+  console.log('selectedTest: ', selectedTest)
 
   const resetTestFields = useCallback(() => {
     disciplineProps.reset()
@@ -52,6 +55,7 @@ function TestFields({
         title: titleProps.props.value,
         difficulty: difficultyProps.props.value,
         duration: +durationProps.props.value,
+        questions: [],
       }
     })
   }, [
@@ -84,8 +88,8 @@ function TestFields({
             </MenuItem>
             {setItemsList(
               {
-                level: showCreateEdit ? '' : levelProps.props.value,
-                subject: showCreateEdit ? '' : subjectProps.props.value,
+                level: !editMode ? '' : levelProps.props.value,
+                subject: !editMode ? '' : subjectProps.props.value,
               },
               'discipline',
               testsList
@@ -113,8 +117,8 @@ function TestFields({
             </MenuItem>
             {setItemsList(
               {
-                discipline: showCreateEdit ? '' : disciplineProps.props.value,
-                subject: showCreateEdit ? '' : subjectProps.props.value,
+                discipline: !editMode ? '' : disciplineProps.props.value,
+                subject: !editMode ? '' : subjectProps.props.value,
               },
               'level',
               testsList
@@ -142,8 +146,8 @@ function TestFields({
             </MenuItem>
             {setItemsList(
               {
-                discipline: showCreateEdit ? '' : disciplineProps.props.value,
-                level: showCreateEdit ? '' : levelProps.props.value,
+                discipline: !editMode ? '' : disciplineProps.props.value,
+                level: !editMode ? '' : levelProps.props.value,
               },
               'subject',
               testsList
@@ -201,7 +205,7 @@ function TestFields({
             />
           </FormControl>
         </Box>
-        {showCreateEdit ? (
+        {editMode === '' ? (
           <></>
         ) : (
           <FormControl

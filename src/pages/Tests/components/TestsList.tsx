@@ -119,7 +119,7 @@ const TestsList: FC<any> = ({
                 <IconButton
                   aria-label="edit"
                   size="small"
-                  onClick={() => actionHandler(cellValues.id)}
+                  onClick={() => actionHandler('edit', cellValues.row.id)}
                 >
                   <EditIcon fontSize="small" />
                 </IconButton>

@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react'
 import { Grid } from '@mui/material'
-import TestFormFields from '../../components/TestFormFields'
+// import TestFormFields from '../../components/TestFormFields'
 import { ITest } from '../../store/tests-store'
 import TestsList from '../Tests/components/TestsList'
 import EditTest from '../Tests/components/EditTest'
@@ -95,11 +95,12 @@ const CreateTest: FC<any> = (): ReactElement => {
 
   return (
     <>
+      CREATE TEST
       <Grid container item md={8} xs={12} justifyContent="center">
-        <TestFormFields
-          action={testId ? saveTest : createTest}
-          values={selectedTest}
-        />
+        {/*<TestFormFields*/}
+        {/*  action={testId ? saveTest : createTest}*/}
+        {/*  values={selectedTest}*/}
+        {/*/>*/}
       </Grid>
 
       {testId ? <></> : <TestsList testsList={testsList} editTest={editTest} />}

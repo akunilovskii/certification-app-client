@@ -1,15 +1,14 @@
-import { FC, ReactElement, useCallback, useContext, useState } from 'react'
-import QuestionsForm from '../../../components/QuestionsForm'
+import { FC, ReactElement, useCallback, useContext } from 'react'
 import DataContext from '../../../context/data-context'
 import { Box, Button, Paper } from '@mui/material'
-import { createTest } from '../../../utils/requests'
+import {createTest, updateTest} from '../../../utils/requests'
 import { checkForEmptyFields } from '../../../utils/validators'
 import { useDebouncer } from '../../../hook/use-debouncer'
 import TestFields from './TestFields'
 
 const EditTest: FC<any> = ({
-  showCreateEdit,
-  setShowCreateEdit,
+  editMode,
+  setEditMode,
   testsList,
   actionHandler,
   selectedTest,
@@ -17,9 +16,16 @@ const EditTest: FC<any> = ({
   const { testValues } = useContext(DataContext)
   const debouncedTestValues = useDebouncer(testValues)
 
+
   const testUpdateHandler = useCallback(() => {
-    createTest(testValues)
-    setShowCreateEdit(false)
+    if (editMode === 'create') {
+      createTest(testValues)
+      setEditMode('')
+    }
+    if (editMode === 'edit') {
+      updateTest(selectedTest._id, testValues)
+      setEditMode('')
+    }
   }, [testValues])
 
   const buttonIsValid = checkForEmptyFields(debouncedTestValues)
@@ -29,7 +35,7 @@ const EditTest: FC<any> = ({
       <Box display="flex" flexDirection="column">
         <TestFields
           testsList={testsList}
-          showCreateEdit={showCreateEdit}
+          editMode={editMode}
           selectedTest={selectedTest}
         />
         {/* <QuestionsForm /> */}
@@ -54,7 +60,7 @@ const EditTest: FC<any> = ({
             onClick={testUpdateHandler}
             disabled={!buttonIsValid}
           >
-            Create
+            {editMode}
           </Button>
         </Box>
       </Box>
