@@ -14,6 +14,7 @@ export interface NewITest {
   title?: string
   difficulty?: string
   duration?: string | number
+  questions: IQuestion[]
   [key: string]: any
 }
 export interface ITest {
@@ -367,33 +368,6 @@ export const tests: ITaxonomy[] = [
               {
                 id: 'a4',
                 text: 5,
-                correct: true,
-              },
-            ],
-          },
-          {
-            id: 'q3',
-            selected: [],
-            question: '4 - 4',
-            answers: [
-              {
-                id: 'a1',
-                text: 2,
-                correct: false,
-              },
-              {
-                id: 'a2',
-                text: 1,
-                correct: false,
-              },
-              {
-                id: 'a3',
-                text: 3,
-                correct: false,
-              },
-              {
-                id: 'a4',
-                text: 0,
                 correct: true,
               },
             ],

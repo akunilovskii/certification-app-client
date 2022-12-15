@@ -1,6 +1,24 @@
 import { createContext, ReactNode, useState } from 'react'
 import { ITest, IQuestion, tests, NewITest } from '../store/tests-store'
 
+const emptyTest = {
+  // id: '',
+  discipline: '',
+  level: '',
+  subject: '',
+  title: '',
+  difficulty: '',
+  duration: 0,
+  questions: [
+    {
+      id: '',
+      question: '',
+      selected: [],
+      answers: [{ id: '', text: '', correct: false }],
+    },
+  ],
+}
+
 const DataContext = createContext({
   setItemsList: (
     conditions: {},
@@ -18,37 +36,24 @@ interface Props {
 }
 
 export const DataContextProvider = ({ children }: Props) => {
-  const [testValues, setTestValues] = useState<NewITest>({
-    discipline: '',
-    level: '',
-    subject: '',
-    title: '',
-    difficulty: '',
-    duration: 0,
-    questions: [],
-  })
+  const [testValues, setTestValues] = useState({} as NewITest)
 
   const testAllConditions = (el: any, conditions: {}) => {
     return Object.entries(conditions).reduce((acc, cond) => {
       return acc && (cond[1] !== '' ? el[cond[0]].name === cond[1] : true)
     }, true)
   }
+  // {
+  //     discipline: '',
+  //     level: '',
+  //     subject: '',
+  //     title: '',
+  //     difficulty: '',
+  //     duration: 0,
+  //     questions: [],
+  //   }
 
-  const emptyTest = {
-    id: '',
-    title: '',
-    difficulty: '',
-    duration: 0,
-    questions: [
-      {
-        id: '',
-        question: '',
-        selected: [],
-        answers: [{ id: '', text: '', correct: false }],
-      },
-    ],
-  }
-  const [selectedTest, setSelectedTest] = useState<ITest>(emptyTest)
+  const [selectedTest, setSelectedTest] = useState<NewITest>(emptyTest)
 
   const setItemsList = (
     conditions: {},

@@ -16,7 +16,6 @@ import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded'
 
 interface ITestFields {
   testsList: NewITest[]
-  // showCreateEdit?: string
   editMode?: string
   selectedTest?: NewITest
 }
@@ -48,6 +47,7 @@ function TestFields({ testsList, editMode }: ITestFields): ReactElement {
   }, [])
 
   useEffect(() => {
+    //@ts-ignore
     setTestValues((prev: NewITest) => {
       return {
         ...prev,
@@ -57,7 +57,7 @@ function TestFields({ testsList, editMode }: ITestFields): ReactElement {
         title: titleProps.props.value,
         difficulty: difficultyProps.props.value,
         duration: +durationProps.props.value,
-        questions: [],
+        questions: 'edit' ? testValues.questions : [],
       }
     })
   }, [
@@ -67,7 +67,6 @@ function TestFields({ testsList, editMode }: ITestFields): ReactElement {
     titleProps.props.value,
     difficultyProps.props.value,
     durationProps.props.value,
-    setTestValues,
   ])
 
   return (
@@ -124,11 +123,13 @@ function TestFields({ testsList, editMode }: ITestFields): ReactElement {
               },
               'level',
               testsList
-            ).map((el: any) => (
-              <MenuItem key={el.id} value={el.value}>
-                {el.value}
-              </MenuItem>
-            ))}
+            ).map((el: any) => {
+              return (
+                <MenuItem key={el.id} value={el.value}>
+                  {el.value}
+                </MenuItem>
+              )
+            })}
           </Select>
         </FormControl>
         <FormControl

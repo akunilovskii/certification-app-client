@@ -1,11 +1,11 @@
 import { FC, ReactElement, useCallback, useContext } from 'react'
 import DataContext from '../../../context/data-context'
 import { Box, Button, Paper } from '@mui/material'
-import {createTest, updateTest} from '../../../utils/requests'
+import { createTest, updateTest } from '../../../utils/requests'
 import { checkForEmptyFields } from '../../../utils/validators'
 import { useDebouncer } from '../../../hook/use-debouncer'
 import TestFields from './TestFields'
-import QuestionsForm from "../../../components/QuestionsForm";
+import QuestionsForm from '../../../components/QuestionsForm'
 
 const EditTest: FC<any> = ({
   editMode,
@@ -32,11 +32,8 @@ const EditTest: FC<any> = ({
   return (
     <Paper>
       <Box display="flex" flexDirection="column">
-        <TestFields
-          testsList={testsList}
-          editMode={editMode}
-        />
-         <QuestionsForm />
+        <TestFields testsList={testsList} editMode={editMode} />
+        <QuestionsForm />
         <Box
           display="flex"
           flexDirection="row"
