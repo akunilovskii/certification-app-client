@@ -21,21 +21,22 @@ interface ITestFields {
   selectedTest?: NewITest
 }
 
-function TestFields({
-  testsList,
-  editMode,
-  selectedTest,
-}: ITestFields): ReactElement {
-  const disciplineProps = useFilter(editMode=== 'edit' ? selectedTest?.discipline : '')
-  const levelProps = useFilter(editMode=== 'edit' ? selectedTest?.level : '')
-  const subjectProps = useFilter(editMode=== 'edit' ? selectedTest?.subject : '')
-  const titleProps = useFilter(editMode=== 'edit' ? selectedTest?.title : '')
-  const difficultyProps = useFilter(editMode=== 'edit' ? selectedTest?.difficulty : '')
-  const durationProps = useFilter(editMode=== 'edit' ? selectedTest?.duration : '', true, validateNumberInput)
-  const { setTestValues, setItemsList } = useContext(DataContext)
-
-  console.log('editMode: ', editMode)
-  console.log('selectedTest: ', selectedTest)
+function TestFields({ testsList, editMode }: ITestFields): ReactElement {
+  const { testValues, setTestValues, setItemsList } = useContext(DataContext)
+  const disciplineProps = useFilter(
+    editMode === 'edit' ? testValues?.discipline : ''
+  )
+  const levelProps = useFilter(editMode === 'edit' ? testValues?.level : '')
+  const subjectProps = useFilter(editMode === 'edit' ? testValues?.subject : '')
+  const titleProps = useFilter(editMode === 'edit' ? testValues?.title : '')
+  const difficultyProps = useFilter(
+    editMode === 'edit' ? testValues?.difficulty : ''
+  )
+  const durationProps = useFilter(
+    editMode === 'edit' ? testValues?.duration : '',
+    true,
+    validateNumberInput
+  )
 
   const resetTestFields = useCallback(() => {
     disciplineProps.reset()
@@ -49,6 +50,7 @@ function TestFields({
   useEffect(() => {
     setTestValues((prev: NewITest) => {
       return {
+        ...prev,
         discipline: disciplineProps.props.value,
         level: levelProps.props.value,
         subject: subjectProps.props.value,
@@ -88,8 +90,8 @@ function TestFields({
             </MenuItem>
             {setItemsList(
               {
-                level: !editMode ? '' : levelProps.props.value,
-                subject: !editMode ? '' : subjectProps.props.value,
+                level: editMode ? '' : levelProps.props.value,
+                subject: editMode ? '' : subjectProps.props.value,
               },
               'discipline',
               testsList
@@ -117,8 +119,8 @@ function TestFields({
             </MenuItem>
             {setItemsList(
               {
-                discipline: !editMode ? '' : disciplineProps.props.value,
-                subject: !editMode ? '' : subjectProps.props.value,
+                discipline: editMode ? '' : disciplineProps.props.value,
+                subject: editMode ? '' : subjectProps.props.value,
               },
               'level',
               testsList
@@ -146,8 +148,8 @@ function TestFields({
             </MenuItem>
             {setItemsList(
               {
-                discipline: !editMode ? '' : disciplineProps.props.value,
-                level: !editMode ? '' : levelProps.props.value,
+                discipline: editMode ? '' : disciplineProps.props.value,
+                level: editMode ? '' : levelProps.props.value,
               },
               'subject',
               testsList
@@ -205,26 +207,22 @@ function TestFields({
             />
           </FormControl>
         </Box>
-        {editMode === '' ? (
-          <></>
-        ) : (
-          <FormControl
-            variant="standard"
-            sx={{
-              m: '0.5rem',
-              justifyContent: 'flex-end',
-              marginBottom: 0,
-            }}
+        <FormControl
+          variant="standard"
+          sx={{
+            m: '0.5rem',
+            justifyContent: 'flex-end',
+            marginBottom: 0,
+          }}
+        >
+          <Button
+            color="primary"
+            size="small"
+            onClick={() => resetTestFields()}
           >
-            <Button
-              color="primary"
-              size="small"
-              onClick={() => resetTestFields()}
-            >
-              <BackspaceRoundedIcon />
-            </Button>
-          </FormControl>
-        )}
+            <BackspaceRoundedIcon />
+          </Button>
+        </FormControl>
       </Box>
     </>
   )

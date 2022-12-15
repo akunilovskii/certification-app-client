@@ -7,21 +7,7 @@ const DataContext = createContext({
     output: string,
     testsArray: NewITest[]
   ): String[] => [],
-  selectedTest: {
-    id: '',
-    title: '',
-    difficulty: '',
-    duration: 0,
-    questions: [
-      {
-        id: '',
-        question: '',
-        selected: [],
-        answers: [{ id: '', text: '', correct: false }],
-      },
-    ],
-  },
-  setSelectedTest: (value: IQuestion) => {},
+
   tests: [],
   testValues: {} as NewITest,
   setTestValues: (value: NewITest) => {},

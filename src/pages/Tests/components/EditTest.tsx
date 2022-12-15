@@ -12,19 +12,18 @@ const EditTest: FC<any> = ({
   setEditMode,
   testsList,
   actionHandler,
-  selectedTest,
 }): ReactElement => {
   const { testValues } = useContext(DataContext)
   const debouncedTestValues = useDebouncer(testValues)
 
   const testUpdateHandler = useCallback(() => {
     if (editMode === 'create') {
-      createTest(testValues)
       setEditMode('')
+      createTest(testValues)
     }
     if (editMode === 'edit') {
-      updateTest(selectedTest._id, testValues)
       setEditMode('')
+      updateTest(testValues._id, testValues)
     }
   }, [testValues])
 
@@ -36,9 +35,8 @@ const EditTest: FC<any> = ({
         <TestFields
           testsList={testsList}
           editMode={editMode}
-          selectedTest={selectedTest}
         />
-         <QuestionsForm />
+         {/*<QuestionsForm />*/}
         <Box
           display="flex"
           flexDirection="row"

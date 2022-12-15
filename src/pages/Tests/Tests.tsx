@@ -11,38 +11,38 @@ import TestFields from './components/TestFields'
 const Tests: FC<any> = () => {
   const [testsList, setTestList] = useState([])
   const [editMode, setEditMode] = useState('')
-  const {selectedTest, setSelectedTest} = useContext(DataContext)
-  const [isDeleted, setIsDeleted] = useState(false)
 
+  const {testValues, setTestValues} = useContext(DataContext)
+  const [isDeleted, setIsDeleted] = useState(false)
+  const {user} = useContext(AuthContext)
   const actionHandler = (mode: string, id?: string) => {
     if (mode === 'create') {
       setEditMode('create')
     }
     if (mode === 'edit' && id) {
       setEditMode('edit')
+
       const testFilterResult: any = testsList.filter(
           (el: NewITest) => el._id === id
       )[0]
+
       const testToEdit = {
         ...testFilterResult,
         discipline: testFilterResult.discipline.name,
         level: testFilterResult.level.name,
         subject: testFilterResult.subject.name,
       }
+      setTestValues(testToEdit)
 
-      setSelectedTest(testToEdit)
     }
-
     if (mode === 'close') setEditMode('')
-  }
 
+  }
   const deleteHandler = (id: string) => {
     deleteTestById(id)
     setIsDeleted(true)
-  }
 
-  const {testValues, setTestValues} = useContext(DataContext)
-  const {user} = useContext(AuthContext)
+  }
 
   const getTestsFromDatabase = async () => {
     const data = await getTests()
@@ -80,8 +80,6 @@ const Tests: FC<any> = () => {
                 testsList={testsList}
                 actionHandler={actionHandler}
                 setTestValues={setTestValues}
-                testValues={testValues}
-                selectedTest={selectedTest}
             />
         ) : (
             <Grid container item md={8} xs={12} justifyContent="center">
@@ -92,7 +90,7 @@ const Tests: FC<any> = () => {
                   width="100%"
                   alignItems="flex-end"
               >
-                <TestFields testsList={testsList}/>
+                <TestFields testsList={testsList} editMode={editMode}/>
               </Box>
               {user.role === 'admin' ? (
                   <Button

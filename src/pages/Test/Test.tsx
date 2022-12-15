@@ -25,7 +25,7 @@ import TestResult from '../../components/TestResult'
 
 function Test() {
   const navigate = useNavigate()
-  const { selectedTest } = useContext(DataContext)
+  const { testValues } = useContext(DataContext)
   const [questionIndex, setQuestionIndex] = useState(1)
   useEffect(() => {}, [questionIndex])
 
@@ -51,8 +51,8 @@ function Test() {
   )
 
   const testCopy = useMemo(
-    () => structuredClone(selectedTest.questions),
-    [selectedTest.questions]
+    () => structuredClone(testValues.questions),
+    [testValues.questions]
   )
 
   const randomizedTestResult = useMemo(
@@ -85,10 +85,10 @@ function Test() {
   }
 
   useEffect(() => {
-    if (selectedTest.id === '') navigate('/tests')
+    if (testValues.id === '') navigate('/tests')
   }, [])
 
-  if (selectedTest.id === '') return null
+  if (testValues.id === '') return null
   return (
     <>
       <Stack spacing={4}>
@@ -125,7 +125,7 @@ function Test() {
           </Stack>
         </FormControl>
         <Pagination
-          count={selectedTest.questions.length}
+          count={testValues.questions.length}
           page={questionIndex}
           onChange={onClickHandler}
           siblingCount={0}
