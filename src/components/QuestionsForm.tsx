@@ -1,16 +1,28 @@
-import { FC, ReactElement, useState } from 'react'
+import {FC, ReactElement, useContext, useState} from 'react'
 import { TextField } from '@mui/material'
 import useFilter, { IProps } from '../hook/use-filter'
 import AnswersForm from './AnswersForm'
+import DataContext from "../context/data-context";
+import {NewITest} from "../store/tests-store";
 
-const QuestionsForm: FC<any> = ({ questions, setQuestions }): ReactElement => {
+const QuestionsForm: FC<any> = (): ReactElement => {
   const questionProps = useFilter('')
+    const { testValues, setTestValues } = useContext(DataContext)
   const [answers, setAnswers] = useState([])
-  const addToTest = () => {
-    setQuestions((prev: []) => [
-      ...prev,
-      { question: questionProps.props.value, answers: answers },
-    ])
+
+    console.log("value: ", questionProps.props.value)
+    const addToTest = () => {
+        setTestValues((prev: NewITest) => {
+
+
+            console.log("questions: ", testValues.questions)
+            return {
+        ...prev,
+                questions: [...testValues.questions, questionProps.props.value],
+            // { question: questionProps.props.value, answers: answers },
+        }})
+        console.log('testValues: ', testValues);
+
     questionProps.reset()
     // SAVE
   }
@@ -22,14 +34,16 @@ const QuestionsForm: FC<any> = ({ questions, setQuestions }): ReactElement => {
           label="Question"
           type="text"
           size="small"
-          {...questionProps}
+          {...questionProps.props}
         />
-        <button onClick={addToTest}>add</button>
+        <button
+            onClick={addToTest}
+        >add</button>
       </div>
       <ul>
-        {questions.map((question: any) => (
+        {testValues.questions.map((question: any) => (
           <li key={question._id}>
-            {question.question}
+            {question}
             {/* <AnswersForm answers={question.answers} setAnswers={setQuestions({...questions, })setAnswers}/> */}
           </li>
         ))}

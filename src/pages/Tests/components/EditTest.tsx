@@ -36,7 +36,7 @@ const EditTest: FC<any> = ({
           testsList={testsList}
           editMode={editMode}
         />
-         {/*<QuestionsForm />*/}
+         <QuestionsForm />
         <Box
           display="flex"
           flexDirection="row"
