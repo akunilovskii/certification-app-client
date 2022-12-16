@@ -1,10 +1,10 @@
 import { SelectChangeEvent } from '@mui/material'
-import React, { useState } from 'react'
+import { SyntheticEvent, useState } from 'react'
 
-export interface IProps {
+export interface IFilterProps {
   props: {
     value: string | number
-    onChange: (e: React.SyntheticEvent | SelectChangeEvent<any>) => void
+    onChange: (e: SyntheticEvent | SelectChangeEvent<any>) => void
   }
   reset: (value: string) => void
   setValue: (value: string) => void

@@ -55,7 +55,7 @@ const EditTest: FC<any> = ({
             onClick={testUpdateHandler}
             disabled={!buttonIsValid}
           >
-            {editMode}
+            {editMode === 'edit' ? 'Save' : 'Create'}
           </Button>
         </Box>
       </Box>

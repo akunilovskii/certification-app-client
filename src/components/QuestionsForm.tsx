@@ -1,23 +1,34 @@
-import { FC, ReactElement, useContext, useState } from 'react'
-import { TextField } from '@mui/material'
-import useFilter, { IProps } from '../hook/use-filter'
+import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react'
+import { Box, IconButton, TextField, Typography } from '@mui/material'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import useFilter from '../hook/use-filter'
 import DataContext from '../context/data-context'
-import { NewITest } from '../store/tests-store'
+import { IQuestion, NewITest } from '../store/tests-store'
 
 const QuestionsForm: FC<any> = (): ReactElement => {
+  // const [answers, setAnswers] = useState([])
   const questionProps = useFilter('')
   const { testValues, setTestValues } = useContext(DataContext)
-  const [answers, setAnswers] = useState([])
-  console.log(testValues.questions)
+  const questions: IQuestion[] = testValues.questions
+  const [focusedStates, setFocusedStates] = useState(
+    Array.from({ length: questions.length }, (_, i) => false)
+  )
+
+  const setFieldState = (i: number) =>
+    setFocusedStates((prev) => {
+      const newState = [...prev]
+      newState[i] = !newState[i]
+      return newState
+    })
 
   const addToTest = () => {
     //@ts-ignore
     setTestValues((prev: NewITest) => {
-      if (testValues.questions) {
+      if (questions) {
         return {
           ...prev,
           questions: [
-            ...testValues.questions,
+            ...questions,
             {
               question: questionProps.props.value,
             },
@@ -25,9 +36,27 @@ const QuestionsForm: FC<any> = (): ReactElement => {
         }
       }
     })
-
     questionProps.reset()
-    // SAVE
+  }
+
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, i: number) => {
+    const value = (e.target as HTMLInputElement).value
+    const newQuestions = [...questions]
+    console.log({ i }, newQuestions[i])
+    newQuestions[i].question = value
+    setTestValues({ ...testValues, questions: newQuestions })
+  }
+  const deleteHandler = (id: string) => {
+    const filteredQuestions = questions.filter((el: IQuestion) => el._id !== id)
+    //@ts-ignore
+    setTestValues((prev: NewITest) => {
+      if (questions) {
+        return {
+          ...prev,
+          questions: filteredQuestions,
+        }
+      }
+    })
   }
 
   return (
@@ -42,12 +71,36 @@ const QuestionsForm: FC<any> = (): ReactElement => {
         <button onClick={addToTest}>Add question</button>
       </div>
       <ul>
-        {testValues.questions.map((question: any, i: number) => {
+        {questions.map((question: any, i: number) => {
           return (
-            <li key={question._id || i}>
-              {question.question}
-              {/* <AnswersForm answers={question.answers} setAnswers={setQuestions({...questions, })setAnswers}/> */}
-            </li>
+            <>
+              <Box display="flex" flexDirection="row" key={question._id || i}>
+                {!focusedStates[i] ? (
+                  <Typography
+                    onClick={() => {
+                      setFieldState(i)
+                    }}
+                  >
+                    {question.question}
+                  </Typography>
+                ) : (
+                  <TextField
+                    autoFocus
+                    value={question.question}
+                    //@ts-ignore
+                    onChange={(e) => onChangeHandler(e, i)}
+                    onBlur={() => setFieldState(i)}
+                  />
+                )}
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  onClick={() => deleteHandler(question._id)}
+                >
+                  <DeleteOutlineIcon />
+                </IconButton>
+              </Box>
+            </>
           )
         })}
       </ul>

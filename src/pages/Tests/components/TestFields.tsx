@@ -57,7 +57,7 @@ function TestFields({ testsList, editMode }: ITestFields): ReactElement {
         title: titleProps.props.value,
         difficulty: difficultyProps.props.value,
         duration: +durationProps.props.value,
-        questions: 'edit' ? testValues.questions : [],
+        questions: editMode === 'edit' ? testValues.questions : [],
       }
     })
   }, [

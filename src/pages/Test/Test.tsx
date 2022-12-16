@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material'
 import React, {
+  ChangeEvent,
   useCallback,
   useContext,
   useEffect,
@@ -61,7 +62,7 @@ function Test() {
   )
   const [test, setTest] = useState<IQuestion[]>(randomizedTestResult)
 
-  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const elValue = +(event.target as HTMLInputElement).value
     const newTest: IQuestion[] = [...test]
     newTest[questionIndex - 1].selected = [elValue]

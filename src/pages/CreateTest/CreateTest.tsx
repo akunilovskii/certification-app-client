@@ -10,7 +10,7 @@ import { Grid } from '@mui/material'
 import { ITest } from '../../store/tests-store'
 import TestsList from '../Tests/components/TestsList'
 import EditTest from '../Tests/components/EditTest'
-import { IProps } from '../../hook/use-filter'
+import { IFilterProps } from '../../hook/use-filter'
 import { createTest } from '../../utils/requests'
 
 const initialTest = {
@@ -102,9 +102,7 @@ const CreateTest: FC<any> = (): ReactElement => {
         {/*  values={selectedTest}*/}
         {/*/>*/}
       </Grid>
-
       {testId ? <></> : <TestsList testsList={testsList} editTest={editTest} />}
-
       {testId ? (
         <EditTest test={selectedTest} closeEditForm={closeEditHandler} />
       ) : (
