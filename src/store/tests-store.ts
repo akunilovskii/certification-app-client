@@ -14,9 +14,11 @@ export interface NewITest {
   title?: string
   difficulty?: string
   duration?: string | number
-  questions: IQuestion[]
+  questions?: IQuestion[]
+
   [key: string]: any
 }
+
 export interface ITest {
   id: string
   title: string
@@ -26,9 +28,7 @@ export interface ITest {
 }
 
 export interface IQuestion {
-  id: string
   _id?: string
-  selected: number[]
   question: string
   answers: IAnswer[]
 }
