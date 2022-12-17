@@ -5,16 +5,16 @@ import Chip from '@mui/material/Chip'
 import { Button } from '@mui/material'
 import ModalWindow from '../src/components/ModalWindow'
 import { useNavigate } from 'react-router-dom'
-import DataContext from '../src/context/data-context'
+
 
 export default function DataTable(props: any) {
   const testsList = props.testsList
 
-  const { selectedTest, setSelectedTest } = useContext(DataContext)
+  // const { selectedTest, setSelectedTest } = useContext(DataContext)
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleClick = (event: any, cellValues: any) => {
-    setSelectedTest(testsList.filter((el: any) => el.id === cellValues.id)[0])
+    // setSelectedTest(testsList.filter((el: any) => el.id === cellValues.id)[0])
     setModalOpen(true)
   }
 
@@ -124,11 +124,11 @@ export default function DataTable(props: any) {
         rowsPerPageOptions={[10]}
       />
       {
-        <ModalWindow
-          selectedTest={selectedTest}
-          open={modalOpen}
-          onClose={onClose}
-        />
+        // <ModalWindow
+        //   selectedTest={selectedTest}
+        //   open={modalOpen}
+        //   onClose={onClose}
+        // />
       }
     </div>
   )

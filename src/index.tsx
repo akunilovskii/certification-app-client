@@ -4,7 +4,6 @@ import './index.css'
 import App from './App'
 import { AuthContextProvider } from './context/auth-context'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { DataContextProvider } from './context/data-context'
 import { store } from './store/store'
 import { Provider } from 'react-redux'
 
@@ -14,9 +13,7 @@ root.render(
     <Router>
       <Provider store={store}>
         <AuthContextProvider>
-          <DataContextProvider>
             <App />
-          </DataContextProvider>
         </AuthContextProvider>
       </Provider>
     </Router>

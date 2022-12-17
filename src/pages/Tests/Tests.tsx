@@ -1,6 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react'
 import { Box, Button, Grid } from '@mui/material'
-import DataContext from '../../context/data-context'
 import TestsList from './components/TestsList'
 import EditTest from './components/EditTest'
 import AuthContext from '../../context/auth-context'
@@ -11,14 +10,16 @@ import TestFields from './components/TestFields'
 import type { RootState } from '../../store/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { replaceTests } from '../../store/testsSlice'
+import { setTestValues } from '../../store/testValuesSlice'
 
 const Tests: FC<any> = () => {
   const testsList = useSelector((state: RootState) => state.tests.testsList)
+  const testValues = useSelector(
+    (state: RootState) => state.testValues.testValues
+  )
   const dispatch = useDispatch()
 
   const [editMode, setEditMode] = useState('')
-
-  const { testValues, setTestValues } = useContext(DataContext)
   const [isDeleted, setIsDeleted] = useState(false)
   const { user } = useContext(AuthContext)
 
@@ -39,7 +40,7 @@ const Tests: FC<any> = () => {
         level: testFilterResult.level.name,
         subject: testFilterResult.subject.name,
       }
-      setTestValues(testToEdit)
+      dispatch(setTestValues(testToEdit))
     }
     if (mode === 'close') setEditMode('')
   }

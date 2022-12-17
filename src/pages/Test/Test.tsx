@@ -11,22 +11,18 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import React, {
-  ChangeEvent,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import DataContext from '../../context/data-context'
 import { IQuestion } from '../../store/tests-store'
 import TestResult from '../../components/TestResult'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store/store'
 
 function Test() {
   const navigate = useNavigate()
-  const { testValues } = useContext(DataContext)
+  const testValues = useSelector(
+    (state: RootState) => state.testValues.testValues
+  )
   const [questionIndex, setQuestionIndex] = useState(1)
   useEffect(() => {}, [questionIndex])
 
@@ -70,10 +66,10 @@ function Test() {
   // }
 
   // const checkIfAllSelected = (): boolean => {
-    // return test.reduce(
-    //   (acc: boolean, el: IQuestion) => acc && el.selected.length !== 0,
-    //   true
-    // )
+  // return test.reduce(
+  //   (acc: boolean, el: IQuestion) => acc && el.selected.length !== 0,
+  //   true
+  // )
   // }
 
   const onClickHandler = (event: React.ChangeEvent<unknown>, value: number) => {

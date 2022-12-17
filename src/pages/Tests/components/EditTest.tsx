@@ -1,5 +1,4 @@
-import { FC, ReactElement, useCallback, useContext } from 'react'
-import DataContext from '../../../context/data-context'
+import { FC, ReactElement, useCallback } from 'react'
 import { Box, Button, Paper } from '@mui/material'
 import { createTest, updateTest } from '../../../utils/requests'
 import { checkForEmptyFields } from '../../../utils/validators'
@@ -14,7 +13,7 @@ const EditTest: FC<any> = ({
   setEditMode,
   actionHandler,
 }): ReactElement => {
-  const { testValues } = useContext(DataContext)
+  const testValues = useSelector((state: RootState) => state.testValues.testValues)
 
   const debouncedTestValues = useDebouncer(testValues)
 
@@ -28,7 +27,7 @@ const EditTest: FC<any> = ({
       updateTest(testValues._id, testValues)
     }
   }, [testValues])
-
+console.log(debouncedTestValues)
   const buttonIsValid = checkForEmptyFields(debouncedTestValues)
 
   return (

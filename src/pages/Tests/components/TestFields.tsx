@@ -7,15 +7,15 @@ import {
   Select,
   TextField,
 } from '@mui/material'
-import { ReactElement, useCallback, useContext, useEffect } from 'react'
-import DataContext from '../../../context/data-context'
+import { ReactElement, useCallback, useEffect } from 'react'
 import useFilter from '../../../hook/use-filter'
 import { NewITest } from '../../../store/tests-store'
 import { validateNumberInput } from '../../../utils/validators'
 import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded'
-import {useSelector} from "react-redux";
-import {RootState} from "../../../store/store";
-import {setItemsList} from "../../../utils/setItemList";
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../store/store'
+import { setItemsList } from '../../../utils/setItemList'
+import { setTestValues } from '../../../store/testValuesSlice'
 
 interface ITestFields {
   editMode?: string
@@ -23,19 +23,23 @@ interface ITestFields {
 }
 
 function TestFields({ editMode }: ITestFields): ReactElement {
-  const { testValues, setTestValues } = useContext(DataContext)
   const testsList = useSelector((state: RootState) => state.tests.testsList)
+  const testValues = useSelector(
+    (state: RootState) => state.testValues.testValues
+  )
+  const dispatch = useDispatch()
+
   const disciplineProps = useFilter(
     editMode === 'edit' ? testValues?.discipline : ''
   )
-  const levelProps = useFilter(editMode === 'edit' ? testValues?.level : '')
-  const subjectProps = useFilter(editMode === 'edit' ? testValues?.subject : '')
-  const titleProps = useFilter(editMode === 'edit' ? testValues?.title : '')
+  const levelProps = useFilter(editMode === 'edit' ? testValues.level : '')
+  const subjectProps = useFilter(editMode === 'edit' ? testValues.subject : '')
+  const titleProps = useFilter(editMode === 'edit' ? testValues.title : '')
   const difficultyProps = useFilter(
-    editMode === 'edit' ? testValues?.difficulty : ''
+    editMode === 'edit' ? testValues.difficulty : ''
   )
   const durationProps = useFilter(
-    editMode === 'edit' ? testValues?.duration : '',
+    editMode === 'edit' ? testValues.duration : '',
     true,
     validateNumberInput
   )
@@ -50,10 +54,8 @@ function TestFields({ editMode }: ITestFields): ReactElement {
   }, [])
 
   useEffect(() => {
-    //@ts-ignore
-    setTestValues((prev: NewITest) => {
-      return {
-        ...prev,
+    dispatch(
+      setTestValues({
         discipline: disciplineProps.props.value,
         level: levelProps.props.value,
         subject: subjectProps.props.value,
@@ -61,8 +63,9 @@ function TestFields({ editMode }: ITestFields): ReactElement {
         difficulty: difficultyProps.props.value,
         duration: +durationProps.props.value,
         questions: editMode === 'edit' ? testValues.questions : [],
-      }
-    })
+        _id: editMode === 'edit' ? testValues._id : '',
+      })
+    )
   }, [
     disciplineProps.props.value,
     levelProps.props.value,
