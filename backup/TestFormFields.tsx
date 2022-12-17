@@ -7,8 +7,10 @@ import {
   Select,
   TextField,
 } from '@mui/material'
-import useFilter from '../hook/use-filter'
-import DataContext from '../context/data-context'
+import useFilter from '../src/hook/use-filter'
+import DataContext from '../src/context/data-context'
+import {useSelector} from "react-redux";
+import {RootState} from "../src/store/store";
 
 const TestFormFields: FC<any> = ({ action, values }): ReactElement => {
   const disciplineProps = useFilter('')
@@ -17,7 +19,9 @@ const TestFormFields: FC<any> = ({ action, values }): ReactElement => {
   const titleProps = useFilter('')
   const difficultyProps = useFilter('')
   const durationProps = useFilter(0)
-  const { setItemsList, tests } = useContext(DataContext)
+  const { setItemsList } = useContext(DataContext)
+
+  const tests = useSelector((state: RootState) => state.tests.testsList)
 
   useEffect(() => {
     disciplineProps.setValue(values.discipline.name)

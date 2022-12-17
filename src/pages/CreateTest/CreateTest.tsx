@@ -102,7 +102,7 @@ const CreateTest: FC<any> = (): ReactElement => {
         {/*  values={selectedTest}*/}
         {/*/>*/}
       </Grid>
-      {testId ? <></> : <TestsList testsList={testsList} editTest={editTest} />}
+      {testId ? <></> : <TestsList editTest={editTest} />}
       {testId ? (
         <EditTest test={selectedTest} closeEditForm={closeEditHandler} />
       ) : (

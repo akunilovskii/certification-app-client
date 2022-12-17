@@ -8,8 +8,14 @@ import { deleteTestById, getTests } from '../../utils/requests'
 import { NewITest } from '../../store/tests-store'
 import TestFields from './components/TestFields'
 
+import type { RootState } from '../../store/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { replaceTests } from '../../store/testsSlice'
+
 const Tests: FC<any> = () => {
-  const [testsList, setTestList] = useState([])
+  const testsList = useSelector((state: RootState) => state.tests.testsList)
+  const dispatch = useDispatch()
+
   const [editMode, setEditMode] = useState('')
 
   const { testValues, setTestValues } = useContext(DataContext)
@@ -43,8 +49,8 @@ const Tests: FC<any> = () => {
   }
 
   const getTestsFromDatabase = async () => {
-    const data = await getTests()
-    setTestList(data.payload)
+    const testsFromServer = { ...(await getTests()) }.payload
+    dispatch(replaceTests(testsFromServer))
   }
 
   useEffect(() => {
@@ -75,7 +81,6 @@ const Tests: FC<any> = () => {
         <EditTest
           editMode={editMode}
           setEditMode={setEditMode}
-          testsList={testsList}
           actionHandler={actionHandler}
           setTestValues={setTestValues}
         />
@@ -88,7 +93,7 @@ const Tests: FC<any> = () => {
             width="100%"
             alignItems="flex-end"
           >
-            <TestFields testsList={testsList} editMode={editMode} />
+            <TestFields editMode={editMode} />
           </Box>
           {user.role === 'admin' ? (
             <Button
@@ -103,7 +108,7 @@ const Tests: FC<any> = () => {
             <></>
           )}
           <TestsList
-            testsList={filteredTestsList}
+            filteredTestsList={filteredTestsList}
             deleteHandler={deleteHandler}
             actionHandler={actionHandler}
           />

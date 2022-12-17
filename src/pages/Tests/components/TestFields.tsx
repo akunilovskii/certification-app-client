@@ -13,15 +13,18 @@ import useFilter from '../../../hook/use-filter'
 import { NewITest } from '../../../store/tests-store'
 import { validateNumberInput } from '../../../utils/validators'
 import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded'
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store/store";
+import {setItemsList} from "../../../utils/setItemList";
 
 interface ITestFields {
-  testsList: NewITest[]
   editMode?: string
   selectedTest?: NewITest
 }
 
-function TestFields({ testsList, editMode }: ITestFields): ReactElement {
-  const { testValues, setTestValues, setItemsList } = useContext(DataContext)
+function TestFields({ editMode }: ITestFields): ReactElement {
+  const { testValues, setTestValues } = useContext(DataContext)
+  const testsList = useSelector((state: RootState) => state.tests.testsList)
   const disciplineProps = useFilter(
     editMode === 'edit' ? testValues?.discipline : ''
   )

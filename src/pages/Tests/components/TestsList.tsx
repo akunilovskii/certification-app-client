@@ -1,5 +1,4 @@
-import { FC, ReactElement } from 'react'
-import { useContext } from 'react'
+import { FC, ReactElement, useContext } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Chip from '@mui/material/Chip'
 import { IconButton } from '@mui/material'
@@ -9,13 +8,12 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import AuthContext from '../../../context/auth-context'
 
 const TestsList: FC<any> = ({
-  testsList,
+  filteredTestsList,
   deleteHandler,
   actionHandler,
 }): ReactElement => {
   const { user } = useContext(AuthContext)
-
-  if (!testsList) return <></>
+  if (!filteredTestsList) return <></>
 
   const columns: GridColDef[] = [
     {
@@ -140,7 +138,7 @@ const TestsList: FC<any> = ({
     },
   ]
 
-  const rows = testsList.map((el: any, i: number) => ({
+  const rows = filteredTestsList.map((el: any, i: number) => ({
     id: el._id,
     discipline: el.discipline.name,
     level: el.level.name,
