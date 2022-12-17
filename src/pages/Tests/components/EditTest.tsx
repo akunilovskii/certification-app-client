@@ -6,14 +6,16 @@ import { checkForEmptyFields } from '../../../utils/validators'
 import { useDebouncer } from '../../../hook/use-debouncer'
 import TestFields from './TestFields'
 import QuestionsForm from '../../../components/QuestionsForm'
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store/store";
 
 const EditTest: FC<any> = ({
   editMode,
   setEditMode,
-  testsList,
   actionHandler,
 }): ReactElement => {
   const { testValues } = useContext(DataContext)
+
   const debouncedTestValues = useDebouncer(testValues)
 
   const testUpdateHandler = useCallback(() => {
@@ -32,7 +34,7 @@ const EditTest: FC<any> = ({
   return (
     <Paper>
       <Box display="flex" flexDirection="column">
-        <TestFields testsList={testsList} editMode={editMode} />
+        <TestFields editMode={editMode} />
         <QuestionsForm />
         <Box
           display="flex"

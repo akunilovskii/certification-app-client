@@ -7,15 +7,17 @@ import EditIcon from '@mui/icons-material/Edit'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import AuthContext from '../../../context/auth-context'
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store/store";
 
 const TestsList: FC<any> = ({
-  testsList,
+                              filteredTestsList,
   deleteHandler,
   actionHandler,
 }): ReactElement => {
   const { user } = useContext(AuthContext)
-
-  if (!testsList) return <></>
+  // const testsList = useSelector((state: RootState) => state.tests.testsList)
+  if (!filteredTestsList) return <></>
 
   const columns: GridColDef[] = [
     {
@@ -140,7 +142,7 @@ const TestsList: FC<any> = ({
     },
   ]
 
-  const rows = testsList.map((el: any, i: number) => ({
+  const rows = filteredTestsList.map((el: any, i: number) => ({
     id: el._id,
     discipline: el.discipline.name,
     level: el.level.name,
