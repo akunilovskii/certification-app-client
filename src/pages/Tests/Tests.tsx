@@ -16,7 +16,6 @@ const Tests: FC<any> = () => {
   const testsList = useSelector((state: RootState) => state.tests.testsList)
   const dispatch = useDispatch()
 
-
   const [editMode, setEditMode] = useState('')
 
   const { testValues, setTestValues } = useContext(DataContext)
@@ -82,7 +81,6 @@ const Tests: FC<any> = () => {
         <EditTest
           editMode={editMode}
           setEditMode={setEditMode}
-          // testsList={testsList}
           actionHandler={actionHandler}
           setTestValues={setTestValues}
         />
@@ -111,7 +109,6 @@ const Tests: FC<any> = () => {
           )}
           <TestsList
             filteredTestsList={filteredTestsList}
-            // testsList={tests}
             deleteHandler={deleteHandler}
             actionHandler={actionHandler}
           />

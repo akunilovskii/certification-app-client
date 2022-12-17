@@ -1,5 +1,4 @@
-import { FC, ReactElement } from 'react'
-import { useContext } from 'react'
+import { FC, ReactElement, useContext } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Chip from '@mui/material/Chip'
 import { IconButton } from '@mui/material'
@@ -7,16 +6,13 @@ import EditIcon from '@mui/icons-material/Edit'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import AuthContext from '../../../context/auth-context'
-import {useSelector} from "react-redux";
-import {RootState} from "../../../store/store";
 
 const TestsList: FC<any> = ({
-                              filteredTestsList,
+  filteredTestsList,
   deleteHandler,
   actionHandler,
 }): ReactElement => {
   const { user } = useContext(AuthContext)
-  // const testsList = useSelector((state: RootState) => state.tests.testsList)
   if (!filteredTestsList) return <></>
 
   const columns: GridColDef[] = [

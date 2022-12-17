@@ -26,7 +26,7 @@ const DataContext = createContext({
     testsArray: NewITest[]
   ): String[] => [],
 
-  tests: [],
+
   testValues: {} as NewITest,
   setTestValues: (value: NewITest) => {},
 })
@@ -76,7 +76,7 @@ export const DataContextProvider = ({ children }: Props) => {
   }
 
   const dataState = {
-    tests,
+
     setItemsList,
     selectedTest,
     setSelectedTest,
