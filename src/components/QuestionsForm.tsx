@@ -1,14 +1,17 @@
-import { ChangeEvent, FC, ReactElement, useContext, useState } from 'react'
+import { ChangeEvent, FC, ReactElement, useState } from 'react'
 import { Box, IconButton, TextField, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import useFilter from '../hook/use-filter'
-import DataContext from '../context/data-context'
 import { IQuestion, NewITest } from '../store/tests-store'
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../store/store";
+import {setTestValues} from "../store/testValuesSlice";
 
 const QuestionsForm: FC<any> = (): ReactElement => {
   // const [answers, setAnswers] = useState([])
   const questionProps = useFilter('')
-  const { testValues, setTestValues } = useContext(DataContext)
+  const testValues = useSelector((state: RootState) => state.testValues.testValues)
+  const dispatch = useDispatch();
   const questions: IQuestion[] = testValues.questions
   const [focusedStates, setFocusedStates] = useState(
     Array.from({ length: questions.length }, (_, i) => false)
@@ -44,7 +47,7 @@ const QuestionsForm: FC<any> = (): ReactElement => {
     const newQuestions = [...questions]
     console.log({ i }, newQuestions[i])
     newQuestions[i].question = value
-    setTestValues({ ...testValues, questions: newQuestions })
+    dispatch(setTestValues({ ...testValues, questions: newQuestions }))
   }
   const deleteHandler = (id: string) => {
     const filteredQuestions = questions.filter((el: IQuestion) => el._id !== id)

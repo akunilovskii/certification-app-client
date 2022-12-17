@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import {NewITest} from "./tests-store";
-import {testsSlice} from "./testsSlice";
 
 export interface ITestsValuesState {
     testValues: NewITest,
@@ -9,6 +8,7 @@ export interface ITestsValuesState {
 
 const initialState: ITestsValuesState = {
     testValues: {
+        _id: '',
         discipline: '',
         level: '',
         subject: '',
@@ -28,14 +28,14 @@ export const testValuesSlice = createSlice({
     name: 'testValues',
     initialState,
     reducers: {
-        replaceValues: (state, action: PayloadAction<NewITest>) => {
-            state.testValues = action.payload
+        setTestValues: (state, action: PayloadAction<NewITest>) => {
+            state.testValues = {...state.testValues, ...action.payload}
         },
 
     },
 })
 
-export const { replaceValues } = testValuesSlice.actions
+export const { setTestValues } = testValuesSlice.actions
 
 export default testValuesSlice.reducer
 

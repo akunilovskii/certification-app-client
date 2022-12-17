@@ -10,8 +10,7 @@ const rePasswordValidation = (value: string, value2nd: string) => {
   return value !== '' && value === value2nd
 }
 
-const checkForEmptyFields = (fieldsObj: NewITest) =>
-  !Object.entries(fieldsObj).some((el) => el[1] === '')
+const checkForEmptyFields = (fieldsObj: NewITest) => !Object.entries(fieldsObj).some((el) => el[0] ==='_id' ? false : el[1] === '')
 
 const validateNumberInput = (value: any, min = 0, max = 120) => {
   if (!isNaN(Number(value))) {
