@@ -15,6 +15,7 @@ import { validateNumberInput } from '../../../utils/validators'
 import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded'
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store/store";
+import {setItemsList} from "../../../utils/setItemList";
 
 interface ITestFields {
   editMode?: string
@@ -22,7 +23,7 @@ interface ITestFields {
 }
 
 function TestFields({ editMode }: ITestFields): ReactElement {
-  const { testValues, setTestValues, setItemsList } = useContext(DataContext)
+  const { testValues, setTestValues } = useContext(DataContext)
   const testsList = useSelector((state: RootState) => state.tests.testsList)
   const disciplineProps = useFilter(
     editMode === 'edit' ? testValues?.discipline : ''
