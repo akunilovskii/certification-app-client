@@ -14,7 +14,7 @@ export interface NewITest {
   title?: string
   difficulty?: string
   duration?: string | number
-  questions?: IQuestion[]
+  questions: IQuestion[]
 
   [key: string]: any
 }
@@ -53,8 +53,8 @@ export const tests: ITaxonomy[] = [
         duration: 30,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '2 + 2',
             answers: [
               {
@@ -80,8 +80,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '4 + 2',
             answers: [
               {
@@ -107,8 +107,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q3',
-            selected: [],
+
+
             question: '4 + 8',
             answers: [
               {
@@ -142,8 +142,8 @@ export const tests: ITaxonomy[] = [
         duration: 30,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '2 * 2',
             answers: [
               {
@@ -169,8 +169,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '4 * 2',
             answers: [
               {
@@ -196,8 +196,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q3',
-            selected: [],
+
+
             question: '4 * 4',
             answers: [
               {
@@ -231,8 +231,8 @@ export const tests: ITaxonomy[] = [
         duration: 25,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '2 / 2',
             answers: [
               {
@@ -258,8 +258,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '4 / 2',
             answers: [
               {
@@ -285,8 +285,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q3',
-            selected: [],
+
+
             question: '4 / 4',
             answers: [
               {
@@ -320,8 +320,8 @@ export const tests: ITaxonomy[] = [
         duration: 20,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '8 - 2',
             answers: [
               {
@@ -347,8 +347,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '7 - 2',
             answers: [
               {
@@ -390,8 +390,8 @@ export const tests: ITaxonomy[] = [
         duration: 40,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: 'Oxygen',
             answers: [
               {
@@ -417,8 +417,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: 'Water',
             answers: [
               {
@@ -460,8 +460,8 @@ export const tests: ITaxonomy[] = [
         duration: 10,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: 'How many angles does Triangle have',
             answers: [
               {
@@ -487,8 +487,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: 'How many angles does Circle have',
             answers: [
               {
@@ -514,8 +514,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q3',
-            selected: [],
+
+
             question: 'How many angles does Rectangle have',
             answers: [
               {
@@ -557,8 +557,8 @@ export const tests: ITaxonomy[] = [
         duration: 30,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '12 + 22',
             answers: [
               {
@@ -584,8 +584,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '14 + 32',
             answers: [
               {
@@ -611,8 +611,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q3',
-            selected: [],
+
+
             question: '24 + 18',
             answers: [
               {
@@ -646,8 +646,8 @@ export const tests: ITaxonomy[] = [
         duration: 20,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '12 * 6',
             answers: [
               {
@@ -673,8 +673,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '40 * 2',
             answers: [
               {
@@ -700,8 +700,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q3',
-            selected: [],
+
+
             question: '14 * 12',
             answers: [
               {
@@ -727,8 +727,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q4',
-            selected: [],
+
+
             question: '10 * 12',
             answers: [
               {
@@ -754,8 +754,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q5',
-            selected: [],
+
+
             question: '14 * 10',
             answers: [
               {
@@ -789,8 +789,8 @@ export const tests: ITaxonomy[] = [
         duration: 5,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '121 / 11',
             answers: [
               {
@@ -816,8 +816,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '428 / 2',
             answers: [
               {
@@ -843,8 +843,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q3',
-            selected: [],
+
+
             question: '250 / 5',
             answers: [
               {
@@ -878,8 +878,8 @@ export const tests: ITaxonomy[] = [
         duration: 20,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '18 - 8',
             answers: [
               {
@@ -905,8 +905,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '70 - 30',
             answers: [
               {
@@ -932,8 +932,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q3',
-            selected: [],
+
+
             question: '48 - 26',
             answers: [
               {
@@ -959,8 +959,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q4',
-            selected: [],
+
+
             question: '28 - 26',
             answers: [
               {
@@ -1002,8 +1002,8 @@ export const tests: ITaxonomy[] = [
         duration: 20,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '6 + 1',
             answers: [
               {
@@ -1029,8 +1029,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '6 + 12',
             answers: [
               {
@@ -1064,8 +1064,8 @@ export const tests: ITaxonomy[] = [
         duration: 10,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '2 * 3',
             answers: [
               {
@@ -1091,8 +1091,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '4 * 10',
             answers: [
               {
@@ -1118,8 +1118,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q3',
-            selected: [],
+
+
             question: '14 * 2',
             answers: [
               {
@@ -1153,8 +1153,8 @@ export const tests: ITaxonomy[] = [
         duration: 15,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '20 / 2',
             answers: [
               {
@@ -1180,8 +1180,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '14 / 2',
             answers: [
               {
@@ -1215,8 +1215,8 @@ export const tests: ITaxonomy[] = [
         duration: 10,
         questions: [
           {
-            id: 'q1',
-            selected: [],
+
+
             question: '18 - 12',
             answers: [
               {
@@ -1242,8 +1242,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q2',
-            selected: [],
+
+
             question: '17 - 5',
             answers: [
               {
@@ -1269,8 +1269,8 @@ export const tests: ITaxonomy[] = [
             ],
           },
           {
-            id: 'q3',
-            selected: [],
+
+
             question: '14 - 4',
             answers: [
               {

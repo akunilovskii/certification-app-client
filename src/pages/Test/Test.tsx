@@ -62,19 +62,19 @@ function Test() {
   )
   const [test, setTest] = useState<IQuestion[]>(randomizedTestResult)
 
-  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const elValue = +(event.target as HTMLInputElement).value
-    const newTest: IQuestion[] = [...test]
-    newTest[questionIndex - 1].selected = [elValue]
-    setTest(newTest)
-  }
+  // const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const elValue = +(event.target as HTMLInputElement).value
+  //   const newTest: IQuestion[] = [...test]
+  //   newTest[questionIndex - 1].selected = [elValue]
+  //   setTest(newTest)
+  // }
 
-  const checkIfAllSelected = (): boolean => {
-    return test.reduce(
-      (acc: boolean, el: IQuestion) => acc && el.selected.length !== 0,
-      true
-    )
-  }
+  // const checkIfAllSelected = (): boolean => {
+    // return test.reduce(
+    //   (acc: boolean, el: IQuestion) => acc && el.selected.length !== 0,
+    //   true
+    // )
+  // }
 
   const onClickHandler = (event: React.ChangeEvent<unknown>, value: number) => {
     setQuestionIndex(value)
@@ -103,12 +103,12 @@ function Test() {
             <RadioGroup
               aria-labelledby="answers-radio-buttons-group"
               name={test[questionIndex - 1].question}
-              onChange={onChangeHandler}
-              value={
-                test[questionIndex - 1].selected.length
-                  ? test[questionIndex - 1].selected[0]
-                  : ''
-              }
+              // onChange={onChangeHandler}
+              // value={
+              //   test[questionIndex - 1].selected.length
+              //     ? test[questionIndex - 1].selected[0]
+              //     : ''
+              // }
             >
               <List>
                 {test[questionIndex - 1].answers.map((el, i) => (
@@ -140,7 +140,7 @@ function Test() {
         fullWidth={false}
         variant="contained"
         color="primary"
-        disabled={!checkIfAllSelected()}
+        // disabled={!checkIfAllSelected()}
         onClick={() => finishHandle()}
       >
         Finish
