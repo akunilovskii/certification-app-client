@@ -29,11 +29,11 @@ export const updateTest = (testId: string, test: NewITest) => {
   }
 
   fetch(requestURL, requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        // setQuestions(data.payload.questions)
-        // getTests()
-      })
+    .then((response) => response.json())
+    .then((data) => {
+      // setQuestions(data.payload.questions)
+      // getTests()
+    })
 }
 
 export const getTests = () => {

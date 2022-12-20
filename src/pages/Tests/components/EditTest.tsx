@@ -5,15 +5,17 @@ import { checkForEmptyFields } from '../../../utils/validators'
 import { useDebouncer } from '../../../hook/use-debouncer'
 import TestFields from './TestFields'
 import QuestionsForm from '../../../components/QuestionsForm'
-import {useSelector} from "react-redux";
-import {RootState} from "../../../store/store";
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store/store'
 
 const EditTest: FC<any> = ({
   editMode,
   setEditMode,
   actionHandler,
 }): ReactElement => {
-  const testValues = useSelector((state: RootState) => state.testValues.testValues)
+  const testValues = useSelector(
+    (state: RootState) => state.testValues.testValues
+  )
 
   const debouncedTestValues = useDebouncer(testValues)
 
@@ -27,7 +29,7 @@ const EditTest: FC<any> = ({
       updateTest(testValues._id, testValues)
     }
   }, [testValues])
-console.log(debouncedTestValues)
+  console.log(debouncedTestValues)
   const buttonIsValid = checkForEmptyFields(debouncedTestValues)
 
   return (

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { About, Home, LoginSignUp, Test, Tests } from './pages'
+import { About, Home, LoginSignUp, Profile, Test, Tests } from './pages'
 import { Logout } from './pages/Logout/Logout'
 
 export interface IRoute {
@@ -47,6 +47,12 @@ export const routes: Array<IRoute> = [
     path: '/login-sign-up',
     enabled: true,
     component: LoginSignUp,
+  },
+  {
+    key: 'profile-route',
+    path: '/profile',
+    enabled: true,
+    component: Profile,
   },
   {
     key: 'logout-route',

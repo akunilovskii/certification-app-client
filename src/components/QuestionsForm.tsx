@@ -3,15 +3,17 @@ import { Box, IconButton, TextField, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import useFilter from '../hook/use-filter'
 import { IQuestion, NewITest } from '../store/tests-store'
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../store/store";
-import {setTestValues} from "../store/testValuesSlice";
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../store/store'
+import { setTestValues } from '../store/reducers/testValuesSlice'
 
 const QuestionsForm: FC<any> = (): ReactElement => {
   // const [answers, setAnswers] = useState([])
   const questionProps = useFilter('')
-  const testValues = useSelector((state: RootState) => state.testValues.testValues)
-  const dispatch = useDispatch();
+  const testValues = useSelector(
+    (state: RootState) => state.testValues.testValues
+  )
+  const dispatch = useDispatch()
   const questions: IQuestion[] = testValues.questions
   const [focusedStates, setFocusedStates] = useState(
     Array.from({ length: questions.length }, (_, i) => false)

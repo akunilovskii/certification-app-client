@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material/styles'
-import { FC, ReactElement, useContext, useState } from 'react'
+import { FC, ReactElement, useContext, useEffect, useState } from 'react'
 import {
   Box,
   Container,
@@ -19,10 +19,24 @@ import { ColorModeContext } from '../../context/theme-context'
 import { routes } from '../../routes'
 import AuthContext from '../../context/auth-context'
 import LogoutIcon from '@mui/icons-material/Logout'
+import LoginIcon from '@mui/icons-material/Login'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserDetails } from '../../store/reducers/authActions'
+import { RootState } from '../../store/store'
 
 export const Navbar: FC = (): ReactElement => {
   const [anchorElNav, setAnchorElNav] = useState(null)
   const { user } = useContext(AuthContext)
+  const { userInfo, userToken } = useSelector((state: RootState) => state.user)
+  const dispatch = useDispatch()
+
+  // automatically authenticate user if token is found
+  useEffect(() => {
+    if (userToken) {
+      //@ts-ignore
+      dispatch(getUserDetails())
+    }
+  }, [userToken, dispatch])
 
   const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget)
@@ -90,7 +104,7 @@ export const Navbar: FC = (): ReactElement => {
             >
               {routes
                 .filter((el) =>
-                  user.isLoggedIn ? el : el.access !== 'private'
+                  userInfo.isLoggedIn ? el : el.access !== 'private'
                 )
                 .map((page) => (
                   <Link
@@ -128,7 +142,7 @@ export const Navbar: FC = (): ReactElement => {
             >
               {routes
                 .filter((el) =>
-                  user.isLoggedIn ? el : el.access !== 'private'
+                  userInfo.isLoggedIn ? el : el.access !== 'private'
                 )
                 .map((page) => (
                   <Link
@@ -145,26 +159,35 @@ export const Navbar: FC = (): ReactElement => {
                 ))}
             </Box>
           </Box>
-          {!user.isLoggedIn && (
+          {!userInfo.isLoggedIn && (
             <IconButton
               to={'/login-sign-up'}
               component={NavLink}
               sx={{ ml: 1 }}
               color="inherit"
             >
-              <AccountCircleIcon />
+              <LoginIcon />
             </IconButton>
           )}
-          {user.isLoggedIn && (
-            <IconButton
-              // onClick={handleLogout}
-              to={'/logout'}
-              component={NavLink}
-              sx={{ ml: 1 }}
-              color="inherit"
-            >
-              <LogoutIcon />
-            </IconButton>
+          {userInfo.isLoggedIn && (
+            <>
+              <IconButton
+                to={'/profile'}
+                component={NavLink}
+                sx={{ ml: 1 }}
+                color="inherit"
+              >
+                <AccountCircleIcon />
+              </IconButton>
+              <IconButton
+                to={'/logout'}
+                component={NavLink}
+                sx={{ ml: 1 }}
+                color="inherit"
+              >
+                <LogoutIcon />
+              </IconButton>
+            </>
           )}
 
           <IconButton

@@ -9,8 +9,8 @@ import TestFields from './components/TestFields'
 
 import type { RootState } from '../../store/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { replaceTests } from '../../store/testsSlice'
-import { setTestValues } from '../../store/testValuesSlice'
+import { replaceTests } from '../../store'
+import { setTestValues } from '../../store'
 
 const Tests: FC<any> = () => {
   const testsList = useSelector((state: RootState) => state.tests.testsList)

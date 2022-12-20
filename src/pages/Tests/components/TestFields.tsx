@@ -15,7 +15,7 @@ import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store/store'
 import { setItemsList } from '../../../utils/setItemList'
-import { setTestValues } from '../../../store/testValuesSlice'
+import { setTestValues } from '../../../store/reducers/testValuesSlice'
 
 interface ITestFields {
   editMode?: string

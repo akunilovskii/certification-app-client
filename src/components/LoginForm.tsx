@@ -8,9 +8,13 @@ import {
 } from '../utils/validators'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../context/auth-context'
+import { useDispatch, useSelector } from 'react-redux'
+import { IAuthState } from '../store/reducers/authSlice'
+import { loginUser, registerUser } from '../store/reducers/authActions'
+import { AppDispatch, RootState } from '../store/store'
 
 const LoginForm: FC<{ index: number }> = ({ index }) => {
-  const { user, loginHandler } = useContext(AuthContext)
+  // const { user, loginHandler } = useContext(AuthContext)
   const email = useRef<TextFieldProps>(null)
   const newPassword = useRef<TextFieldProps>(null)
   const rePassword = useRef<TextFieldProps>(null)
@@ -21,13 +25,24 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
     rePasswordValidation,
     passwordProps.value
   )
+  const { loading, error, userInfo, success } = useSelector(
+    (state: RootState) => state.user
+  )
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    if (user.isLoggedIn) {
-      formReset()
-      navigate('/')
-    }
-  }, [user.isLoggedIn])
+    // redirect user to login page if registration was successful
+    if (success) navigate('/login-sign-up')
+    // redirect authenticated user to profile screen
+    if (userInfo.isLoggedIn) navigate('/profile')
+  }, [navigate, userInfo.isLoggedIn, success])
+
+  // useEffect(() => {
+  //   if (user.isLoggedIn) {
+  //     formReset()
+  //     navigate('/')
+  //   }
+  // }, [user.isLoggedIn])
 
   const getForm = (...inputStates: any) => {
     const formIsValid = inputStates.reduce(
@@ -43,9 +58,29 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
     return { formIsValid, formReset }
   }
 
+  // const handleSubmit = (e: any) => {
+  //   e.preventDefault()
+  //   loginHandler(emailProps.value, passwordProps.value)
+  // }
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    loginHandler(emailProps.value, passwordProps.value)
+    if (emailProps.value && passwordProps.value) {
+      if (index) {
+        dispatch(
+          registerUser({
+            email: emailProps.value,
+            password: passwordProps.value,
+          })
+        )
+      } else {
+        dispatch(
+          loginUser({
+            email: emailProps.value,
+            password: passwordProps.value,
+          })
+        )
+      }
+    }
   }
 
   const { formIsValid, formReset } = getForm(
@@ -102,7 +137,11 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
             />
           ))}
 
-        <Button type="submit" variant="contained" disabled={!formIsValid}>
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={!formIsValid && !loading}
+        >
           {index ? 'Register' : 'Login'}
         </Button>
       </Grid>

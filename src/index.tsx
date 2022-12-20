@@ -13,7 +13,7 @@ root.render(
     <Router>
       <Provider store={store}>
         <AuthContextProvider>
-            <App />
+          <App />
         </AuthContextProvider>
       </Provider>
     </Router>
