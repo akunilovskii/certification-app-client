@@ -107,16 +107,16 @@ function Test() {
               // }
             >
               <List>
-                {test[questionIndex - 1].answers.map((el, i) => (
-                  <ListItem disablePadding button key={el.id}>
-                    <FormControlLabel
-                      value={i}
-                      control={<Radio />}
-                      label={el.text}
-                      sx={{ width: '100%', margin: 0 }}
-                    />
-                  </ListItem>
-                ))}
+                {/*{test[questionIndex - 1].answers.map((el, i) => (*/}
+                {/*  <ListItem disablePadding button key={el.id}>*/}
+                {/*    <FormControlLabel*/}
+                {/*      value={i}*/}
+                {/*      control={<Radio />}*/}
+                {/*      label={el.text}*/}
+                {/*      sx={{ width: '100%', margin: 0 }}*/}
+                {/*    />*/}
+                {/*  </ListItem>*/}
+                {/*))}*/}
               </List>
             </RadioGroup>
           </Stack>

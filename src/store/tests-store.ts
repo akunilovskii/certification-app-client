@@ -30,11 +30,11 @@ export interface ITest {
 export interface IQuestion {
   _id?: string
   question: string
-  answers: IAnswer[]
+  answers?: IAnswer[]
 }
 
 export interface IAnswer {
-  id: string
+  id?: string
   text: string | number
   correct: boolean
 }
