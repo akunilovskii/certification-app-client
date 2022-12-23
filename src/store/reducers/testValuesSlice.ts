@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { NewITest } from '../tests-store'
 
-export interface ITestsValuesState {
+export interface ITestValuesState {
   testValues: NewITest
 }
 
-const initialState: ITestsValuesState = {
+const initialState: ITestValuesState = {
   testValues: {
     _id: '',
     discipline: '',
