@@ -7,7 +7,6 @@ import {
   rePasswordValidation,
 } from '../utils/validators'
 import { useNavigate } from 'react-router-dom'
-import AuthContext from '../context/auth-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { IAuthState } from '../store/reducers/authSlice'
 import { loginUser, registerUser } from '../store/reducers/authActions'
@@ -138,6 +137,7 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
           ))}
 
         <Button
+          data-testid="loginForm"
           type="submit"
           variant="contained"
           disabled={!formIsValid && !loading}

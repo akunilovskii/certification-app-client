@@ -17,7 +17,6 @@ import Brightness4Icon from '@mui/icons-material/Brightness4'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { ColorModeContext } from '../../context/theme-context'
 import { routes } from '../../routes'
-import AuthContext from '../../context/auth-context'
 import LogoutIcon from '@mui/icons-material/Logout'
 import LoginIcon from '@mui/icons-material/Login'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,7 +25,6 @@ import { RootState } from '../../store/store'
 
 export const Navbar: FC = (): ReactElement => {
   const [anchorElNav, setAnchorElNav] = useState(null)
-  const { user } = useContext(AuthContext)
   const { userInfo, userToken } = useSelector((state: RootState) => state.user)
   const dispatch = useDispatch()
 
@@ -180,6 +178,7 @@ export const Navbar: FC = (): ReactElement => {
                 <AccountCircleIcon />
               </IconButton>
               <IconButton
+                data-testid="logout"
                 to={'/logout'}
                 component={NavLink}
                 sx={{ ml: 1 }}

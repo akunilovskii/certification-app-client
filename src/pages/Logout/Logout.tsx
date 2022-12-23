@@ -1,20 +1,16 @@
 import { Grid, Paper, Typography } from '@mui/material'
-import React, { FC, useContext, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import SideImage from '../../components/SideImage'
-import AuthContext from '../../context/auth-context'
 import { logout } from '../../store/reducers/authSlice'
 
 export const Logout: FC = () => {
-  // const { logoutHandler } = useContext(AuthContext)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(logout())
-    // logoutHandler()
-    //@ts-ignore
     const timeout1 = setTimeout(() => {
       navigate('/')
     }, 2000)

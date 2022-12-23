@@ -25,78 +25,36 @@ import { IAnswer } from '../store/tests-store'
 interface IProps {
   questionIndex: number
 }
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 2,
+}
 
-const AnswersForm: FC<any> = (props: IProps): ReactElement => {
-  const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 2,
-  }
+const AnswersForm: FC<any> = ({ questionIndex }: IProps): ReactElement => {
+  const [answers, setAnswers] = useState<IAnswer[]>([])
+  const [focusedStates, setFocusedStates] = useState(
+    Array.from({ length: answers.length }, (_, i) => false)
+  )
+  const [open, setOpen] = useState(false)
+  const [checked, setChecked] = useState([0])
+  const dispatch = useDispatch()
 
   const testValues = useSelector(
     (state: RootState) => state.testValues.testValues
   )
 
-  const [answers, setAnswers] = useState<IAnswer[]>([])
-  const dispatch = useDispatch()
   useEffect(() => {
-    setAnswers(testValues.questions[props.questionIndex].answers!)
+    setAnswers(testValues.questions[questionIndex].answers!)
   }, [])
   const answerProps = useFilter('')
 
-  // const testValues = useSelector(
-  //   (state: RootState) => state.testValues.testValues
-  // )
-  // const dispatch = useDispatch()
-  // const questions: IQuestion[] = testValues.questions
-  // const [focusedStates, setFocusedStates] = useState(
-  //   Array.from({ length: questions.length }, (_, i) => false)
-  // )
-  //
-  // const setFieldState = (i: number) =>
-  //   setFocusedStates((prev) => {
-  //     const newState = [...prev]
-  //     newState[i] = !newState[i]
-  //     return newState
-  //   })
-  //
-  // const addToTest = () => {
-  //   dispatch(
-  //     setTestValues({
-  //       ...testValues,
-  //       questions: [...questions, { question: questionProps.props.value }],
-  //     })
-  //   )
-  //   questionProps.reset()
-  // }
-  //
-  // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, i: number) => {
-  //   const value = (e.target as HTMLInputElement).value
-  //   const newQuestions = [...questions]
-  //   console.log({ i }, newQuestions[i])
-  //   newQuestions[i].question = value
-  //   dispatch(setTestValues({ ...testValues, questions: newQuestions }))
-  // }
-  // const deleteHandler = (id: string) => {
-  //   const filteredQuestions = questions.filter((el: IQuestion) => el._id !== id)
-  //   //@ts-ignore
-  //   setTestValues((prev: NewITest) => {
-  //     if (questions) {
-  //       return {
-  //         ...prev,
-  //         questions: filteredQuestions,
-  //       }
-  //     }
-  //   })
-  // }
-
-  const [checked, setChecked] = useState([0])
   useEffect(() => {
     setChecked([])
   }, [])
@@ -128,13 +86,6 @@ const AnswersForm: FC<any> = (props: IProps): ReactElement => {
     setAnswers(newAnswers)
   }
 
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
-  const [focusedStates, setFocusedStates] = useState(
-    Array.from({ length: answers.length }, (_, i) => false)
-  )
   const setFieldState = (i: number) =>
     setFocusedStates((prev) => {
       const newState = [...prev]
@@ -144,17 +95,24 @@ const AnswersForm: FC<any> = (props: IProps): ReactElement => {
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>, i: number) => {
     const value = (e.target as HTMLInputElement).value
-    setAnswers(answers.map((answer, index) => (index !== i) ? answer : {...answer, text: value}))
+    setAnswers(
+      answers.map((answer, index) =>
+        index !== i ? answer : { ...answer, text: value }
+      )
+    )
   }
 
   const onClickHandler = (i: number) => {
-    setAnswers(answers.map((answer, index) => (index !== i) ? answer : {...answer, correct: !answer.correct}))
-    console.log(answers)
+    setAnswers(
+      answers.map((answer, index) =>
+        index !== i ? answer : { ...answer, correct: !answer.correct }
+      )
+    )
   }
 
   const answersUpdateHandler = () => {
     const newQuestions = testValues.questions.map((question, index) => {
-      if (index !== props.questionIndex) return question
+      if (index !== questionIndex) return question
       return { ...question, answers }
     })
 
@@ -163,19 +121,22 @@ const AnswersForm: FC<any> = (props: IProps): ReactElement => {
   }
 
   return (
-    <div>
-      <Button onClick={handleOpen}>
+    <Box>
+      <Button
+        data-testid={`openButton${questionIndex}`}
+        onClick={() => setOpen(true)}
+      >
         <RuleIcon />
       </Button>
 
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div>
+          <Box>
             <TextField
               label="Answer"
               type="text"
@@ -183,7 +144,7 @@ const AnswersForm: FC<any> = (props: IProps): ReactElement => {
               {...answerProps.props}
             />
             <Button onClick={addAnswer}>Add answer</Button>
-          </div>
+          </Box>
 
           <List
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -195,7 +156,11 @@ const AnswersForm: FC<any> = (props: IProps): ReactElement => {
                 <ListItem
                   key={value}
                   secondaryAction={
-                    <IconButton edge="end" aria-label="comments" onClick={() => onClickHandler(value)}>
+                    <IconButton
+                      edge="end"
+                      aria-label="comments"
+                      onClick={() => onClickHandler(value)}
+                    >
                       {el.correct ? (
                         <CheckCircleOutlineIcon />
                       ) : (
@@ -234,11 +199,6 @@ const AnswersForm: FC<any> = (props: IProps): ReactElement => {
                         onBlur={() => setFieldState(value)}
                       />
                     )}
-
-                    {/*<ListItemText*/}
-                    {/*  id={labelId}*/}
-                    {/*  primary={el.text}*/}
-                    {/*/>*/}
                   </ListItemButton>
                 </ListItem>
               )
@@ -270,7 +230,7 @@ const AnswersForm: FC<any> = (props: IProps): ReactElement => {
           </Box>
         </Box>
       </Modal>
-    </div>
+    </Box>
   )
 }
 
