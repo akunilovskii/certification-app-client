@@ -7,11 +7,9 @@ import React, {
 } from 'react'
 import { Grid } from '@mui/material'
 // import TestFormFields from '../../components/TestFormFields'
-import { ITest } from '../../store/tests-store'
-import TestsList from '../Tests/components/TestsList'
-import EditTest from '../Tests/components/EditTest'
-import { IFilterProps } from '../../hook/use-filter'
-import { createTest } from '../../utils/requests'
+import { ITest } from '../../src/store/tests-store'
+import TestsList from '../../src/pages/Tests/components/TestsList'
+import EditTest from '../../src/pages/Tests/components/EditTest'
 
 const initialTest = {
   discipline: '',

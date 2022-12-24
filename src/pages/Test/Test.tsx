@@ -1,12 +1,10 @@
 import {
   Button,
-  FormControl,
-  FormControlLabel,
+  FormControl, FormControlLabel,
   FormLabel,
   List,
   ListItem,
-  Pagination,
-  Radio,
+  Pagination, Radio,
   RadioGroup,
   Stack,
   Typography,
@@ -41,8 +39,7 @@ function Test() {
       const result = testCopy.map((el) => {
         return { ...el, answers: randomizeArray(el.answers) }
       })
-      const result2 = randomizeArray(structuredClone(result))
-      return result2
+      return randomizeArray(structuredClone(result))
     },
     [randomizeArray]
   )
@@ -56,7 +53,7 @@ function Test() {
     () => randomizeTest(testCopy),
     [randomizeTest, testCopy]
   )
-  const [test, setTest] = useState<IQuestion[]>(randomizedTestResult)
+  const [test] = useState<IQuestion[]>(randomizedTestResult)
 
   // const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
   //   const elValue = +(event.target as HTMLInputElement).value
@@ -83,7 +80,7 @@ function Test() {
 
   useEffect(() => {
     if (testValues.id === '') navigate('/tests')
-  }, [])
+  }, [testValues.id, navigate])
 
   if (testValues.id === '') return null
   return (
@@ -107,16 +104,16 @@ function Test() {
               // }
             >
               <List>
-                {/*{test[questionIndex - 1].answers.map((el, i) => (*/}
-                {/*  <ListItem disablePadding button key={el.id}>*/}
-                {/*    <FormControlLabel*/}
-                {/*      value={i}*/}
-                {/*      control={<Radio />}*/}
-                {/*      label={el.text}*/}
-                {/*      sx={{ width: '100%', margin: 0 }}*/}
-                {/*    />*/}
-                {/*  </ListItem>*/}
-                {/*))}*/}
+                {test[questionIndex - 1].answers!.map((el, i) => (
+                  <ListItem disablePadding button key={el.id}>
+                    <FormControlLabel
+                      value={i}
+                      control={<Radio />}
+                      label={el.text}
+                      sx={{ width: '100%', margin: 0 }}
+                    />
+                  </ListItem>
+                ))}
               </List>
             </RadioGroup>
           </Stack>

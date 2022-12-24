@@ -1,11 +1,3 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from '@mui/material'
 import React from 'react'
 import { IQuestion } from '../store/tests-store'
 

@@ -1,6 +1,10 @@
 name: Certification App
 run-name: ${{ github.actor }} is testing out Certification App 🚀
-on: [ push ]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 jobs:
   init:
     runs-on: ubuntu-latest
@@ -19,4 +23,6 @@ jobs:
         run: npm run build
       - name: run tests
         run: npm run test
+        env:
+          CI: ""
 

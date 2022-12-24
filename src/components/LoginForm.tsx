@@ -1,5 +1,5 @@
 import { Button, Grid, TextField, TextFieldProps } from '@mui/material'
-import { FC, useContext, useEffect, useRef } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import useInput from '../hook/use-input'
 import {
   emailValidation,
@@ -8,12 +8,10 @@ import {
 } from '../utils/validators'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { IAuthState } from '../store/reducers/authSlice'
 import { loginUser, registerUser } from '../store/reducers/authActions'
 import { AppDispatch, RootState } from '../store/store'
 
 const LoginForm: FC<{ index: number }> = ({ index }) => {
-  // const { user, loginHandler } = useContext(AuthContext)
   const email = useRef<TextFieldProps>(null)
   const newPassword = useRef<TextFieldProps>(null)
   const rePassword = useRef<TextFieldProps>(null)
@@ -24,7 +22,7 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
     rePasswordValidation,
     passwordProps.value
   )
-  const { loading, error, userInfo, success } = useSelector(
+  const { loading, userInfo, success } = useSelector(
     (state: RootState) => state.user
   )
   const dispatch = useDispatch<AppDispatch>()
@@ -82,7 +80,7 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
     }
   }
 
-  const { formIsValid, formReset } = getForm(
+  const { formIsValid } = getForm(
     ...[emailInputStates, passwordInputStates, rePasswordInputStates].filter(
       (__, i) => i < index + 2
     )

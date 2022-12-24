@@ -15,7 +15,7 @@ export const Logout: FC = () => {
       navigate('/')
     }, 2000)
     return () => clearTimeout(timeout1)
-  }, [])
+  }, [dispatch, navigate])
 
   return (
     <Paper sx={{ height: '100%', width: '50%' }}>

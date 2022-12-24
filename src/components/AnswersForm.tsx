@@ -51,8 +51,11 @@ const AnswersForm: FC<any> = ({ questionIndex }: IProps): ReactElement => {
   )
 
   useEffect(() => {
+    console.log('render')
     setAnswers(testValues.questions[questionIndex].answers!)
-  }, [])
+    //TODO needs optimization
+  }, [questionIndex, testValues.questions])
+
   const answerProps = useFilter('')
 
   useEffect(() => {

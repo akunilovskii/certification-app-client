@@ -7,7 +7,7 @@ import { chooseTheme } from './theme/theme'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { ColorModeContext } from './context/theme-context'
 import Layout from './components/layout/Layout'
-import AuthContext from './context/auth-context'
+import AuthContext from '../backup/auth-context'
 
 export default function App() {
   const { user } = useContext(AuthContext)

@@ -9,7 +9,7 @@ export function useDebouncer(value: any, delay = 500) {
     }, delay)
 
     return () => clearTimeout(previousTimer)
-  }, [value])
+  }, [value, delay])
 
   return debouncedValue
 }
