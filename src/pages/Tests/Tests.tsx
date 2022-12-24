@@ -1,8 +1,7 @@
-import { FC, useContext, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Box, Button, Grid } from '@mui/material'
 import TestsList from './components/TestsList'
 import EditTest from './components/EditTest'
-import AuthContext from '../../../backup/auth-context'
 import { deleteTestById, getTests } from '../../utils/requests'
 import { NewITest } from '../../store/tests-store'
 import TestFields from './components/TestFields'
@@ -21,7 +20,10 @@ const Tests: FC<any> = () => {
 
   const [editMode, setEditMode] = useState('')
   const [isDeleted, setIsDeleted] = useState(false)
-  const { user } = useContext(AuthContext)
+
+  const user = useSelector(
+      (state: RootState) => state.user.userInfo
+  )
 
   const actionHandler = (mode: string, id?: string) => {
     if (mode === 'create') {
@@ -96,7 +98,8 @@ const Tests: FC<any> = () => {
           >
             <TestFields editMode={editMode} />
           </Box>
-          {user.role === 'admin' ? (
+          {/*//TODO change to user.role === 'admin' */}
+          {user.isLoggedIn ? (
             <Button
               color="primary"
               variant="outlined"
