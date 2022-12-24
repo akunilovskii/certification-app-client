@@ -2,9 +2,9 @@ name: Certification App
 run-name: ${{ github.actor }} is testing out Certification App 🚀
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 jobs:
   init:
     runs-on: ubuntu-latest
