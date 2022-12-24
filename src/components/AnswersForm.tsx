@@ -83,6 +83,13 @@ const AnswersForm: FC<any> = ({ questionIndex }: IProps): ReactElement => {
     answerProps.reset()
   }
 
+  //DELETE IT
+  const deleteHandler2 = () => {
+    const newAnswers = answers.filter((_, i: number) => !checked.includes(i))
+    setChecked([])
+    setAnswers(newAnswers)
+  }
+
   const deleteHandler = () => {
     const newAnswers = answers.filter((_, i: number) => !checked.includes(i))
     setChecked([])
