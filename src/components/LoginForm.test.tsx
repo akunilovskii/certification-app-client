@@ -32,7 +32,7 @@ describe('login form tests', () => {
 
   test('login form submit event', () => {
     renderApp()
-    const loginButton = screen.getByTestId('loginForm1')
+    const loginButton = screen.getByTestId('loginForm')
     const mockDispatch = jest.fn()
     useDispatchMock.mockReturnValue(mockDispatch)
     store.dispatch = mockDispatch
