@@ -20,9 +20,8 @@ jobs:
       - name: install modules
         run: npm install --legacy-peer-deps
       - name: build project
+        env:
+          CI: ""
         run: npm run build
       - name: run tests
         run: npm run test
-        env:
-          CI: ""
-
