@@ -5,14 +5,17 @@ import { IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import AuthContext from '../../../../backup/auth-context'
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store/store";
 
 const TestsList: FC<any> = ({
   filteredTestsList,
   deleteHandler,
   actionHandler,
 }): ReactElement => {
-  const { user } = useContext(AuthContext)
+  const user = useSelector(
+      (state: RootState) => state.user.userInfo
+  )
   if (!filteredTestsList) return <></>
 
   const columns: GridColDef[] = [
@@ -111,8 +114,8 @@ const TestsList: FC<any> = ({
             >
               <PlayCircleOutlineIcon />
             </IconButton>
-
-            {user.role === 'admin' ? (
+{/*//TODO change for user.role === 'admin'*/}
+            {user.isLoggedIn ? (
               <>
                 <IconButton
                   aria-label="edit"

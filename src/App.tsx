@@ -4,13 +4,17 @@ import { routes as appRoutes } from './routes'
 import './App.css'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { chooseTheme } from './theme/theme'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ColorModeContext } from './context/theme-context'
 import Layout from './components/layout/Layout'
-import AuthContext from '../backup/auth-context'
+
+import {useSelector} from "react-redux";
+import {RootState} from "./store/store";
 
 export default function App() {
-  const { user } = useContext(AuthContext)
+  const user = useSelector(
+      (state: RootState) => state.user.userInfo
+  )
   const themeMode = localStorage.getItem('themeMode')
   const [mode, setMode] = useState<'light' | 'dark'>(
     themeMode === 'light' ? 'light' : 'dark'
