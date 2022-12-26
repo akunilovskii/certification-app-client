@@ -1,11 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { RootState } from '../store'
 
 interface MyData {
   email: string
   password: string
 }
-const proxy = 'http://localhost:5000'
+export const PROXY = process.env.PROXY
 
 export const getUserDetails = createAsyncThunk(
   'user/getUserDetails',
@@ -22,7 +21,7 @@ export const getUserDetails = createAsyncThunk(
           Authorization: `Bearer ${user.userToken}`,
         },
       }
-      const response = await fetch(`${proxy}/user/profile`, config)
+      const response = await fetch(`${PROXY}/user/profile`, config)
       const data = await response.json()
 
       return data
@@ -48,7 +47,7 @@ export const loginUser = createAsyncThunk(
         },
         body: JSON.stringify({ email, password }),
       }
-      const response = await fetch(`${proxy}/user/login`, config)
+      const response = await fetch(`${PROXY}/user/login`, config)
       const data = await response.json()
       // store user's token in local storage
       localStorage.setItem('userToken', data.userToken)
@@ -72,7 +71,7 @@ export const registerUser = createAsyncThunk(
     try {
       // configure header's Content-Type as JSON
       // make request to backend
-      const requestURL = `${proxy}/user/register`
+      const requestURL = `${PROXY}/user/register`
 
       const config = {
         method: 'POST',
