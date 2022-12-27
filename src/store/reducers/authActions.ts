@@ -5,8 +5,8 @@ interface MyData {
   password: string
 }
 export const PROXY = process.env.REACT_APP_PROXY
-console.log(process.env)
-console.log(PROXY)
+// console.log(process.env)
+// console.log(PROXY)
 
 export const getUserDetails = createAsyncThunk(
   'user/getUserDetails',
