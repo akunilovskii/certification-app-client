@@ -41,7 +41,7 @@ export const loginUser = createAsyncThunk(
   'user/login',
   async ({ email, password }: MyData, { rejectWithValue }) => {
     try {
-      // configure header's Content-Type as JSON
+      const requestURL = `${PROXY}/user/login`
       const config = {
         method: 'POST',
         headers: {
@@ -49,11 +49,13 @@ export const loginUser = createAsyncThunk(
         },
         body: JSON.stringify({ email, password }),
       }
-      const response = await fetch(`${PROXY}/user/login`, config)
+      const response = await fetch(requestURL, config)
       const data = await response.json()
-      // store user's token in local storage
-      localStorage.setItem('userToken', data.userToken)
-      return data
+      if (data.user) {
+        // store user's token in local storage
+        localStorage.setItem('userToken', data.userToken)
+        return data
+      }
     } catch (error: any) {
       // return custom error message from API if any
       if (error.response && error.response.data.message) {
@@ -71,8 +73,6 @@ export const registerUser = createAsyncThunk(
   // callback function
   async ({ email, password }: MyData, { rejectWithValue }) => {
     try {
-      // configure header's Content-Type as JSON
-      // make request to backend
       const requestURL = `${PROXY}/user/register`
 
       const config = {
@@ -83,7 +83,13 @@ export const registerUser = createAsyncThunk(
         body: JSON.stringify({ email, password }),
       }
 
-      await fetch(requestURL, config)
+      const response = await fetch(requestURL, config)
+      const data = await response.json()
+      if (data.user) {
+        // store user's token in local storage
+        localStorage.setItem('userToken', data.userToken)
+        return data
+      }
     } catch (error: any) {
       // return custom error message from API if any
       if (error.response && error.response.data.message) {

@@ -29,9 +29,9 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
 
   useEffect(() => {
     // redirect user to login page if registration was successful
-    if (success) navigate('/login-sign-up')
+    // if (success) navigate('/login-sign-up')
     // redirect authenticated user to profile screen
-    if (userInfo.isLoggedIn) navigate('/profile')
+    if (userInfo.isLoggedIn) navigate('/tests')
   }, [navigate, userInfo.isLoggedIn, success])
 
   // useEffect(() => {

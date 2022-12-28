@@ -69,7 +69,7 @@ export const Navbar: FC = (): ReactElement => {
               display: { xs: 'none', md: 'flex' },
             }}
           >
-            Starter App
+            Certification App
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -102,7 +102,9 @@ export const Navbar: FC = (): ReactElement => {
             >
               {routes
                 .filter((el) =>
-                  userInfo.isLoggedIn ? el : el.access !== 'private'
+                  userInfo.isLoggedIn
+                    ? el.access !== 'public'
+                    : el.access !== 'private'
                 )
                 .map((page) => (
                   <Link
@@ -126,7 +128,7 @@ export const Navbar: FC = (): ReactElement => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            React Starter App
+            Certification App
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Box
@@ -140,7 +142,9 @@ export const Navbar: FC = (): ReactElement => {
             >
               {routes
                 .filter((el) =>
-                  userInfo.isLoggedIn ? el : el.access !== 'private'
+                  userInfo.isLoggedIn
+                    ? el.access !== 'public'
+                    : el.access !== 'private'
                 )
                 .map((page) => (
                   <Link

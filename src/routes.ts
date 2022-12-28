@@ -18,6 +18,7 @@ export const routes: Array<IRoute> = [
     path: '/',
     enabled: true,
     component: Home,
+    access: 'public',
   },
   {
     key: 'about-route',

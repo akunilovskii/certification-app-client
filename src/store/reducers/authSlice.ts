@@ -67,9 +67,12 @@ export const authSlice = createSlice({
       state.loading = true
       state.error = {}
     })
-    builder.addCase(registerUser.fulfilled, (state) => {
+    builder.addCase(registerUser.fulfilled, (state, { payload }) => {
       state.loading = false
       state.success = true // registration successful
+      state.userInfo = payload
+      state.userInfo.isLoggedIn = true
+      state.userToken = payload.userToken
     })
     builder.addCase(registerUser.rejected, (state, { payload }) => {
       state.loading = false
