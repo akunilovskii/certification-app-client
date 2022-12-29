@@ -2,7 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { getUserDetails, registerUser, loginUser } from './authActions'
+import { registerUser, loginUser, logoutUser, checkAuth } from './authActions'
 // interface IUser {
 //   isLoggedIn: boolean
 //   role: string
@@ -21,6 +21,7 @@ export interface IAuthState {
 const userToken = localStorage.getItem('userToken')
   ? localStorage.getItem('userToken')
   : ''
+console.log(userToken)
 
 const initialState: IAuthState = {
   // user: { isLoggedIn: false, role: '' },
@@ -35,13 +36,13 @@ export const authSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    logout: (state) => {
-      localStorage.removeItem('userToken') // deletes token from storage
-      state.loading = false
-      state.userInfo = { email: '', isLoggedIn: false }
-      state.userToken = ''
-      state.error = null
-    },
+    // logout: (state) => {
+    //   localStorage.removeItem('userToken') // deletes token from storage
+    //   state.loading = false
+    //   state.userInfo = { email: '', isLoggedIn: false }
+    //   state.userToken = ''
+    //   state.error = null
+    // },
     setUserData: (state: IAuthState, action: PayloadAction<IAuthState>) => {
       state = action.payload
     },
@@ -56,9 +57,24 @@ export const authSlice = createSlice({
       state.loading = false
       state.userInfo = payload
       state.userInfo.isLoggedIn = true
-      state.userToken = payload.userToken
+      state.userToken = payload.accessToken
     })
     builder.addCase(loginUser.rejected, (state, { payload }) => {
+      state.loading = false
+      state.error = payload
+    })
+    // logout user
+    builder.addCase(logoutUser.pending, (state) => {
+      state.loading = true
+      state.error = null
+    })
+    builder.addCase(logoutUser.fulfilled, (state, { payload }) => {
+      state.loading = false
+      state.userInfo = { email: '', isLoggedIn: false }
+      state.userToken = ''
+      state.error = null
+    })
+    builder.addCase(logoutUser.rejected, (state, { payload }) => {
       state.loading = false
       state.error = payload
     })
@@ -72,20 +88,22 @@ export const authSlice = createSlice({
       state.success = true // registration successful
       state.userInfo = payload
       state.userInfo.isLoggedIn = true
-      state.userToken = payload.userToken
+      state.userToken = payload.accessToken
     })
     builder.addCase(registerUser.rejected, (state, { payload }) => {
       state.loading = false
       state.error = payload
     })
-    builder.addCase(getUserDetails.pending, (state) => {
+    builder.addCase(checkAuth.pending, (state) => {
       state.loading = true
     })
-    builder.addCase(getUserDetails.fulfilled, (state, { payload }) => {
+    builder.addCase(checkAuth.fulfilled, (state, { payload }) => {
+      console.log(payload)
       state.loading = false
-      state.userInfo = payload
+      state.userInfo = { ...state.userInfo, ...payload }
+      state.userInfo.isLoggedIn = true
     })
-    builder.addCase(getUserDetails.rejected, (state, { payload }) => {
+    builder.addCase(checkAuth.rejected, (state, { payload }) => {
       state.loading = false
     })
   },
@@ -108,6 +126,6 @@ export const authSlice = createSlice({
 //    setUser({ isLoggedIn: false, role: '' })
 //  }
 
-export const { setUserData, logout } = authSlice.actions
+export const { setUserData } = authSlice.actions
 
 export default authSlice.reducer

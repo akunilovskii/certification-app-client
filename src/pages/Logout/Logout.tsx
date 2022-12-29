@@ -3,14 +3,16 @@ import { FC, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import SideImage from '../../components/SideImage'
-import { logout } from '../../store/reducers/authSlice'
+import { logoutUser } from '../../store/reducers/authActions'
+// import { logout } from '../../store/reducers/authSlice'
 
 export const Logout: FC = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(logout())
+    //@ts-ignore
+    dispatch(logoutUser())
     const timeout1 = setTimeout(() => {
       navigate('/')
     }, 2000)

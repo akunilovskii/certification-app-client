@@ -20,7 +20,7 @@ import { routes } from '../../routes'
 import LogoutIcon from '@mui/icons-material/Logout'
 import LoginIcon from '@mui/icons-material/Login'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserDetails } from '../../store/reducers/authActions'
+import { checkAuth } from '../../store/reducers/authActions'
 import { RootState } from '../../store/store'
 
 export const Navbar: FC = (): ReactElement => {
@@ -32,7 +32,7 @@ export const Navbar: FC = (): ReactElement => {
   useEffect(() => {
     if (userToken) {
       //@ts-ignore
-      dispatch(getUserDetails())
+      dispatch(checkAuth())
     }
   }, [userToken, dispatch])
 
