@@ -30,9 +30,10 @@ export const Navbar: FC = (): ReactElement => {
 
   // automatically authenticate user if token is found
   useEffect(() => {
-    if (userToken) {
-      //@ts-ignore
-      dispatch(checkAuth())
+     if (localStorage.getItem('userToken')) {
+         console.log('User Token useEffect: ', userToken)
+       //@ts-ignore
+       dispatch(checkAuth())
     }
   }, [userToken, dispatch])
 

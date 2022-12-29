@@ -98,7 +98,6 @@ export const authSlice = createSlice({
       state.loading = true
     })
     builder.addCase(checkAuth.fulfilled, (state, { payload }) => {
-      console.log(payload)
       state.loading = false
       state.userInfo = { ...state.userInfo, ...payload }
       state.userInfo.isLoggedIn = true

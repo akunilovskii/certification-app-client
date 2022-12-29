@@ -6,8 +6,8 @@ interface MyData {
   password: string
 }
 export const PROXY = process.env.REACT_APP_PROXY
-// console.log(process.env)
-// console.log(PROXY)
+console.log(process.env)
+console.log(PROXY)
 
 // export const getUserDetails = createAsyncThunk(
 //   'user/getUserDetails',
@@ -48,8 +48,8 @@ export const checkAuth = createAsyncThunk(
       })
 
       if (response.data) {
-        localStorage.setItem('token', response.data.accessToken)
-        console.log(response.data)
+        localStorage.setItem('userToken', response.data.accessToken)
+        console.log('Check auth from response: ', response.data)
         return response.data
       }
     } catch (err: any) {
