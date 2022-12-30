@@ -1,22 +1,15 @@
 import { NewITest } from '../store/tests-store'
 import {PROXY} from "../store/reducers/authActions";
+import API from "./interceptorsAPI";
 
 export const createTest = (test: NewITest) => {
-  const requestURL = `${PROXY}/tests/create`
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      data: test,
-    }),
-  }
-
-  fetch(requestURL, requestOptions)
-    .then((response) => response.json())
-    .then((data) => {
-      // setQuestions(data.payload.questions)
-      // getTests()
-    })
+  return API.post('/tests/create', {...test})
+      .then(({data}) => console.log('Create test request: ', data))
+      .catch((err) => {
+        console.log('API error: ', err)
+        return 'ERROR'
+      })
+      .finally(() => { })
 }
 
 export const updateTest = (testId: string, test: NewITest) => {

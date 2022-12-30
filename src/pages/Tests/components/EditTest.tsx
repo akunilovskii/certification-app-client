@@ -5,8 +5,9 @@ import { checkForEmptyFields } from '../../../utils/validators'
 import { useDebouncer } from '../../../hook/use-debouncer'
 import TestFields from './TestFields'
 import QuestionsForm from '../../../components/QuestionsForm'
-import { useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { RootState } from '../../../store/store'
+import {logoutUser} from "../../../store/reducers/authActions";
 
 const EditTest: FC<any> = ({
   editMode,
@@ -18,11 +19,16 @@ const EditTest: FC<any> = ({
   )
 
   const debouncedTestValues = useDebouncer(testValues)
-
-  const testUpdateHandler = useCallback(() => {
+ const dispatch = useDispatch();
+  const testUpdateHandler = useCallback(async () => {
     if (editMode === 'create') {
       setEditMode('')
-      createTest(testValues)
+      const result = await createTest(testValues)
+        console.log('Test create result: ', result)
+      if (result === 'ERROR') {
+        // @ts-ignore
+        dispatch(logoutUser());
+      }
     }
     if (editMode === 'edit') {
       setEditMode('')

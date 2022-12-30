@@ -54,6 +54,7 @@ export const checkAuth = createAsyncThunk(
       }
     } catch (err: any) {
       console.log(err.response.data.message)
+      return rejectWithValue(err.response.data.message)
     }
   }
 )
