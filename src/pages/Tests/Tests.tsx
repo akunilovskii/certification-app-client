@@ -8,8 +8,8 @@ import TestFields from './components/TestFields'
 
 import type { RootState } from '../../store/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { replaceTests } from '../../store'
-import { setTestValues } from '../../store'
+import { replaceTests, setAuthError, setTestValues } from '../../store'
+import { logoutUser } from '../../store/reducers/authActions'
 
 const Tests: FC<any> = () => {
   const testsList = useSelector((state: RootState) => state.tests.testsList)
@@ -21,9 +21,7 @@ const Tests: FC<any> = () => {
   const [editMode, setEditMode] = useState('')
   const [isDeleted, setIsDeleted] = useState(false)
 
-  const user = useSelector(
-      (state: RootState) => state.user.userInfo
-  )
+  const { isLoggedIn } = useSelector((state: RootState) => state.user.userInfo)
 
   const actionHandler = (mode: string, id?: string) => {
     if (mode === 'create') {
@@ -46,14 +44,24 @@ const Tests: FC<any> = () => {
     }
     if (mode === 'close') setEditMode('')
   }
-  const deleteHandler = (id: string) => {
-    deleteTestById(id)
-    setIsDeleted(true)
+
+  const deleteHandler = async (id: string) => {
+    try {
+      await deleteTestById(id)
+      setIsDeleted(true)
+    } catch (err) {
+      // @ts-ignore
+      dispatch(logoutUser())
+      dispatch(setAuthError(true))
+    }
   }
 
   const getTestsFromDatabase = async () => {
-    const testsFromServer = { ...(await getTests()) }.payload
-    dispatch(replaceTests(testsFromServer))
+    if (isLoggedIn) {
+      const testsFromServer = { ...(await getTests()) }.data.payload
+      console.log(testsFromServer)
+      dispatch(replaceTests(testsFromServer))
+    }
   }
 
   useEffect(() => {
@@ -88,18 +96,19 @@ const Tests: FC<any> = () => {
           setTestValues={setTestValues}
         />
       ) : (
-        <Grid container item md={8} xs={12} justifyContent="center">
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-            width="100%"
-            alignItems="flex-end"
-          >
+        <Grid
+          container
+          item
+          md={8}
+          xs={12}
+          justifyContent="center"
+          rowGap="1rem"
+        >
+          <Box display="flex" flexDirection="row" width="100%">
             <TestFields editMode={editMode} />
           </Box>
           {/*//TODO change to user.role === 'admin' */}
-          {user.isLoggedIn ? (
+          {isLoggedIn ? (
             <Button
               color="primary"
               variant="outlined"

@@ -28,6 +28,7 @@ const QuestionsForm: FC<any> = (): ReactElement => {
     })
 
   const addToTest = () => {
+    if (questionProps.props.value.trim() === '') return
     dispatch(
       setTestValues({
         ...testValues,
@@ -54,9 +55,10 @@ const QuestionsForm: FC<any> = (): ReactElement => {
 
   return (
     <Box>
-      <Box>
+      <Box display="flex" alignItems="flex-end" sx={{ m: '0.5rem 0.5rem 0' }}>
         <TextField
           label="Question"
+          variant="standard"
           type="text"
           size="small"
           {...questionProps.props}

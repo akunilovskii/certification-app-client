@@ -28,8 +28,6 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    // redirect user to login page if registration was successful
-    // if (success) navigate('/login-sign-up')
     // redirect authenticated user to profile screen
     if (userInfo.isLoggedIn) navigate('/tests')
   }, [navigate, userInfo.isLoggedIn, success])
@@ -55,10 +53,6 @@ const LoginForm: FC<{ index: number }> = ({ index }) => {
     return { formIsValid, formReset }
   }
 
-  // const handleSubmit = (e: any) => {
-  //   e.preventDefault()
-  //   loginHandler(emailProps.value, passwordProps.value)
-  // }
   const handleSubmit = (e: any) => {
     e.preventDefault()
     if (emailProps.value && passwordProps.value) {

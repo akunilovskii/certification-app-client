@@ -5,9 +5,10 @@ import { checkForEmptyFields } from '../../../utils/validators'
 import { useDebouncer } from '../../../hook/use-debouncer'
 import TestFields from './TestFields'
 import QuestionsForm from '../../../components/QuestionsForm'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store/store'
-import {logoutUser} from "../../../store/reducers/authActions";
+import { logoutUser } from '../../../store/reducers/authActions'
+import { setAuthError } from '../../../store'
 
 const EditTest: FC<any> = ({
   editMode,
@@ -19,23 +20,31 @@ const EditTest: FC<any> = ({
   )
 
   const debouncedTestValues = useDebouncer(testValues)
- const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const testUpdateHandler = useCallback(async () => {
     if (editMode === 'create') {
-      setEditMode('')
-      const result = await createTest(testValues)
-        console.log('Test create result: ', result)
-      if (result === 'ERROR') {
+      try {
+        await createTest(testValues)
+
+        setEditMode('')
+      } catch (err) {
         // @ts-ignore
-        dispatch(logoutUser());
+        dispatch(logoutUser())
+        dispatch(setAuthError(true))
       }
     }
     if (editMode === 'edit') {
-      setEditMode('')
-      updateTest(testValues._id, testValues)
+      try {
+        await updateTest(testValues._id, testValues)
+        setEditMode('')
+      } catch (err) {
+        // @ts-ignore
+        dispatch(logoutUser())
+        dispatch(setAuthError(true))
+      }
     }
   }, [testValues])
-  console.log(debouncedTestValues)
+
   const buttonIsValid = checkForEmptyFields(debouncedTestValues)
 
   return (

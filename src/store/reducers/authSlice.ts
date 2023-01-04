@@ -13,6 +13,7 @@ export interface IAuthState {
   loading: boolean
   userInfo: { email: string; isLoggedIn: boolean } // for user object
   userToken: string // for storing the JWT
+  authError: boolean
   error: unknown
   success: boolean // for monitoring the registration process.
 }
@@ -24,10 +25,10 @@ const userToken = localStorage.getItem('userToken')
 console.log(userToken)
 
 const initialState: IAuthState = {
-  // user: { isLoggedIn: false, role: '' },
   loading: false,
   userInfo: { email: '', isLoggedIn: false }, // for user object
   userToken: userToken!, // for storing the JWT
+  authError: false,
   error: null,
   success: false, // for monitoring the registration process.
 }
@@ -36,15 +37,8 @@ export const authSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    // logout: (state) => {
-    //   localStorage.removeItem('userToken') // deletes token from storage
-    //   state.loading = false
-    //   state.userInfo = { email: '', isLoggedIn: false }
-    //   state.userToken = ''
-    //   state.error = null
-    // },
-    setUserData: (state: IAuthState, action: PayloadAction<IAuthState>) => {
-      state = action.payload
+    setAuthError: (state: IAuthState, { payload }) => {
+      state.authError = payload
     },
   },
   extraReducers: (builder) => {
@@ -125,6 +119,6 @@ export const authSlice = createSlice({
 //    setUser({ isLoggedIn: false, role: '' })
 //  }
 
-export const { setUserData } = authSlice.actions
+export const { setAuthError } = authSlice.actions
 
 export default authSlice.reducer

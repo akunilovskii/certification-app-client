@@ -1,14 +1,19 @@
 import { Grid, Paper } from '@mui/material'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import SideImage from '../../components/SideImage'
 import TabbedContainer from '../../components/TabbedContainer'
+import { setAuthError } from '../../store'
 
 export const LoginSignUp: FC = () => {
   const [value, setValue] = useState(0)
-
+  const dispatch = useDispatch()
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
+  useEffect(() => {
+    dispatch(setAuthError(false))
+  }, [])
 
   return (
     <Paper sx={{ height: '100%', width: '50%' }}>

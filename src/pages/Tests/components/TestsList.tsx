@@ -1,21 +1,19 @@
 import { FC, ReactElement, useContext } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Chip from '@mui/material/Chip'
-import { IconButton } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import {useSelector} from "react-redux";
-import {RootState} from "../../../store/store";
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store/store'
 
 const TestsList: FC<any> = ({
   filteredTestsList,
   deleteHandler,
   actionHandler,
 }): ReactElement => {
-  const user = useSelector(
-      (state: RootState) => state.user.userInfo
-  )
+  const user = useSelector((state: RootState) => state.user.userInfo)
   if (!filteredTestsList) return <></>
 
   const columns: GridColDef[] = [
@@ -110,11 +108,11 @@ const TestsList: FC<any> = ({
             <IconButton
               aria-label="start"
               size="small"
-              //   onClick={() => editTest(cellValues.id)}
+              // onClick={() => editTest(cellValues.id)}
             >
               <PlayCircleOutlineIcon />
             </IconButton>
-{/*//TODO change for user.role === 'admin'*/}
+            {/*//TODO change for user.role === 'admin'*/}
             {user.isLoggedIn ? (
               <>
                 <IconButton
@@ -154,14 +152,19 @@ const TestsList: FC<any> = ({
   }))
 
   return (
-    <div style={{ height: '635px', width: '100%', marginTop: 20 }}>
+    <Box
+      style={{
+        height: '70vh',
+        width: '100%',
+      }}
+    >
       <DataGrid
         rows={rows}
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[10]}
       />
-    </div>
+    </Box>
   )
 }
 

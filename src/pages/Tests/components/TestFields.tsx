@@ -77,10 +77,16 @@ function TestFields({ editMode }: ITestFields): ReactElement {
 
   return (
     <>
-      <Box display="flex" flexDirection="row">
+      <Box
+        display="flex"
+        flexDirection="row"
+        flexWrap={'wrap'}
+        width="100%"
+        justifyContent="space-between"
+      >
         <FormControl
           variant="standard"
-          sx={{ m: '0.5rem', minWidth: 120, marginBottom: 0 }}
+          sx={{ m: '0.5rem 0.5rem 0', flexGrow: '2', minWidth: 90 }}
         >
           <InputLabel id="discipline-label">Discipline</InputLabel>
           <Select
@@ -109,7 +115,7 @@ function TestFields({ editMode }: ITestFields): ReactElement {
         </FormControl>
         <FormControl
           variant="standard"
-          sx={{ m: '0.5rem', minWidth: 120, marginBottom: 0 }}
+          sx={{ m: '0.5rem 0.5rem 0', flexGrow: '2', minWidth: 70 }}
         >
           <InputLabel id="level-label">Level</InputLabel>
           <Select
@@ -140,7 +146,7 @@ function TestFields({ editMode }: ITestFields): ReactElement {
         </FormControl>
         <FormControl
           variant="standard"
-          sx={{ m: '0.5rem', minWidth: 120, marginBottom: 0 }}
+          sx={{ m: '0.5rem 0.5rem 0', flexGrow: '2', minWidth: 80 }}
         >
           <InputLabel id="subject-label">Subject</InputLabel>
           <Select
@@ -169,7 +175,7 @@ function TestFields({ editMode }: ITestFields): ReactElement {
         </FormControl>
         <FormControl
           size="small"
-          sx={{ m: '0.5rem', minWidth: 200, marginBottom: 0 }}
+          sx={{ m: '0.5rem 0.5rem 0', flexGrow: '2', minWidth: 70 }}
         >
           <TextField
             variant="standard"
@@ -179,41 +185,44 @@ function TestFields({ editMode }: ITestFields): ReactElement {
             {...titleProps.props}
           />
         </FormControl>
-        <Box display="flex" flexDirection="row">
-          <FormControl
-            variant="standard"
-            size="small"
-            sx={{ m: '0.5rem', minWidth: 120, marginBottom: 0 }}
-          >
-            <InputLabel id="difficulty-label">Difficulty</InputLabel>
+        <FormControl
+          variant="standard"
+          size="small"
+          sx={{ m: '0.5rem 0.5rem 0', flexGrow: '2', minWidth: 85 }}
+        >
+          <InputLabel id="difficulty-label">Difficulty</InputLabel>
 
-            <Select
-              labelId="subject-difficulty"
-              id="difficulty"
-              label="Difficulty"
-              {...difficultyProps.props}
-            >
-              <MenuItem value="">
-                <em>Choose difficulty</em>
-              </MenuItem>
-              <MenuItem value="easy">Easy</MenuItem>
-              <MenuItem value="standard">Standard</MenuItem>
-              <MenuItem value="hard">Hard</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl
-            size="small"
-            sx={{ m: '0.5rem', maxWidth: 80, marginBottom: 0 }}
+          <Select
+            labelId="subject-difficulty"
+            id="difficulty"
+            label="Difficulty"
+            {...difficultyProps.props}
           >
-            <TextField
-              variant="standard"
-              label="Duration"
-              type="tel"
-              size="small"
-              {...durationProps.props}
-            />
-          </FormControl>
-        </Box>
+            <MenuItem value="">
+              <em>Choose difficulty</em>
+            </MenuItem>
+            <MenuItem value="easy">Easy</MenuItem>
+            <MenuItem value="standard">Standard</MenuItem>
+            <MenuItem value="hard">Hard</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl
+          size="small"
+          sx={{
+            m: '0.5rem 0.5rem 0',
+            flexGrow: '2',
+            maxWidth: 80,
+            minWidth: 80,
+          }}
+        >
+          <TextField
+            variant="standard"
+            label="Duration"
+            type="tel"
+            size="small"
+            {...durationProps.props}
+          />
+        </FormControl>
         <FormControl
           variant="standard"
           sx={{

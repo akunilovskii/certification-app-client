@@ -3,6 +3,7 @@ import { FC, ReactElement, useContext, useEffect, useState } from 'react'
 import {
   Box,
   Container,
+  Grid,
   IconButton,
   Link,
   Menu,
@@ -30,10 +31,10 @@ export const Navbar: FC = (): ReactElement => {
 
   // automatically authenticate user if token is found
   useEffect(() => {
-     if (localStorage.getItem('userToken')) {
-         console.log('User Token useEffect: ', userToken)
-       //@ts-ignore
-       dispatch(checkAuth())
+    if (localStorage.getItem('userToken')) {
+      console.log('User Token useEffect: ', userToken)
+      //@ts-ignore
+      dispatch(checkAuth())
     }
   }, [userToken, dispatch])
 
@@ -50,6 +51,8 @@ export const Navbar: FC = (): ReactElement => {
 
   return (
     <Box
+      display="flex"
+      justifyContent="center"
       sx={{
         width: '100%',
         height: 'auto',
@@ -60,153 +63,155 @@ export const Navbar: FC = (): ReactElement => {
         color: 'nav.text',
       }}
     >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-            }}
-          >
-            Certification App
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+      <Grid container item md={8} xs={12} justifyContent="space-between">
+        <Box display="block" width="100%">
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              noWrap
               sx={{
-                display: { xs: 'block', md: 'none' },
+                // mr: 2,
+                display: { xs: 'none', md: 'flex' },
               }}
             >
-              {routes
-                .filter((el) =>
-                  userInfo.isLoggedIn
-                    ? el.access !== 'public'
-                    : el.access !== 'private'
-                )
-                .map((page) => (
-                  <Link
-                    key={page.key}
-                    component={NavLink}
-                    to={page.path}
-                    color="text.primary"
-                    underline="none"
-                    variant="button"
-                  >
-                    <MenuItem onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page.title}</Typography>
-                    </MenuItem>
-                  </Link>
-                ))}
-            </Menu>
-          </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-          >
-            Certification App
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                marginLeft: '1rem',
-              }}
-            >
-              {routes
-                .filter((el) =>
-                  userInfo.isLoggedIn
-                    ? el.access !== 'public'
-                    : el.access !== 'private'
-                )
-                .map((page) => (
-                  <Link
-                    key={page.key}
-                    component={NavLink}
-                    to={page.path}
-                    color="nav.text"
-                    underline="none"
-                    variant="button"
-                    sx={{ fontSize: 'large', marginLeft: '2rem' }}
-                  >
-                    {page.title}
-                  </Link>
-                ))}
+              Certification App
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', md: 'none' },
+                }}
+              >
+                {routes
+                  .filter((el) =>
+                    userInfo.isLoggedIn
+                      ? el.access !== 'public'
+                      : el.access !== 'private'
+                  )
+                  .map((page) => (
+                    <Link
+                      key={page.key}
+                      component={NavLink}
+                      to={page.path}
+                      color="text.primary"
+                      underline="none"
+                      variant="button"
+                    >
+                      <MenuItem onClick={handleCloseNavMenu}>
+                        <Typography textAlign="center">{page.title}</Typography>
+                      </MenuItem>
+                    </Link>
+                  ))}
+              </Menu>
             </Box>
-          </Box>
-          {!userInfo.isLoggedIn && (
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            >
+              Certification App
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  marginLeft: '1rem',
+                }}
+              >
+                {routes
+                  .filter((el) =>
+                    userInfo.isLoggedIn
+                      ? el.access !== 'public'
+                      : el.access !== 'private'
+                  )
+                  .map((page) => (
+                    <Link
+                      key={page.key}
+                      component={NavLink}
+                      to={page.path}
+                      color="nav.text"
+                      underline="none"
+                      variant="button"
+                      sx={{ fontSize: 'large', marginLeft: '2rem' }}
+                    >
+                      {page.title}
+                    </Link>
+                  ))}
+              </Box>
+            </Box>
+            {!userInfo.isLoggedIn && (
+              <IconButton
+                to={'/login-sign-up'}
+                component={NavLink}
+                sx={{ ml: 1 }}
+                color="inherit"
+              >
+                <LoginIcon />
+              </IconButton>
+            )}
+            {userInfo.isLoggedIn && (
+              <>
+                <IconButton
+                  to={'/profile'}
+                  component={NavLink}
+                  sx={{ ml: 1 }}
+                  color="inherit"
+                >
+                  <AccountCircleIcon />
+                </IconButton>
+                <IconButton
+                  data-testid="logout"
+                  to={'/logout'}
+                  component={NavLink}
+                  sx={{ ml: 1 }}
+                  color="inherit"
+                >
+                  <LogoutIcon />
+                </IconButton>
+              </>
+            )}
+
             <IconButton
-              to={'/login-sign-up'}
-              component={NavLink}
               sx={{ ml: 1 }}
+              onClick={colorMode.toggleColorMode}
               color="inherit"
             >
-              <LoginIcon />
+              {theme.palette.mode === 'dark' ? (
+                <Brightness7Icon />
+              ) : (
+                <Brightness4Icon />
+              )}
             </IconButton>
-          )}
-          {userInfo.isLoggedIn && (
-            <>
-              <IconButton
-                to={'/profile'}
-                component={NavLink}
-                sx={{ ml: 1 }}
-                color="inherit"
-              >
-                <AccountCircleIcon />
-              </IconButton>
-              <IconButton
-                data-testid="logout"
-                to={'/logout'}
-                component={NavLink}
-                sx={{ ml: 1 }}
-                color="inherit"
-              >
-                <LogoutIcon />
-              </IconButton>
-            </>
-          )}
-
-          <IconButton
-            sx={{ ml: 1 }}
-            onClick={colorMode.toggleColorMode}
-            color="inherit"
-          >
-            {theme.palette.mode === 'dark' ? (
-              <Brightness7Icon />
-            ) : (
-              <Brightness4Icon />
-            )}
-          </IconButton>
-        </Toolbar>
-      </Container>
+          </Toolbar>
+        </Box>
+      </Grid>
     </Box>
   )
 }
