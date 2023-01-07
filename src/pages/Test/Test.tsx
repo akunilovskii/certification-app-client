@@ -1,15 +1,23 @@
 import {
   Button,
-  FormControl, FormControlLabel,
+  FormControl,
+  FormControlLabel,
   FormLabel,
   List,
   ListItem,
-  Pagination, Radio,
+  Pagination,
+  Radio,
   RadioGroup,
   Stack,
   Typography,
 } from '@mui/material'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IQuestion } from '../../store/tests-store'
 import TestResult from '../../components/TestResult'
@@ -53,21 +61,23 @@ function Test() {
     () => randomizeTest(testCopy),
     [randomizeTest, testCopy]
   )
-  const [test] = useState<IQuestion[]>(randomizedTestResult)
+  const [test, setTest] = useState<IQuestion[]>(randomizedTestResult)
 
-  // const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const elValue = +(event.target as HTMLInputElement).value
-  //   const newTest: IQuestion[] = [...test]
-  //   newTest[questionIndex - 1].selected = [elValue]
-  //   setTest(newTest)
-  // }
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const elValue = +event.target.value
+    console.log('changeEvent value: ', elValue, typeof elValue)
+    const newTest: IQuestion[] = [...test]
+    newTest[questionIndex - 1].selected = [elValue]
+    setTest(newTest)
+    console.log('test: ', test)
+  }
 
-  // const checkIfAllSelected = (): boolean => {
-  // return test.reduce(
-  //   (acc: boolean, el: IQuestion) => acc && el.selected.length !== 0,
-  //   true
-  // )
-  // }
+  const checkIfAllSelected = (): boolean => {
+    return test.reduce(
+      (acc: boolean, el: IQuestion) => acc && !!el.selected,
+      true
+    )
+  }
 
   const onClickHandler = (event: React.ChangeEvent<unknown>, value: number) => {
     setQuestionIndex(value)
@@ -96,12 +106,12 @@ function Test() {
             <RadioGroup
               aria-labelledby="answers-radio-buttons-group"
               name={test[questionIndex - 1].question}
-              // onChange={onChangeHandler}
-              // value={
-              //   test[questionIndex - 1].selected.length
-              //     ? test[questionIndex - 1].selected[0]
-              //     : ''
-              // }
+              onChange={onChangeHandler}
+              value={
+                test[questionIndex - 1].selected?.length
+                  ? test[questionIndex - 1].selected[0]
+                  : ''
+              }
             >
               <List>
                 {test[questionIndex - 1].answers!.map((el, i) => (
@@ -133,7 +143,7 @@ function Test() {
         fullWidth={false}
         variant="contained"
         color="primary"
-        // disabled={!checkIfAllSelected()}
+        disabled={!checkIfAllSelected()}
         onClick={() => finishHandle()}
       >
         Finish

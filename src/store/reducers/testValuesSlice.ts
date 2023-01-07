@@ -19,6 +19,7 @@ const initialState: ITestValuesState = {
       {
         question: '',
         answers: [{ id: '', text: '', correct: false }],
+        selected: []
       },
     ],
   },
