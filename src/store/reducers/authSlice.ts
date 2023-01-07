@@ -11,7 +11,7 @@ import { registerUser, loginUser, logoutUser, checkAuth } from './authActions'
 export interface IAuthState {
   // user: IUser
   loading: boolean
-  userInfo: { email: string; isLoggedIn: boolean } // for user object
+  userInfo: { email: string; isLoggedIn: boolean; roles: [string] } // for user object
   userToken: string // for storing the JWT
   authError: boolean
   error: unknown
@@ -26,7 +26,7 @@ console.log(userToken)
 
 const initialState: IAuthState = {
   loading: false,
-  userInfo: { email: '', isLoggedIn: false }, // for user object
+  userInfo: { email: '', isLoggedIn: false, roles: [''] }, // for user object
   userToken: userToken!, // for storing the JWT
   authError: false,
   error: null,
@@ -48,6 +48,7 @@ export const authSlice = createSlice({
       state.error = null
     })
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
+      console.log('login payload', payload)
       state.loading = false
       state.userInfo = payload
       state.userInfo.isLoggedIn = true
@@ -64,7 +65,7 @@ export const authSlice = createSlice({
     })
     builder.addCase(logoutUser.fulfilled, (state, { payload }) => {
       state.loading = false
-      state.userInfo = { email: '', isLoggedIn: false }
+      state.userInfo = { email: '', isLoggedIn: false, roles: [''] }
       state.userToken = ''
       state.error = null
     })

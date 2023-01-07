@@ -112,8 +112,7 @@ const TestsList: FC<any> = ({
             >
               <PlayCircleOutlineIcon />
             </IconButton>
-            {/*//TODO change for user.role === 'admin'*/}
-            {user.isLoggedIn ? (
+            {(user.isLoggedIn && user.roles.includes('ADMIN')) ? (
               <>
                 <IconButton
                   aria-label="edit"

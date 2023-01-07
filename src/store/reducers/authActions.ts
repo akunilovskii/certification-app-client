@@ -73,7 +73,7 @@ export const loginUser = createAsyncThunk(
         body: JSON.stringify({ email, password }),
       })
       const data = await response.json()
-      if (data.user) {
+      if (data.id) {
         console.log('loginData: ', data)
         // store user's token in local storage
         localStorage.setItem('userToken', data.accessToken)
