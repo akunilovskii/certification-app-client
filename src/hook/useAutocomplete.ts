@@ -1,4 +1,4 @@
-import { SelectChangeEvent } from '@mui/material'
+import {createFilterOptions, SelectChangeEvent} from '@mui/material'
 import { SyntheticEvent, useState } from 'react'
 import {itemType} from "../pages/Tests/components/TestFields";
 
@@ -6,13 +6,6 @@ export function useAutocomplete(
   initialValue: any,
 ) {
   const [value, setValue] = useState(initialValue)
-
-  // const onChange = (e: SyntheticEvent | SelectChangeEvent<any>) => {
-  //   const localValue = (e.target as HTMLInputElement).value
-  //
-  //   setValue(localValue)
-  // }
-
 
   const onChange = (e: SyntheticEvent | SelectChangeEvent<any>, newValue: any) => {
       if (typeof newValue === 'string') {
@@ -41,9 +34,28 @@ export function useAutocomplete(
         // Regular option
         return option.value;
     }
+    const filter = createFilterOptions<itemType | string>();
+    const filterOptions = (options: (itemType | string)[], params: any) => {
+        console.log('options: ', options)
+        console.log('params: ', params)
+        console.log('filter: ', filter)
 
+        const filtered = filter(options, params);
+        console.log('filtered: ', filtered)
+        const {inputValue} = params;
+        // Suggest the creation of a new value
+        //@ts-ignore
+        const isExisting = options.some((option) => inputValue === option.value);
+        if (inputValue !== '' && !isExisting) {
+            filtered.push({
+                inputValue,
+                value: `Add "${inputValue}"`,
+            });
+        }
+        return filtered;
+    }
 
-  const props = { value, onChange, getOptionLabel }
+  const props = { value, onChange, getOptionLabel, filterOptions }
   function reset(): any {
     setValue(initialValue)
   }

@@ -31,7 +31,7 @@ export interface itemType {
     id?: string;
 }
 
-const filter = createFilterOptions<itemType | string>();
+// const filter = createFilterOptions<itemType | string>();
 
 function TestFields({editMode}: ITestFields): ReactElement {
     const testsList = useSelector((state: RootState) => state.tests.testsList)
@@ -95,27 +95,13 @@ function TestFields({editMode}: ITestFields): ReactElement {
             >
 
                 <Autocomplete
+                    id="discipline"
+                    sx={{m: '0.5rem 0.5rem 0', flexGrow: '2', minWidth: 120}}
                     {...disciplineProps.props}
-                    filterOptions={(options, params) => {
-                        const filtered = filter(options, params);
-
-                        const {inputValue} = params;
-                        // Suggest the creation of a new value
-                        // @ts-ignore
-                        const isExisting = options.some((option) => inputValue === option.value);
-                        if (inputValue !== '' && !isExisting) {
-                            filtered.push({
-                                inputValue,
-                                value: `Add "${inputValue}"`,
-                            });
-                        }
-
-                        return filtered;
-                    }}
                     selectOnFocus
                     clearOnBlur
                     handleHomeEndKeys
-                    id="discipline"
+                    freeSolo
                     options={
                         setItemsList(
                             {
@@ -129,9 +115,6 @@ function TestFields({editMode}: ITestFields): ReactElement {
 
                     //@ts-ignore
                     renderOption={(props, option) => <li {...props}>{option.value}</li>}
-                    sx={{m: '0.5rem 0.5rem 0', flexGrow: '2', minWidth: 120}}
-
-                    freeSolo
                     renderInput={(params) => (
                         <TextField {...params} label="Discipline" variant="standard"/>
                     )}
