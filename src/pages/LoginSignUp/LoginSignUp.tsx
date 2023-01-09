@@ -16,7 +16,7 @@ export const LoginSignUp: FC = () => {
   }, [])
 
   return (
-    <Paper sx={{ height: '100%', width: '50%' }}>
+    <Paper sx={{ height: '100%', width: '50%', maxWidth: '600px', minWidth: '300px' }}>
       <Grid
         container
         sx={{
