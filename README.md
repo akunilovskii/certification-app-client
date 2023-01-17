@@ -1,5 +1,3 @@
-#1 TO-DO
+#1
 
-- Menu items are repeated twice
-- Login / logout handlers
-- Multiple routes mapping (put it in the context)
+- Move answer correctness verification logic to server

@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { ReactElement, useCallback, useEffect } from 'react'
 import useFilter from '../../../hook/use-filter'
-import { NewITest } from '../../../store/tests-store'
+import { ITest } from '../../../store/interfaces'
 import { validateNumberInput } from '../../../utils/validators'
 import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,7 +21,7 @@ import useAutocomplete from '../../../hook/useAutocomplete'
 
 interface ITestFields {
   editMode?: string
-  selectedTest?: NewITest
+  selectedTest?: ITest
 }
 
 export interface itemType {
@@ -40,13 +40,13 @@ function TestFields({ editMode }: ITestFields): ReactElement {
   const dispatch = useDispatch()
 
   const disciplineProps = useAutocomplete(
-    editMode === 'edit' ? testValues?.discipline : ''
+    editMode === 'edit' ? { value: testValues?.discipline } : ''
   )
   const levelProps = useAutocomplete(
-    editMode === 'edit' ? testValues?.level : ''
+    editMode === 'edit' ? { value: testValues?.level } : ''
   )
   const subjectProps = useAutocomplete(
-    editMode === 'edit' ? testValues?.subject : ''
+    editMode === 'edit' ? { value: testValues?.subject } : ''
   )
 
   const titleProps = useFilter(editMode === 'edit' ? testValues.title : '')

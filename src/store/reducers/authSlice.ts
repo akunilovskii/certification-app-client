@@ -11,7 +11,7 @@ import { registerUser, loginUser, logoutUser, checkAuth } from './authActions'
 export interface IAuthState {
   // user: IUser
   loading: boolean
-  userInfo: { email: string; isLoggedIn: boolean; roles: [string] } // for user object
+  userInfo: { email: string; isLoggedIn: boolean; roles: [string]; id: string } // for user object
   userToken: string // for storing the JWT
   authError: boolean
   error: unknown
@@ -26,7 +26,7 @@ console.log(userToken)
 
 const initialState: IAuthState = {
   loading: false,
-  userInfo: { email: '', isLoggedIn: false, roles: [''] }, // for user object
+  userInfo: { email: '', isLoggedIn: false, roles: [''], id: '' }, // for user object
   userToken: userToken!, // for storing the JWT
   authError: false,
   error: null,
@@ -65,7 +65,7 @@ export const authSlice = createSlice({
     })
     builder.addCase(logoutUser.fulfilled, (state, { payload }) => {
       state.loading = false
-      state.userInfo = { email: '', isLoggedIn: false, roles: [''] }
+      state.userInfo = { email: '', isLoggedIn: false, roles: [''], id: '' }
       state.userToken = ''
       state.error = null
     })
@@ -79,6 +79,7 @@ export const authSlice = createSlice({
       state.error = {}
     })
     builder.addCase(registerUser.fulfilled, (state, { payload }) => {
+      console.log({ payload })
       state.loading = false
       state.success = true // registration successful
       state.userInfo = payload
@@ -102,23 +103,6 @@ export const authSlice = createSlice({
     })
   },
 })
-
-// const login = localStorage.getItem('isLoggedIn')
-//    if (!!login) setUser({ isLoggedIn: true, role: users[login].role })
-
-//  const checkUser = (login, password) => password === users[login].password
-
-//  const loginHandler = (login, password) => {
-//    const checkUserResult = checkUser(login, password)
-//    if (checkUserResult) {
-//      localStorage.setItem('isLoggedIn', login)
-//      setUser({ isLoggedIn: true, role: users[login].role })
-//    }
-//  }
-//  const logoutHandler = () => {
-//    localStorage.removeItem('isLoggedIn')
-//    setUser({ isLoggedIn: false, role: '' })
-//  }
 
 export const { setAuthError } = authSlice.actions
 

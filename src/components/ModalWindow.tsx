@@ -7,7 +7,7 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material'
-import { ITest } from '../store/tests-store'
+import { ITest } from '../store/interfaces'
 
 interface Props {
   selectedTest: ITest

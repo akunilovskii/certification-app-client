@@ -36,7 +36,7 @@ const CreateTest: FC<any> = (): ReactElement => {
   }
 
   const saveTest = (test: ITest) => {
-    const requestURL = `http://localhost:5000/tests/create`
+    const requestURL = `http://localhost:5000/test/create`
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -68,7 +68,7 @@ const CreateTest: FC<any> = (): ReactElement => {
   }, [])
 
   const getTestById = useCallback(async (testId: string) => {
-    const requestURL = `http://localhost:5000/tests/${testId}`
+    const requestURL = `http://localhost:5000/test/${testId}`
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },

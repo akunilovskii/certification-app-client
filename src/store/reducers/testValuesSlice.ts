@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { NewITest } from '../tests-store'
+import { ITest } from '../interfaces'
 
 export interface ITestValuesState {
-  testValues: NewITest
+  testValues: ITest
 }
 
 const initialState: ITestValuesState = {
@@ -19,7 +19,7 @@ const initialState: ITestValuesState = {
       {
         question: '',
         answers: [{ id: '', text: '', correct: false }],
-        selected: []
+        selected: [],
       },
     ],
   },
@@ -29,7 +29,7 @@ export const testValuesSlice = createSlice({
   name: 'testValues',
   initialState,
   reducers: {
-    setTestValues: (state, action: PayloadAction<NewITest>) => {
+    setTestValues: (state, action: PayloadAction<ITest>) => {
       state.testValues = { ...state.testValues, ...action.payload }
     },
   },

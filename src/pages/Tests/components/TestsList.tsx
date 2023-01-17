@@ -5,11 +5,11 @@ import { Box, IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../store/store'
-import { NewITest} from "../../../store/tests-store";
-import {setTestValues} from "../../../store";
-import {useNavigate} from "react-router-dom";
+import { ITest } from '../../../store/interfaces'
+import { setTestValues } from '../../../store'
+import { useNavigate } from 'react-router-dom'
 
 const TestsList: FC<any> = ({
   filteredTestsList,
@@ -17,16 +17,17 @@ const TestsList: FC<any> = ({
   actionHandler,
 }): ReactElement => {
   const user = useSelector((state: RootState) => state.user.userInfo)
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   if (!filteredTestsList) return <></>
   const startTest = (testId: string) => {
-    const runTest = filteredTestsList.filter((el: NewITest) => el._id === testId)[0]
+    const runTest = filteredTestsList.filter(
+      (el: ITest) => el._id === testId
+    )[0]
     console.log('Run test: ', runTest)
     dispatch(setTestValues(runTest))
     navigate('/tests/test')
   }
-
 
   const columns: GridColDef[] = [
     {
@@ -124,7 +125,7 @@ const TestsList: FC<any> = ({
             >
               <PlayCircleOutlineIcon />
             </IconButton>
-            {(user.isLoggedIn && user.roles.includes('ADMIN')) ? (
+            {user.isLoggedIn && user.roles.includes('ADMIN') ? (
               <>
                 <IconButton
                   aria-label="edit"

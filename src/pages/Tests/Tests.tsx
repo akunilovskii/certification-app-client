@@ -2,8 +2,8 @@ import { FC, useEffect, useState } from 'react'
 import { Box, Button, Grid } from '@mui/material'
 import TestsList from './components/TestsList'
 import EditTest from './components/EditTest'
-import { deleteTestById, getTests } from '../../utils/requests'
-import { NewITest } from '../../store/tests-store'
+import { deleteTestById, getTests } from '../../utils/requests-tests'
+import { ITest } from '../../store/interfaces'
 import TestFields from './components/TestFields'
 
 import type { RootState } from '../../store/store'
@@ -21,8 +21,9 @@ const Tests: FC<any> = () => {
   const [editMode, setEditMode] = useState('')
   const [isDeleted, setIsDeleted] = useState(false)
 
-  const { isLoggedIn, roles } = useSelector((state: RootState) => state.user.userInfo)
-
+  const { isLoggedIn, roles } = useSelector(
+    (state: RootState) => state.user.userInfo
+  )
 
   const actionHandler = (mode: string, id?: string) => {
     if (mode === 'create') {
@@ -32,7 +33,7 @@ const Tests: FC<any> = () => {
       setEditMode('edit')
 
       const testFilterResult: any = testsList.filter(
-        (el: NewITest) => el._id === id
+        (el: ITest) => el._id === id
       )[0]
 
       const testToEdit = {
@@ -60,7 +61,6 @@ const Tests: FC<any> = () => {
   const getTestsFromDatabase = async () => {
     if (isLoggedIn) {
       const testsFromServer = { ...(await getTests()) }.data.payload
-      console.log(testsFromServer)
       dispatch(replaceTests(testsFromServer))
     }
   }
@@ -109,7 +109,7 @@ const Tests: FC<any> = () => {
             <TestFields editMode={editMode} />
           </Box>
           {/*//TODO change to user.role === 'admin' */}
-          {(isLoggedIn && roles.includes('ADMIN')) ? (
+          {isLoggedIn && roles.includes('ADMIN') ? (
             <Button
               color="primary"
               variant="outlined"

@@ -6,7 +6,6 @@ import { Button } from '@mui/material'
 import ModalWindow from '../src/components/ModalWindow'
 import { useNavigate } from 'react-router-dom'
 
-
 export default function DataTable(props: any) {
   const testsList = props.testsList
 

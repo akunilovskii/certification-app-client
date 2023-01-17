@@ -1,6 +1,6 @@
 import { FC, ReactElement, useCallback } from 'react'
 import { Box, Button, Paper } from '@mui/material'
-import { createTest, updateTest } from '../../../utils/requests'
+import { createTest, updateTest } from '../../../utils/requests-tests'
 import { checkForEmptyFields } from '../../../utils/validators'
 import { useDebouncer } from '../../../hook/use-debouncer'
 import TestFields from './TestFields'

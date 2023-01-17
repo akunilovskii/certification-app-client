@@ -19,5 +19,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "src/store/tests-store.ts", "backup/AnswersForm_OLD.tsx"]
+  "include": ["src", "src/store/interfaces.ts", "backup/AnswersForm_OLD.tsx"]
 }

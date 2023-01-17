@@ -19,16 +19,16 @@ import React, {
   useState,
 } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { IQuestion } from '../../store/tests-store'
+import { IQuestion } from '../../store/interfaces'
 import TestResult from '../../components/TestResult'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
+import { createResult } from '../../utils/requests-results'
 
 function Test() {
   const navigate = useNavigate()
-  const testValues = useSelector(
-    (state: RootState) => state.testValues.testValues
-  )
+  const { testValues } = useSelector((state: RootState) => state.testValues)
+  const userId = useSelector((state: RootState) => state.user.userInfo.id)
   const [questionIndex, setQuestionIndex] = useState(1)
   useEffect(() => {}, [questionIndex])
 
@@ -63,13 +63,28 @@ function Test() {
   )
   const [test, setTest] = useState<IQuestion[]>(randomizedTestResult)
 
+  const resultCreateHandler = useCallback(async () => {
+    const questions = test.map((el, i) => ({
+      title: el.question,
+      answer: [el.answers![el.selected[0]].text],
+      correct: el.answers![el.selected[0]].correct,
+    }))
+
+    try {
+      const testResult = {
+        test: testValues._id,
+        user: userId,
+        questions,
+      }
+      await createResult(testResult)
+    } catch (err) {}
+  }, [])
+
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const elValue = +event.target.value
-    console.log('changeEvent value: ', elValue, typeof elValue)
     const newTest: IQuestion[] = [...test]
     newTest[questionIndex - 1].selected = [elValue]
     setTest(newTest)
-    console.log('test: ', test)
   }
 
   const checkIfAllSelected = (): boolean => {
@@ -85,6 +100,7 @@ function Test() {
 
   const [showTestResult, setShowTestResult] = useState(false)
   const finishHandle = (): void => {
+    resultCreateHandler()
     setShowTestResult(!showTestResult)
   }
 
@@ -115,7 +131,7 @@ function Test() {
             >
               <List>
                 {test[questionIndex - 1].answers!.map((el, i) => (
-                  <ListItem disablePadding button key={el.id}>
+                  <ListItem disablePadding key={el.id}>
                     <FormControlLabel
                       value={i}
                       control={<Radio />}

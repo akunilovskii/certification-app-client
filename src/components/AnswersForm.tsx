@@ -20,7 +20,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { setTestValues } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/store'
-import { IAnswer } from '../store/tests-store'
+import { IAnswer } from '../store/interfaces'
 
 interface IProps {
   questionIndex: number

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userDataReducer from './reducers/authSlice'
 import testsReducer from './reducers/testsSlice'
+import resultsReducer from './reducers/resultsSlice'
 import testValuesReducer from './reducers/testValuesSlice'
 
 export const store = configureStore({
   reducer: {
     tests: testsReducer,
+    results: resultsReducer,
     testValues: testValuesReducer,
     user: userDataReducer,
   },

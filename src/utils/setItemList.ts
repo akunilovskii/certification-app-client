@@ -1,4 +1,4 @@
-import { NewITest } from '../store/tests-store'
+import { ITest } from '../store/interfaces'
 
 const testAllConditions = (el: any, conditions: {}) => {
   return Object.entries(conditions).reduce((acc, cond) => {
@@ -8,9 +8,9 @@ const testAllConditions = (el: any, conditions: {}) => {
 export const setItemsList = (
   conditions: {},
   output: string,
-  testsArray: NewITest[]
+  testsArray: ITest[]
 ) => {
-  return testsArray.reduce((acc, el: NewITest) => {
+  return testsArray.reduce((acc, el: ITest) => {
     //send el and conditions to testAllConditions function
     if (testAllConditions(el, conditions)) {
       acc = [...acc, { id: el[output]._id, value: el[output].name }]

@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { NewITest } from '../tests-store'
+import { ITest } from '../interfaces'
 
 export interface ITestsState {
-  testsList: NewITest[]
+  testsList: ITest[]
 }
 
 const initialState: ITestsState = {
