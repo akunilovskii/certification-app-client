@@ -8,6 +8,7 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material'
+import {useNavigate} from "react-router-dom";
 
 interface Props {
   answers: IQuestion[]
@@ -17,6 +18,7 @@ interface Props {
 
 function TestResult({ answers, open, onClose }: Props) {
   // console.log('Answers: ', answers)
+  const navigate = useNavigate();
   const rightAnswersCount = answers.reduce(
     (acc, el) => acc + (el.answers![el.selected[0]].correct ? 1 : 0),
     0
@@ -47,7 +49,7 @@ function TestResult({ answers, open, onClose }: Props) {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={() => onClose()}>
+          <Button autoFocus onClick={() => {onClose(); navigate('/tests')}}>
             Close
           </Button>
         </DialogActions>

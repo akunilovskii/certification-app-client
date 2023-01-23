@@ -25,7 +25,9 @@ export interface IAnswer {
 }
 
 export interface IResult {
-  test: string
+  _id?: string
+  createdAt?: string
+  test: {title: string}
   user: string
   questions: {
     title: string

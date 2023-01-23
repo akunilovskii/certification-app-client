@@ -1,19 +1,18 @@
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store/store'
+import {useSelector} from 'react-redux'
+import {RootState} from '../../store/store'
 import UserResults from './components/UserResults'
+import {Box, Typography} from "@mui/material";
 
 const Profile = () => {
-  const { userInfo } = useSelector((state: RootState) => state.user)
+    const {userInfo} = useSelector((state: RootState) => state.user)
 
-  return (
-    <div>
-      <UserResults />
-      <figure>{userInfo?.email}</figure>
-      <span>
-        Welcome <strong>{userInfo?.email}</strong> You can view this page
-        because you're logged in
-      </span>
-    </div>
-  )
+    return (
+        <Box sx={{width: '70%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+            <Typography variant="h6" sx={{textAlign: 'center'}}>
+                Welcome {userInfo?.email}
+            </Typography>
+            <UserResults/>
+        </Box>
+    )
 }
 export default Profile
