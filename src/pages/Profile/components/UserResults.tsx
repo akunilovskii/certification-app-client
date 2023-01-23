@@ -66,6 +66,24 @@ function UserResults() {
                     }).format(new Date(Date.parse(row.createdAt!))))
     },
     {
+      headerName: 'Discipline',
+      field: 'discipline',
+      flex: 0.5,
+      renderCell: ({ row }: GridRenderCellParams) => (row.test.discipline.name)
+    },
+    {
+      headerName: 'Level',
+      field: 'level',
+      flex: 0.5,
+      renderCell: ({ row }: GridRenderCellParams) => (row.test.level.name)
+    },
+    {
+      headerName: 'Subject',
+      field: 'subject',
+      flex: 0.5,
+      renderCell: ({ row }: GridRenderCellParams) => (row.test.subject.name)
+    },
+    {
       headerName: 'Test title',
       field: 'test',
       flex: 1,
@@ -82,6 +100,7 @@ function UserResults() {
       renderCell: ({ row }: GridRenderCellParams) => (calcProgress(row.questions))
     },
   ];
+  console.log('RL: ', resultsList)
 
   return (
       <Box sx={{ height: 400, width: '100%' }}>
