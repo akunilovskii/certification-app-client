@@ -34,7 +34,13 @@ const QuestionsForm: FC<any> = (): ReactElement => {
         ...testValues,
         questions: [
           ...questions,
-          { question: questionProps.props.value, answers: [], selected: [], shouldSelect: 1 },
+          {
+            question: questionProps.props.value,
+            answers: [],
+            selected: [],
+            shouldSelect: 1,
+            error: false,
+          },
         ],
       })
     )

@@ -21,6 +21,7 @@ const initialState: ITestValuesState = {
         shouldSelect: 1,
         answers: [{ id: '', text: '', correct: false }],
         selected: [],
+        error: false,
       },
     ],
   },

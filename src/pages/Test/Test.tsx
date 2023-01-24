@@ -31,8 +31,7 @@ function Test() {
   const navigate = useNavigate()
   const { testValues } = useSelector((state: RootState) => state.testValues)
   const userId = useSelector((state: RootState) => state.user.userInfo.id)
-  const [questionIndex, setQuestionIndex] = useState(1)
-  useEffect(() => {}, [questionIndex])
+  const [questionIndex, setQuestionIndex] = useState(0)
 
   const randomizeArray = useCallback((array: any): any => {
     const result = []
@@ -63,8 +62,12 @@ function Test() {
     () => randomizeTest(testCopy),
     [randomizeTest, testCopy]
   )
-  const [test, setTest] = useState<IQuestion[]>(randomizedTestResult)
-  console.log('Test: ', test)
+  const [test, setTest] = useState<IQuestion[]>(
+    randomizedTestResult.map((el) => {
+      return { ...el, selected: [], error: false }
+    })
+  )
+  const currentQuestion = test[questionIndex]
 
   const resultCreateHandler = useCallback(async () => {
     const questions = test.map((el, i) => ({
@@ -86,11 +89,8 @@ function Test() {
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const elValue = +event.target.value
 
-    console.log('Test: ', test)
-    console.log('Value: ', elValue)
-
     const newTest: IQuestion[] = [...test]
-    newTest[questionIndex - 1].selected = [elValue]
+    newTest[questionIndex].selected = [elValue]
     setTest(newTest)
   }
 
@@ -100,29 +100,32 @@ function Test() {
   ) => {
     const elValue = event.target.checked
 
-    console.log('Test: ', test[questionIndex - 1].selected)
-    console.log('CHECK event', elValue, i)
-
     const newTest: IQuestion[] = [...test]
-    if (elValue) {
-      !newTest[questionIndex - 1].selected ? newTest[questionIndex - 1].selected = [i] : newTest[questionIndex - 1].selected.push(i)
-    } else {
-      newTest[questionIndex - 1].selected = newTest[
-        questionIndex - 1
-      ].selected.filter((el) => el !== i)
-    }
+    if (elValue) newTest[questionIndex].selected.push(i)
+    else
+      newTest[questionIndex].selected = newTest[questionIndex].selected.filter(
+        (el) => el !== i
+      )
     setTest(newTest)
   }
 
   const checkIfAllSelected = (): boolean => {
     return test.reduce(
-      (acc: boolean, el: IQuestion) => acc && !!el.selected,
+      (acc: boolean, el: IQuestion) =>
+        acc && el.shouldSelect === el.selected?.length,
       true
     )
   }
 
+  const checkIfAnswerCountCorrect = () => {
+    const tempTest = [...test]
+    tempTest[questionIndex].error =
+      currentQuestion.shouldSelect === currentQuestion.selected?.length
+    setTest(tempTest)
+  }
+
   const onClickHandler = (event: React.ChangeEvent<unknown>, value: number) => {
-    setQuestionIndex(value)
+    setQuestionIndex(value - 1)
   }
 
   const [showTestResult, setShowTestResult] = useState(false)
@@ -143,22 +146,22 @@ function Test() {
           <Stack spacing={4}>
             <FormLabel id="demo-radio-buttons-group-label">
               <Typography variant="h4">
-                Question: {test[questionIndex - 1].question}
+                Question: {currentQuestion.question}
               </Typography>
             </FormLabel>
-            {test[questionIndex - 1].shouldSelect === 1 ? (
+            {currentQuestion.shouldSelect === 1 ? (
               <RadioGroup
                 aria-labelledby="answers-radio-buttons-group"
-                name={test[questionIndex - 1].question}
+                name={currentQuestion.question}
                 onChange={onChangeHandler}
                 value={
-                  test[questionIndex - 1].selected?.length
-                    ? test[questionIndex - 1].selected[0]
+                  currentQuestion.selected?.length
+                    ? currentQuestion.selected[0]
                     : ''
                 }
               >
                 <List>
-                  {test[questionIndex - 1].answers!.map((el, i) => (
+                  {currentQuestion.answers!.map((el, i) => (
                     <ListItem disablePadding key={el.id}>
                       <FormControlLabel
                         value={i}
@@ -171,47 +174,49 @@ function Test() {
                 </List>
               </RadioGroup>
             ) : (
-              <FormGroup>
-                <List>
-                  {test[questionIndex - 1].answers!.map((el, i) => (
-                    <ListItem disablePadding key={el.id}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
+              <FormControl
+                required
+                onChange={checkIfAnswerCountCorrect}
+                error={!currentQuestion.error}
+                component="fieldset"
+                sx={{ m: 3 }}
+                variant="standard"
+              >
+                <FormLabel component="legend">
+                  Pick {currentQuestion.shouldSelect} answers
+                </FormLabel>
+                <FormGroup>
+                  <List>
+                    {currentQuestion.answers!.map((el, i) => (
+                      <ListItem disablePadding key={el.id}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
                               key={el.id}
-                            checked={
-                              test[questionIndex - 1].selected?.length
-                                ? test[questionIndex - 1].selected.includes(i)
-                                : false
-                            }
-                            onChange={(event) => checkboxHandleChange(event, i)}
-                          />
-                        }
-                        label={el.text}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </FormGroup>
+                              disabled={
+                                currentQuestion.error &&
+                                !currentQuestion.selected.includes(i)
+                              }
+                              checked={currentQuestion.selected.includes(i)}
+                              onChange={(event) =>
+                                checkboxHandleChange(event, i)
+                              }
+                            />
+                          }
+                          label={el.text}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </FormGroup>
+              </FormControl>
             )}
           </Stack>
         </FormControl>
 
-        {/*<FormControl*/}
-        {/*    required*/}
-        {/*    error={error}*/}
-        {/*    component="fieldset"*/}
-        {/*    sx={{ m: 3 }}*/}
-        {/*    variant="standard"*/}
-        {/*>*/}
-        {/*  <FormLabel component="legend">Pick two</FormLabel>*/}
-
-        {/*<FormHelperText>You can display an error</FormHelperText>*/}
-        {/*</FormControl>*/}
-
         <Pagination
           count={testValues.questions.length}
-          page={questionIndex}
+          page={questionIndex + 1}
           onChange={onClickHandler}
           siblingCount={0}
           variant="outlined"
