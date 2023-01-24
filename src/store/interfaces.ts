@@ -17,6 +17,7 @@ export interface IQuestion {
   shouldSelect: number
   answers?: IAnswer[]
   selected: number[]
+  error: Boolean
 }
 
 export interface IAnswer {
@@ -28,7 +29,7 @@ export interface IAnswer {
 export interface IResult {
   _id?: string
   createdAt?: string
-  test: {title: string}
+  test: { title: string }
   user: string
   questions: {
     title: string
