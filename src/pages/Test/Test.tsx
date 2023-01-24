@@ -1,7 +1,9 @@
 import {
   Button,
+  Checkbox,
   FormControl,
   FormControlLabel,
+  FormGroup,
   FormLabel,
   List,
   ListItem,
@@ -62,6 +64,7 @@ function Test() {
     [randomizeTest, testCopy]
   )
   const [test, setTest] = useState<IQuestion[]>(randomizedTestResult)
+  console.log('Test: ', test)
 
   const resultCreateHandler = useCallback(async () => {
     const questions = test.map((el, i) => ({
@@ -82,8 +85,32 @@ function Test() {
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const elValue = +event.target.value
+
+    console.log('Test: ', test)
+    console.log('Value: ', elValue)
+
     const newTest: IQuestion[] = [...test]
     newTest[questionIndex - 1].selected = [elValue]
+    setTest(newTest)
+  }
+
+  const checkboxHandleChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    i: number
+  ) => {
+    const elValue = event.target.checked
+
+    console.log('Test: ', test[questionIndex - 1].selected)
+    console.log('CHECK event', elValue, i)
+
+    const newTest: IQuestion[] = [...test]
+    if (elValue) {
+      !newTest[questionIndex - 1].selected ? newTest[questionIndex - 1].selected = [i] : newTest[questionIndex - 1].selected.push(i)
+    } else {
+      newTest[questionIndex - 1].selected = newTest[
+        questionIndex - 1
+      ].selected.filter((el) => el !== i)
+    }
     setTest(newTest)
   }
 
@@ -119,31 +146,69 @@ function Test() {
                 Question: {test[questionIndex - 1].question}
               </Typography>
             </FormLabel>
-            <RadioGroup
-              aria-labelledby="answers-radio-buttons-group"
-              name={test[questionIndex - 1].question}
-              onChange={onChangeHandler}
-              value={
-                test[questionIndex - 1].selected?.length
-                  ? test[questionIndex - 1].selected[0]
-                  : ''
-              }
-            >
-              <List>
-                {test[questionIndex - 1].answers!.map((el, i) => (
-                  <ListItem disablePadding key={el.id}>
-                    <FormControlLabel
-                      value={i}
-                      control={<Radio />}
-                      label={el.text}
-                      sx={{ width: '100%', margin: 0 }}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            </RadioGroup>
+            {test[questionIndex - 1].shouldSelect === 1 ? (
+              <RadioGroup
+                aria-labelledby="answers-radio-buttons-group"
+                name={test[questionIndex - 1].question}
+                onChange={onChangeHandler}
+                value={
+                  test[questionIndex - 1].selected?.length
+                    ? test[questionIndex - 1].selected[0]
+                    : ''
+                }
+              >
+                <List>
+                  {test[questionIndex - 1].answers!.map((el, i) => (
+                    <ListItem disablePadding key={el.id}>
+                      <FormControlLabel
+                        value={i}
+                        control={<Radio />}
+                        label={el.text}
+                        sx={{ width: '100%', margin: 0 }}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </RadioGroup>
+            ) : (
+              <FormGroup>
+                <List>
+                  {test[questionIndex - 1].answers!.map((el, i) => (
+                    <ListItem disablePadding key={el.id}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                              key={el.id}
+                            checked={
+                              test[questionIndex - 1].selected?.length
+                                ? test[questionIndex - 1].selected.includes(i)
+                                : false
+                            }
+                            onChange={(event) => checkboxHandleChange(event, i)}
+                          />
+                        }
+                        label={el.text}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </FormGroup>
+            )}
           </Stack>
         </FormControl>
+
+        {/*<FormControl*/}
+        {/*    required*/}
+        {/*    error={error}*/}
+        {/*    component="fieldset"*/}
+        {/*    sx={{ m: 3 }}*/}
+        {/*    variant="standard"*/}
+        {/*>*/}
+        {/*  <FormLabel component="legend">Pick two</FormLabel>*/}
+
+        {/*<FormHelperText>You can display an error</FormHelperText>*/}
+        {/*</FormControl>*/}
+
         <Pagination
           count={testValues.questions.length}
           page={questionIndex}

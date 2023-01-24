@@ -14,6 +14,7 @@ export interface ITest {
 export interface IQuestion {
   _id?: string
   question: string
+  shouldSelect: number
   answers?: IAnswer[]
   selected: number[]
 }
