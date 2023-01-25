@@ -145,13 +145,11 @@ function Test() {
   return (
     <>
       <Stack spacing={4}>
+        <Typography variant="h4">
+          Question: {currentQuestion.question}
+        </Typography>
         <FormControl>
           <Stack spacing={4}>
-            <FormLabel id="radio-buttons-group-label">
-              <Typography variant="h4">
-                Question: {currentQuestion.question}
-              </Typography>
-            </FormLabel>
             {currentQuestion.shouldSelect === 1 ? (
               <RadioGroup
                 aria-labelledby="answers-radio-buttons-group"

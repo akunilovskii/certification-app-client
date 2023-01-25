@@ -11,6 +11,7 @@ import {
   ListItemText,
   Modal,
   TextField,
+  Typography,
 } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
@@ -21,10 +22,13 @@ import { setTestValues } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/store'
 import { IAnswer } from '../store/interfaces'
+import MuiInput from '@mui/material/Input'
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 interface IProps {
   questionIndex: number
 }
+
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -39,6 +43,7 @@ const style = {
 
 const AnswersForm: FC<any> = ({ questionIndex }: IProps): ReactElement => {
   const [answers, setAnswers] = useState<IAnswer[]>([])
+  console.log('Answers: ', answers)
   const [focusedStates, setFocusedStates] = useState(
     Array.from({ length: answers.length }, (_, i) => false)
   )
@@ -49,12 +54,13 @@ const AnswersForm: FC<any> = ({ questionIndex }: IProps): ReactElement => {
   const testValues = useSelector(
     (state: RootState) => state.testValues.testValues
   )
+  const [shouldSelect, setShouldSelect] = useState(2) //--------------------
 
   useEffect(() => {
-    console.log('render')
     setAnswers(testValues.questions[questionIndex].answers!)
+    setShouldSelect(testValues.questions[questionIndex].shouldSelect!)
     //TODO needs optimization
-  }, [questionIndex, testValues.questions])
+  }, [questionIndex, testValues.questions, open])
 
   const answerProps = useFilter('')
 
@@ -112,25 +118,36 @@ const AnswersForm: FC<any> = ({ questionIndex }: IProps): ReactElement => {
       )
     )
   }
+  const countCorrectAnswers = () => {
+    return answers.reduce((acc, el) => acc + (el.correct ? 1 : 0), 0)
+  }
+
+  useEffect(() => {
+    const correctAnswers = countCorrectAnswers()
+    console.log('Correct answers count: ', correctAnswers)
+    if (shouldSelect > correctAnswers) setShouldSelect(correctAnswers)
+  }, [answers, open])
 
   const answersUpdateHandler = () => {
     const newQuestions = testValues.questions.map((question, index) => {
       if (index !== questionIndex) return question
-      return { ...question, answers }
+      return { ...question, answers, shouldSelect }
     })
-
+    console.log('ShouldSelect update: ', shouldSelect)
     dispatch(setTestValues({ ...testValues, questions: newQuestions }))
     setOpen(false)
   }
 
   return (
-    <Box>
-      <Button
+    <Box sx={{height: "100%", display: 'flex', alignItems: 'center'}}>
+        <IconButton
+        aria-label="add"
+        size="small"
         data-testid={`openButton${questionIndex}`}
         onClick={() => setOpen(true)}
       >
-        <RuleIcon />
-      </Button>
+        <NoteAddIcon />
+      </IconButton>
 
       <Modal
         open={open}
@@ -207,6 +224,36 @@ const AnswersForm: FC<any> = ({ questionIndex }: IProps): ReactElement => {
               )
             })}
           </List>
+
+          <ListItem
+            secondaryAction={
+              <MuiInput
+                value={shouldSelect}
+                size="small"
+                sx={{
+                  width: '40px',
+                  ml: '0.5rem',
+                  input: { textAlign: 'center' },
+                }}
+                onChange={(e) => setShouldSelect(+e.target.value)}
+                inputProps={{
+                  step: 1,
+                  min: 0,
+                  max: answers.reduce(
+                    (acc, el) => acc + (el.correct ? 1 : 0),
+                    0
+                  ),
+                  type: 'number',
+                }}
+              />
+            }
+            disablePadding
+          >
+            <ListItemButton role={undefined} dense>
+              <ListItemIcon></ListItemIcon>
+              <Typography variant="body2">Number of correct answers</Typography>
+            </ListItemButton>
+          </ListItem>
 
           <Box
             display="flex"

@@ -61,21 +61,28 @@ const QuestionsForm: FC<any> = (): ReactElement => {
 
   return (
     <Box>
-      <Box display="flex" alignItems="flex-end" sx={{ m: '0.5rem 0.5rem 0' }}>
+      <Box display="flex" alignItems="flex-end" sx={{ maxWidth: '500px', width: '40vw', justifyContent: 'space-between', p: '0.5rem' }}>
         <TextField
           label="Question"
           variant="standard"
           type="text"
           size="small"
+          sx={{}}
           {...questionProps.props}
         />
-        <Button onClick={addToTest}>Add question</Button>
+        <Button sx={{p: '0', pt: '0.25rem' }} onClick={addToTest}>Add question</Button>
       </Box>
       {questions.map((question: any, i: number) => {
         return (
-          <Box display="flex" flexDirection="row" key={question._id || i}>
+          <Box
+            display="flex"
+            flexDirection="row"
+            sx={{ maxWidth: '500px', width: '40vw', justifyContent: 'space-between' }}
+            key={question._id || i}
+          >
             {!focusedStates[i] ? (
               <Typography
+                sx={{ p: '0.5rem' }}
                 onClick={() => {
                   setFieldState(i)
                 }}
@@ -91,14 +98,16 @@ const QuestionsForm: FC<any> = (): ReactElement => {
                 onBlur={() => setFieldState(i)}
               />
             )}
-            <IconButton
-              aria-label="delete"
-              size="small"
-              onClick={() => deleteHandler(question._id)}
-            >
-              <DeleteOutlineIcon />
-            </IconButton>
-            <AnswersForm questionIndex={i} />
+            <Box display="flex">
+              <IconButton
+                aria-label="delete"
+                size="small"
+                onClick={() => deleteHandler(question._id)}
+              >
+                <DeleteOutlineIcon />
+              </IconButton>
+              <AnswersForm questionIndex={i} />
+            </Box>
           </Box>
         )
       })}
