@@ -8,7 +8,10 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material'
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
+import { Box } from '@mui/system'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 
 interface Props {
   answers: IQuestion[]
@@ -17,10 +20,16 @@ interface Props {
 }
 
 function TestResult({ answers, open, onClose }: Props) {
-  // console.log('Answers: ', answers)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  const isAnswerCorrect = (el: IQuestion) =>
+    el.selected.reduce(
+      (acc: boolean, i: number) => acc && el.answers![i].correct,
+      true
+    )
+
   const rightAnswersCount = answers.reduce(
-    (acc, el) => acc + (el.answers![el.selected[0]].correct ? 1 : 0),
+    (acc, el) => acc + (isAnswerCorrect(el) ? 1 : 0),
     0
   )
 
@@ -31,16 +40,31 @@ function TestResult({ answers, open, onClose }: Props) {
         onClose={() => onClose()}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">Test result</DialogTitle>
-        <DialogContent>
+        <DialogTitle id="responsive-dialog-title">Test results:</DialogTitle>
+        <DialogContent
+          sx={{ display: 'flex', gap: '10px', flexDirection: 'column' }}
+        >
           {answers.map((el, i) => (
-            <Typography variant="body1" key={i}>
-              {`${i + 1}: Question: ${el.question}, answer: ${
-                el.answers![el.selected[0]].text
-              } - ${
-                el.answers![el.selected[0]].correct ? 'correct' : 'incorrect'
-              }`}
-            </Typography>
+            <Box key={i} sx={{ display: 'flex', alignItems: 'center' }}>
+              {isAnswerCorrect(el) ? (
+                <CheckCircleOutlineIcon color={'success'} />
+              ) : (
+                <CancelOutlinedIcon color={'error'} />
+              )}
+              <Box
+                sx={{ ml: '10px', display: 'flex', flexDirection: 'column' }}
+              >
+                <Typography variant="body1">
+                  {`${i + 1}: Question: ${el.question}`}
+                </Typography>
+                <Typography variant="body1">
+                  {`
+              Your answer${el.selected.length > 1 ? 's' : ''} : ${el.selected
+                    .map((i) => el.answers![i].text)
+                    .join(', ')} `}
+                </Typography>
+              </Box>
+            </Box>
           ))}
         </DialogContent>
         <DialogContent>
@@ -49,7 +73,13 @@ function TestResult({ answers, open, onClose }: Props) {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={() => {onClose(); navigate('/tests')}}>
+          <Button
+            autoFocus
+            onClick={() => {
+              onClose()
+              navigate('/tests')
+            }}
+          >
             Close
           </Button>
         </DialogActions>

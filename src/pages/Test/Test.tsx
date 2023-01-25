@@ -72,8 +72,11 @@ function Test() {
   const resultCreateHandler = useCallback(async () => {
     const questions = test.map((el, i) => ({
       title: el.question,
-      answer: [el.answers![el.selected[0]].text],
-      correct: el.answers![el.selected[0]].correct,
+      answers: el.selected.map((i) => el.answers![i].text),
+      correct: el.selected.reduce(
+        (acc: boolean, i: number) => acc && el.answers![i].correct,
+        true
+      ),
     }))
 
     try {
@@ -144,7 +147,7 @@ function Test() {
       <Stack spacing={4}>
         <FormControl>
           <Stack spacing={4}>
-            <FormLabel id="demo-radio-buttons-group-label">
+            <FormLabel id="radio-buttons-group-label">
               <Typography variant="h4">
                 Question: {currentQuestion.question}
               </Typography>
