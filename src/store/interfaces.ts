@@ -33,7 +33,7 @@ export interface IResult {
   user: string
   questions: {
     title: string
-    answer: string[]
+    answers: string[]
     correct: boolean
   }[]
 }
