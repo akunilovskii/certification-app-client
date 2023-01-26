@@ -40,7 +40,7 @@ describe('login form tests', () => {
     const emailInput = screen.getByLabelText('Email')
     const passwordInput = screen.getByLabelText('Password')
     fireEvent.change(emailInput, { target: { value: 'admin@mail.com' } })
-    fireEvent.change(passwordInput, { target: { value: '123' } })
+    fireEvent.change(passwordInput, { target: { value: '12345' } })
     expect(store.dispatch).not.toHaveBeenCalled()
     fireEvent.click(loginButton)
     expect(store.dispatch).toHaveBeenCalled()
