@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import Chip from '@mui/material/Chip'
-import { Box, IconButton } from '@mui/material'
+import {Box, IconButton, Typography} from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
@@ -168,14 +168,17 @@ const TestsList: FC<any> = ({
       style={{
         height: '70vh',
         width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
-      <DataGrid
+      {rows.length ? <DataGrid
         rows={rows}
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[10]}
-      />
+      /> : <Typography variant="h5">You do not have available tests</Typography>}
     </Box>
   )
 }
