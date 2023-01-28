@@ -6,10 +6,13 @@ import TabbedContainer from '../../components/TabbedContainer'
 import { setAuthError } from '../../store'
 
 export const LoginSignUp: FC = () => {
-  const [value, setValue] = useState(0)
+  const params = new URLSearchParams(window.location.search);
+  const role = params.get('role');
+
+  const [tabIndex, setTabIndex] = useState(role ? 1 : 0)
   const dispatch = useDispatch()
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
+  const handleChange = (event: React.SyntheticEvent, newIndex: number) => {
+    setTabIndex(newIndex)
   }
   useEffect(() => {
     dispatch(setAuthError(false))
@@ -34,7 +37,7 @@ export const LoginSignUp: FC = () => {
         </Grid>
         <Grid container item md={8} xs={12}>
           <Grid item container direction="column">
-            <TabbedContainer value={value} onChange={handleChange} />
+            <TabbedContainer tabIndex={tabIndex} onChange={handleChange} />
           </Grid>
         </Grid>
       </Grid>

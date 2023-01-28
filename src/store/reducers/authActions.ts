@@ -4,40 +4,11 @@ import axios from 'axios'
 interface MyData {
   email: string
   password: string
+  role: [string]
 }
 export const PROXY = process.env.REACT_APP_PROXY
 console.log(process.env)
 console.log(PROXY)
-
-// export const getUserDetails = createAsyncThunk(
-//   'user/getUserDetails',
-//   async (_, { getState, rejectWithValue }: any) => {
-//     try {
-//       // get user data from store
-//       const { user } = getState()
-
-//       // configure authorization header with user's token
-//       const config = {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           Authorization: `Bearer ${user.userToken}`,
-//         },
-//       }
-//       const response = await fetch(`${PROXY}/user/profile`, config)
-//       const data = await response.json()
-//       if (data) {
-//         return data
-//       }
-//     } catch (error: any) {
-//       if (error.response && error.response.data.message) {
-//         return rejectWithValue(error.response.data.message)
-//       } else {
-//         return rejectWithValue(error.message)
-//       }
-//     }
-//   }
-// )
 
 export const checkAuth = createAsyncThunk(
   'user/refresh',
@@ -123,7 +94,7 @@ export const registerUser = createAsyncThunk(
   // action type string
   'user/register',
   // callback function
-  async ({ email, password }: MyData, { rejectWithValue }) => {
+  async ({ email, password, role }: MyData, { rejectWithValue }) => {
     try {
       const requestURL = `${PROXY}/user/register`
       const response = await fetch(requestURL, {
@@ -132,7 +103,7 @@ export const registerUser = createAsyncThunk(
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, role }),
       })
       const data = await response.json()
       if (data.id) {
