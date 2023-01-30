@@ -22,8 +22,7 @@ const About: FC<any> = (): ReactElement => {
                 &emsp;&emsp;We are a team of two aspiring developers who embarked on
                 this project with the goal of learning new technologies and skills. Over
                 the course of two months, we dove into the world of React, JWT-based
-                authentication and authorization, Node.JS, TypeScript, MongoDB, CI/CD,
-                and implementing modular architecture.
+                authentication and authorization, Node.JS, TypeScript, MongoDB and CI/CD.
             </Typography>
             <Typography variant="body1" color="text.primary">
                 &emsp;&emsp;Throughout the development process, we also focused on
