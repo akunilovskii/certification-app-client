@@ -34,18 +34,18 @@ function a11yProps(index: number) {
 }
 
 interface TabbedContainerProps {
-  value: number;
+  tabIndex: number;
   onChange: (event: React.SyntheticEvent, newValue: number) => void;
 }
 
-function TabbedContainer({value, onChange}: TabbedContainerProps) {
+function TabbedContainer({tabIndex, onChange}: TabbedContainerProps) {
   const theme = useTheme();
 
   return (
     <>
       <Grid sx={{flex: '0 0 auto'}} container>
         <Tabs
-          value={value}
+          value={tabIndex}
           onChange={onChange}
           indicatorColor='primary'
           textColor='inherit'
@@ -59,10 +59,10 @@ function TabbedContainer({value, onChange}: TabbedContainerProps) {
       </Grid>
 
       <Grid sx={{flex: '1 0 auto'}}>
-        <TabPanel value={value} index={0} dir={theme.direction}>
+        <TabPanel value={tabIndex} index={0} dir={theme.direction}>
           <LoginForm index={0} />
         </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
+        <TabPanel value={tabIndex} index={1} dir={theme.direction}>
           <LoginForm index={1} />
         </TabPanel>
       </Grid>
