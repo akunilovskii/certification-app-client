@@ -1,6 +1,6 @@
 # React CertificationAPP (FrontEnd)
 
-### *Open deployed app [CertificationAPP](https://certification-app-client-xi.vercel.app/)*
+### _Open deployed app [CertificationAPP](https://certification-app-client.vercel.app/)_
 
 This is the Front End part of the CertificationAPP Full-Stack project designed to create, update and delete tests.
 
@@ -12,16 +12,16 @@ Routes)
 
 1. Clone this repo
 
-  ```sh
-  git clone https://github.com/Mike10581/CertificationApp.git
-  ```
+```sh
+git clone https://github.com/akunilovskii/certification-app-client
+```
 
 2. Install required packages with flag --legacy-peer-deps, then start the app.
 
-  ```sh
-  npm install --legacy-peer-deps    
-  npm start
-  ```
+```sh
+npm install --legacy-peer-deps
+npm start
+```
 
 This will run your app on http://localhost:3000
 
@@ -29,14 +29,14 @@ This will run your app on http://localhost:3000
 
 ### Routes
 
-| Path           | Component        |  
-|----------------|------------------|
-| /              | Home page        |  
-| /about         | About page       |   
-| /tests         | Tests List       |  
-| /tests/test	   | Take Test        |
+| Path           | Component        |
+| -------------- | ---------------- |
+| /              | Home page        |
+| /about         | About page       |
+| /tests         | Tests List       |
+| /tests/test    | Take Test        |
 | /login-sign-up | LoginSignUp form |
-| /profile	      | ProfileForm      |
+| /profile       | ProfileForm      |
 | /logout        | Logout           |
 
 ## Component Architecture
@@ -99,4 +99,5 @@ shouldn’t feel obligated to use this feature. However we understand that this 
 customize it when you are ready for it.
 
 ## Web
+
 ![image](https://user-images.githubusercontent.com/72050332/215365780-89965bd2-90c1-4f52-9e00-0696d7338402.png)
